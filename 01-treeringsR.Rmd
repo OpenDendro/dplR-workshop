@@ -1,0 +1,57 @@
+# Introduction
+
+The `R` language and programming environment is now commonly used in dendrochronology. `R` is the world's  preeminent open-source statistical computing software and its power can be harnessed for tree-ring science through the contribution of add-on packages which are freely available on the internet. There are now many `R` packages for working with dendro data from measuring (`measuRing`) to standardization and chronology building (`dplR`, `detrendeR`), to fire history (`burnr`) to disturbance (`TRADER`) to climate-growth analysis (`treeclim`, `pointRes`, `dendroTools`, `BIOdry`) to working with data from dendrometers (`dendrometeR`) and cell anatomy (`tracheideR`, `RAPTOR`). Although extremely powerful, `R` has a steep learning curve that has lead some to postpone using it in their own work. In these pages we will demonstrate the ways in which analysts can work with tree-ring data in `R` over the entire life cycle of a project in a transparent and reproducible way -- from initial measuring of the wood to statistical tests to producing publication-quality graphics.  These pages are written as a demonstration using on-board data sets but can easily be adapted for users to work with their own data.
+
+## Before Starting
+
+### R
+
+Please install `R` by visiting [www.r-project.org](https://www.r-project.org/). 
+We recommend that you use [RStudio](https://www.rstudio.com/) to interact with,
+and script in `R`. These documents were all made using `r version$version.string`.
+
+### Getting dplR
+
+Install the add-on library `dplR`. You can download and install these 
+using the `install.packages` function from the `R` prompt:
+```{r eval=FALSE}
+install.packages("dplR")
+```
+
+These documents use version 1.6.8 of `dplR`. You can check the version of your version of `dplR` via:
+
+```{r eval=FALSE}
+packageVersion("dplR")
+```
+
+If your version is older you can update it (and all your other packages) in `R` via:
+```{r eval=FALSE}
+update.packages()
+```
+
+These documents were all made using the most up-to-date versions of the packages available on the Comprehensive R Archive Network. Updating regularly is good practice!
+
+## Getting Help with R
+These pages demonstrate some basic aspects of tree-ring analysis through executable examples with on-board data sets. After a basic introduction, you will have a chance to work through examples yourself or work on your own analysis. 
+
+No prior `R` experience is necessary but for those who are new to R, we suggest using the resources at [swirl](http://swirlstats.com/) as a way of starting to learn `R`.
+
+## Citing R, dplR, and other packages
+
+It's important to cite software for any number of reasons. E.g., citing software let's the reader know what you did and hopefully furthers the science; being specific about version number you used will help track down discrpenscies as software evoloves; and so on. There is a nifty  `citation()` function in R that gives you information on how to best cite R and, in many cases, its packages. 
+
+```{r}
+citation()
+
+```
+
+As the citation function indicates: "We have invested a lot of time and effort in creating R, please cite it when using it for data analysis." The creation of `dplR` is an act of love. We enjoy writing this software and  helping users. However, we are not among the idle rich. Alas. We have jobs and occasionally have to answer to our betters.  We ask that you please cite `dplR` and `R` appropriately in your work. This way when our department chairs and deans accuse us of being dilettantes we can point to the use of `dplR` as a partial excuse. There is more detailed information available in the help files and in the literature [@Bunn2008;@Bunn2010]. 
+
+```{r}
+citation("dplR")
+```
+
+
+The same practice goes for any other add-on package you might use.
+
+
