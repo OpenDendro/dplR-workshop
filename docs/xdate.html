@@ -187,16 +187,18 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="xdate.html"><a href="xdate.html"><i class="fa fa-check"></i><b>4</b> xDate</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="xdate.html"><a href="xdate.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a>
+<li class="chapter" data-level="4.1" data-path="xdate.html"><a href="xdate.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="xdate.html"><a href="xdate.html#using-the-xdater-app"><i class="fa fa-check"></i><b>4.2</b> Using the xDater app</a></li>
+<li class="chapter" data-level="4.3" data-path="xdate.html"><a href="xdate.html#crossdating-by-hand-in-dplr"><i class="fa fa-check"></i><b>4.3</b> Crossdating by hand in dplR</a>
 <ul>
-<li class="chapter" data-level="4.1.1" data-path="xdate.html"><a href="xdate.html#load-dplr-1"><i class="fa fa-check"></i><b>4.1.1</b> Load dplR</a></li>
+<li class="chapter" data-level="4.3.1" data-path="xdate.html"><a href="xdate.html#load-dplr-1"><i class="fa fa-check"></i><b>4.3.1</b> Load dplR</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="xdate.html"><a href="xdate.html#ruining-a-perfectly-good-data-set"><i class="fa fa-check"></i><b>4.2</b> Ruining a Perfectly Good Data Set</a></li>
-<li class="chapter" data-level="4.3" data-path="xdate.html"><a href="xdate.html#series-correlation-by-segment"><i class="fa fa-check"></i><b>4.3</b> Series Correlation by Segment</a></li>
-<li class="chapter" data-level="4.4" data-path="xdate.html"><a href="xdate.html#individual-series-correlation"><i class="fa fa-check"></i><b>4.4</b> Individual Series Correlation</a></li>
-<li class="chapter" data-level="4.5" data-path="xdate.html"><a href="xdate.html#using-cross-correlation"><i class="fa fa-check"></i><b>4.5</b> Using Cross Correlation</a></li>
-<li class="chapter" data-level="4.6" data-path="xdate.html"><a href="xdate.html#visual-crossdating"><i class="fa fa-check"></i><b>4.6</b> Visual Crossdating</a></li>
-<li class="chapter" data-level="4.7" data-path="xdate.html"><a href="xdate.html#conclusion-1"><i class="fa fa-check"></i><b>4.7</b> Conclusion</a></li>
+<li class="chapter" data-level="4.4" data-path="xdate.html"><a href="xdate.html#ruining-a-perfectly-good-data-set"><i class="fa fa-check"></i><b>4.4</b> Ruining a Perfectly Good Data Set</a></li>
+<li class="chapter" data-level="4.5" data-path="xdate.html"><a href="xdate.html#series-correlation-by-segment"><i class="fa fa-check"></i><b>4.5</b> Series Correlation by Segment</a></li>
+<li class="chapter" data-level="4.6" data-path="xdate.html"><a href="xdate.html#individual-series-correlation"><i class="fa fa-check"></i><b>4.6</b> Individual Series Correlation</a></li>
+<li class="chapter" data-level="4.7" data-path="xdate.html"><a href="xdate.html#using-cross-correlation"><i class="fa fa-check"></i><b>4.7</b> Using Cross Correlation</a></li>
+<li class="chapter" data-level="4.8" data-path="xdate.html"><a href="xdate.html#visual-crossdating"><i class="fa fa-check"></i><b>4.8</b> Visual Crossdating</a></li>
+<li class="chapter" data-level="4.9" data-path="xdate.html"><a href="xdate.html#conclusion-1"><i class="fa fa-check"></i><b>4.9</b> Conclusion</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="intro-to-dendro-time-series.html"><a href="intro-to-dendro-time-series.html"><i class="fa fa-check"></i><b>5</b> Intro to dendro time-series</a>
 <ul>
@@ -255,14 +257,24 @@ accurately date tree-ring data.</p>
 dplR. This is essentially a rehashing of <span class="citation"><a href="references.html#ref-Bunn2010" role="doc-biblioref">Bunn</a> (<a href="references.html#ref-Bunn2010" role="doc-biblioref">2010</a>)</span>. Please
 cite that paper if you use dplR for crossdating. There is more detailed
 information on all these functions in the help files.</p>
-<div id="load-dplr-1" class="section level3" number="4.1.1">
-<h3><span class="header-section-number">4.1.1</span> Load dplR</h3>
+</div>
+<div id="using-the-xdater-app" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Using the xDater app</h2>
+<p>Below I’ll walk through using <code>dplR</code>’s crossdating functions on the command line. I’ve also built a Shiny app for doing crossdating in an interactive graphical workflow. This is definitely still in development and I plan on cleaning it up some soon. It’s meant to mimic a lot of the look and feel of COFECHA since that’s what most folks are used to using. Here it is:</p>
+<p><a href="https://andybunn.shinyapps.io/xDateR/">andybunn.shinyapps.io/xDateR/</a></p>
+<p>While the xDater app is cool, the <a href="https://ringdater.shinyapps.io/launcher/">ringdater app</a> from David Reynolds, David Edge &amp; Bryan Black is also very cool. Check that out too.</p>
+</div>
+<div id="crossdating-by-hand-in-dplr" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Crossdating by hand in dplR</h2>
+<p>Here is a walk through of using <code>dplR</code> for crossdating on the command line.</p>
+<div id="load-dplr-1" class="section level3" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Load dplR</h3>
 <p>We will be usinf <code>dplR</code> in here. Load it:</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="xdate.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
 </div>
 </div>
-<div id="ruining-a-perfectly-good-data-set" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Ruining a Perfectly Good Data Set</h2>
+<div id="ruining-a-perfectly-good-data-set" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Ruining a Perfectly Good Data Set</h2>
 <p>Throughout this vignette we will use the on-board data set <code>co021</code> which gives the raw ring widths for Douglas fir <em>Pseudotsuga menziesii</em> at Mesa Verde in Colorado, USA. There are 35 series spanning 788 years.</p>
 <p>We will rename the <code>co021</code> object to <code>dat</code> because we are going to mess around with it and it seems like good practice to rename it.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="xdate.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(co021)</span>
@@ -296,8 +308,8 @@ pick a random year in the core to give us a bit of a challenge in finding it.</p
 <p>We have now deleted the <span class="math inline">\(i^{th}\)</span> observation from the <span class="math inline">\(j^{th}\)</span> core while making sure that <code>dat</code> still has the appropriate numbers of rows. By sticking the NA at the
 start of the series it is as if we missed a ring while measuring.</p>
 </div>
-<div id="series-correlation-by-segment" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Series Correlation by Segment</h2>
+<div id="series-correlation-by-segment" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Series Correlation by Segment</h2>
 <p>The primary function for looking the crossdating of a tree-ring data set in
 dplR is <code>corr.rwl.seg</code>. This function looks at the correlation between
 each tree-ring series and a master chronology built from all the other series
@@ -324,8 +336,8 @@ set indicates one series with dating problems.</p>
 Verde data set is shown and colored by its correlation with the master.
 Our modified data set indicates one series with dating problems.</p>
 </div>
-<div id="individual-series-correlation" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Individual Series Correlation</h2>
+<div id="individual-series-correlation" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Individual Series Correlation</h2>
 <p>The low correlation between series <code>643114</code> and the master indicates a dating
 problem. Now that we suspect a dating problem, let us take a closer look at this problem child. The figure above shows that series <code>643114</code> begins to lose correlation with the master at the end of the 19th century.</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="xdate.html#cb65-1" aria-hidden="true" tabindex="-1"></a>seg<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">corr.series.seg</span>(<span class="at">rwl=</span>dat, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>,</span>
@@ -336,8 +348,8 @@ shown with horizontal lines according (60-year segments lagged by 30 years).
 A centered running correlation with a length of 60 years complements the
 segment correlations. The critical level is shown with a dashed line.</p>
 </div>
-<div id="using-cross-correlation" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Using Cross Correlation</h2>
+<div id="using-cross-correlation" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Using Cross Correlation</h2>
 <p>This figure strongly indicates that the dating in the series <code>643114</code>
 begins to deteriorate between 1850 and 1910. We can create a window (<code>win</code>) of years
 and subset <code>dat</code> to the window if years we want to look at. Then we can look more closely at this time period and compute a cross-correlation function to look at lagged correlations to see if we can spot the dating problem.</p>
@@ -376,8 +388,8 @@ while the dating at 1880–1899 seems accurate (lag 0). This suggests that
 the dating error is between 1879 and 1889.</p>
 <p>At this point we could repeat the cross-correlation using even more carefuly to get even closer to the bad year if we wanted to. But at this point going and looking at the wood in that neighborhood would be the best option. Statistics only gets you so far.</p>
 </div>
-<div id="visual-crossdating" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> Visual Crossdating</h2>
+<div id="visual-crossdating" class="section level2" number="4.8">
+<h2><span class="header-section-number">4.8</span> Visual Crossdating</h2>
 <p>We have strong inference now that series <code>643114</code> is misdated somewhere in a ten
 year period around 1885. One final tool that <code>dplR</code> has is the ability to combine
 the visual style of crossdating using skeleton plots with the statistical
@@ -402,8 +414,8 @@ core and see what they could find out. There are more heroic efforts that
 one could go to to figure out exactly where the dating problem might be
 but nothing ever takes the place of looking at the sample!</p>
 </div>
-<div id="conclusion-1" class="section level2" number="4.7">
-<h2><span class="header-section-number">4.7</span> Conclusion</h2>
+<div id="conclusion-1" class="section level2" number="4.9">
+<h2><span class="header-section-number">4.9</span> Conclusion</h2>
 <p>We have strong inference now that series <code>643114</code> is misdated somewhere in a ten
 year period around 1885. We have still not revealed whether this is correct
 or not. Let us look at the values for <code>i</code> and <code>j</code> and see how we did:</p>

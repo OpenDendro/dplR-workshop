@@ -20,6 +20,8 @@ building-a-mean-value-chronology
 conclusion
 xdate
 introduction-1
+using-the-xdater-app
+crossdating-by-hand-in-dplr
 load-dplr-1
 ruining-a-perfectly-good-data-set
 series-correlation-by-segment
