@@ -26,6 +26,8 @@ In the following pages we will cover the basics of `dplR`, crossdating, and some
 
 If this is all new to you -- you should proceed immediately to a good primer on dendrochronology like Fritts [-@Fritts2001] or the Cook Book [-@CookBook]. These pages are not intended to teach you about how to do tree-ring analysis. They are intended to teach you how to use R for dendro.
 
+Please note! This is a very drafty document and there are typos and all kinds of silliness in it.
+
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
