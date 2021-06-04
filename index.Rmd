@@ -18,7 +18,7 @@ description: "A collection of materials for a workshop using dplR and other thin
 
 # Preamble
 
-R is both a programing language and a software environment for statistical computing. It is free and open-source, licensed under the GNU General Public License. The Dendrochronology Program Library in R (dplR) is a free powerful add-on package for R that performs many of the standard tasks in tree-ring analysis including cross-dating, detrending, chronology building, spectral and wavelet analyses, and so on.  
+`R` is both a programing language and a software environment for statistical computing. It is free and open-source, licensed under the GNU General Public License. The Dendrochronology Program Library in R (`dplR`) is a free powerful add-on package for R that performs many of the standard tasks in tree-ring analysis including cross-dating, detrending, chronology building, spectral and wavelet analyses, and so on.  
 
 In this workshop, we will use example ring-width files from the ITRDB to demonstrate the functionality of dplR. The R environment is powerful and flexible and its use allows great transparency in presenting data results. An advantage of dplR's open-source licensing is that one has the option to modify or add to the library's functionality for performing specific experiments or producing custom figures.
 
@@ -26,7 +26,9 @@ In the following pages we will cover the basics of `dplR`, crossdating, and some
 
 If this is all new to you -- you should proceed immediately to a good primer on dendrochronology like Fritts [-@Fritts2001] or the Cook Book [-@CookBook]. These pages are not intended to teach you about how to do tree-ring analysis. They are intended to teach you how to use R for dendro.
 
-Please note! This is a very drafty document and there are typos and all kinds of silliness in it.
+**Please note! This is a very drafty document and there are typos and all kinds of silliness in it.**
+
+This document was written in **Markdown** using the  `bookdown` package.
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

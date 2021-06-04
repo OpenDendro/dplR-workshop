@@ -6,19 +6,17 @@ The `R` language and programming environment is now commonly used in dendrochron
 
 ### R
 
-Please install `R` by visiting [www.r-project.org](https://www.r-project.org/). 
-We recommend that you use [RStudio](https://www.rstudio.com/) to interact with,
-and script in `R`. These documents were all made using `r version$version.string`.
+Install `R` by visiting [www.r-project.org](https://www.r-project.org/). 
+We recommend that you use [RStudio](https://www.rstudio.com/) to interact with, and script in `R`. These documents were all made using `r version$version.string`.
 
 ### Getting dplR
 
-Install the add-on library `dplR`. You can download and install these 
-using the `install.packages` function from the `R` prompt:
+Install the add-on library `dplR`. You can download and install `dplR `using the `install.packages` function from the `R` prompt:
 ```{r eval=FALSE}
 install.packages("dplR")
 ```
 
-These documents use version 1.6.8 of `dplR`. You can check the version of your version of `dplR` via:
+These documents use version `r packageVersion("dplR")` of `dplR`. You can check the version of your version of `dplR` via:
 
 ```{r eval=FALSE}
 packageVersion("dplR")
