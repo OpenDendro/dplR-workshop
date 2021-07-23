@@ -18,7 +18,7 @@ description: "A collection of materials for a workshop using dplR and other thin
 
 # Preamble
 
-`R` is both a programming language and a software environment for statistical computing. It is free and open-source, licensed under the GNU General Public License. The Dendrochronology Program Library in R (`dplR`) is a free powerful add-on package for R that performs many of the standard tasks in tree-ring analysis including cross-dating, detrending, chronology building, spectral and wavelet analyses, and so on.  
+`R` is both a programming language and a software environment for statistical computing. It is free and open-source, licensed under the GNU General Public License. The Dendrochronology Program Library in R (`dplR`) is an add-on package for R that performs many of the standard tasks in tree-ring analysis including cross-dating, detrending, chronology building, spectral and wavelet analyses, and so on.  
 
 In this workshop, we will use example ring-width files from the ITRDB to demonstrate the functionality of dplR. The R environment is powerful and flexible and its use allows great transparency in presenting data results. An advantage of dplR's open-source licensing is that one has the option to modify or add to the library's functionality for performing specific experiments or producing custom figures.
 
