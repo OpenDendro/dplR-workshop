@@ -11,8 +11,8 @@ bibliography: [dplR.bib, packages.bib]
 csl: global-change-biology.csl
 biblio-style: apalike
 link-citations: yes
-github-repo: AndyBunn/dplR-workshop
-description: "A collection of materials for a workshop using dplR and other things"
+github-repo: OpenDendro/dplR-workshop
+description: "Workshop materials for dplR"
 ---
 
 
