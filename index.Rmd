@@ -1,6 +1,7 @@
 --- 
-title: "Using R for Tree-Ring Analysis"
-author: "Andy Bunn, Mikko Korpela"
+title: "Learning to Love dplR"
+subtitle: "Or Using R for Tree-Ring Analysis"
+author: "Andy Bunn"
 date: "`r format(Sys.time(), '%d-%B-%Y')`"
 site: bookdown::bookdown_site
 output: 
@@ -12,7 +13,7 @@ csl: global-change-biology.csl
 biblio-style: apalike
 link-citations: yes
 github-repo: OpenDendro/dplR-workshop
-description: "Workshop materials for dplR"
+description: "Helful materials for dplR"
 ---
 
 

@@ -39,7 +39,7 @@ each series's length.
 
 ```{r,warning=FALSE}
 co021.rwi <- detrend(co021, method="Spline")
-co021.crn <- chron(co021.rwi, prefix="MES")
+co021.crn <- chron(co021.rwi)
 ```
 
 We can plot the chronology with a smoothing spline with a 20-year period:
@@ -57,7 +57,7 @@ and the second the sample depth during that year. Let's grab the years and the s
 
 ```{r}
 yrs <- time(co021.crn)
-dat <- co021.crn$MESstd
+dat <- co021.crn$std
 ```
 
 ### Moving (running) average
