@@ -1,7 +1,5 @@
 #!/usr/bin/env Rscript
+gitbook:
+    Rscript --quiet _render.R "bookdown::gitbook"
 
-bookdown::render_book("index.Rmd", "bookdown::gitbook")
 
-bookdown::clean_book()
-
-bookdown::preview_chapter("05-ssf.Rmd","bookdown::gitbook")

@@ -1,0 +1,197 @@
+# Chronology Building
+
+
+## Introduction
+
+The creation of a mean-value chronology is one of the central tasks for a dendrochronologist. It's most commonly done by calculating the mean of each year across all the series in the data. However, there are several more ways to approach the problem and this document explains a few different ways of going about it.
+
+The use of the signal-free method of chronology building with `ssf` is complex enough to warrant its own chapter.
+
+## Data Sets
+Throughout this document we will use the onboard data set `wa082` which gives the raw ring widths for Pacific silver fir *Abies amabilis* at Hurricane Ridge in Washington, USA. There are 23 series covering 286 years.
+
+```{r load wa082}
+library(dplR)
+data(wa082)
+plot(wa082, plot.type="spag")
+
+```
+
+By the way, if this is all new to you -- go back and look at earlier chapters and  proceed immediately to a good primer on dendrochronology like Fritts [-@Fritts2001]. 
+
+
+## Traditional Chronology
+Let us make a few chronologies from the `wa082` data after detrending each series with an age-dependent spline (using `ads`). Detrending is an enormously complicated
+area unto itself and more deserving of a chapter than chronology building is. We over some of the issues around detrending in the prior chapter. There is a reason, 
+after all, that dendrochronologists have been arguing about detrending for decades.
+
+```{r deet}
+wa082RWI <- detrend(wa082, method="AgeDepSpline")
+```
+
+The simplest way to make a chronology in `dplR` is chronology is with the `chron`
+function which also has a `plot` method. This defaults to building a mean-value
+chronology by averaging the rows of the `rwi` data using Tukey's biweight robust
+mean (function `tbrm`). Here it is with a a 30-year smoothing spline for visualization.
+
+```{r crn1}
+wa082Crn <- chron(wa082RWI)
+str(wa082Crn)
+plot(wa082Crn, add.spline=TRUE, nyrs=30)
+```
+
+Note the structure (`str`) of the output object states that it is `class` `crn`. This means that there are some generic functions that `dplR` has ready to work with this kind of object (e.g., `time` to extract the years, and `plot` which then calls `crn.plot`).
+
+The `chron` function will also compute a residual chronology by prewhitening the series before averaging. If the `prewhiten` flag is set to `TRUE`, each series is whitened using `ar` prior to averaging. The residual chronology is thus white noise. Note that the `crn` object below has two columns with chronologies as well as the sample depth in a third column. 
+
+```{r crnRes}
+wa082CrnResid <- chron(wa082RWI, prewhiten = TRUE)
+str(wa082CrnResid)
+plot(wa082CrnResid)
+```
+
+
+## Using a Sample Depth Cutoff
+
+A relatively simple addition to the traditional chronology is to truncate the
+chronology when the sample depth gets to a certain threshold. The output from
+the `chron` function contains a column called `samp.depth` which shows the
+number of series that are average for a particular year. We can use the 
+`subset` function to modify the chronology. A standard method is to truncate the sample depth to a minimum of five series.
+
+```{r trunc5}
+head(wa082Crn)
+wa082CrnTrunc <- subset(wa082Crn, samp.depth > 4)
+plot(wa082CrnTrunc,add.spline=T,nyrs=30)
+```
+
+It would likely be more robust to recalculate the ring-width indices object by truncating the `rwl` file and then making a chronology which could be done by nesting commands via:
+
+```{r crn trunc5}
+wa082CrnTrunc <- chron(detrend(wa082[wa082Crn$samp.depth > 4,], 
+                               method="AgeDepSpline"))
+```
+
+The result in this case is likely to be virtually identical to truncating after calculating the chronology but still seems like a good practice.
+
+
+## Using SSS as a Cutoff
+
+A more interesting and likely more robust approach is to truncate via the
+subsample signal strength (SSS). Just for fun, I'll show how we can do this using `tidy` syntax and `ggplot`.
+
+```{r truncsss}
+library(tidyverse)
+wa082Ids <- autoread.ids(wa082)
+sssThresh <- 0.85
+wa082SSS <- sss(wa082RWI, wa082Ids)
+yrs <- time(wa082)
+yrCutoff <- max(yrs[wa082SSS < sssThresh])
+ggplot() +
+  geom_rect(aes(ymin=-Inf, ymax=Inf,xmin=-Inf,xmax=yrCutoff),
+            fill="darkred",alpha=0.5) +
+  annotate(geom = "text",y=1.5,x=1725,label="SSS < 0.85")+
+  geom_hline(yintercept = 1,linetype="dashed") +
+  geom_line(aes(x=yrs,y=wa082Crn$std)) +
+  labs(x="Year",y="RWI") + theme_minimal()
+```
+
+Now we can cutoff the `rwl` data and redo the chronology.
+
+```{r truncsss2}
+wa082RwlSSS <- wa082[wa082SSS > sssThresh,]
+wa082RwiSSS <- detrend(wa082RwlSSS, method="AgeDepSpl")
+
+wa082CrnSSS <- chron(wa082RwiSSS)
+ggplot() +
+  geom_hline(yintercept = 1,linetype="dashed") +
+  geom_line(aes(x=time(wa082CrnSSS),y=wa082CrnSSS$std)) +
+  geom_line(aes(x=time(wa082CrnSSS),
+                y=caps(wa082CrnSSS$std,nyrs = 30)),
+            color="darkred") +
+  labs(x="Year",y="RWI") + theme_minimal()
+```
+
+
+## Chronology Uncertainty
+Typically we calculate a chronology by taking the average of each year from the ring-width indices. And that is typically the biweight robust mean. The function `chron` like pretty many of the functions in `dplR` are relatively simple chunks of code that are used for convenience. We can make our own chronology and get the mean plus two standard errors of the yearly growth quite simply. It's important for new users of `dplR` not to get stuck with just the available functions and to roll your own code.
+
+```{r crn se}
+wa082AvgCrn <- apply(wa082RwiSSS,1,mean,na.rm=TRUE)
+se <- function(x){
+  x2 <- na.omit(x)
+  n <- length(x2)
+  sd(x2)/sqrt(n)
+}
+wa082AvgCrnSE <- apply(wa082RwiSSS,1,se)
+
+dat <- data.frame(yrs =as.numeric(names(wa082AvgCrn)), 
+                  std = wa082AvgCrn,
+                  lwr = wa082AvgCrn - wa082AvgCrnSE*2,
+                  upr = wa082AvgCrn + wa082AvgCrnSE*2)
+ggplot(dat,aes(x=yrs)) +
+  geom_hline(yintercept = 1,linetype="dashed") +
+  geom_ribbon(aes(ymin=lwr,ymax=upr),
+              alpha=0.5,fill="blue") +
+  geom_line(aes(y=std),col="grey30") +
+  labs(x="Year",y="RWI") + theme_minimal()
+```
+
+It is interesting to note how the uncertainty increases towards the end of the chronology. This is somewhat unusual.
+
+## The ARSTAN Chronology
+
+The function `chron.ars` produces the so-called ARSTAN chronology which retains the autoregressive structure of the input data. Users unfamiliar with the concept should dive into Cook [-@cook1985]. This produces three mean-value chronologies: standard, residual, and ARSTAN.
+
+The standard chronology is the (biweight) mean value across rows and identical to `chron`. The residual chronology is the prewhitened chronology as described by Cook [-@cook1985] and uses uses multivariate autoregressive modeling to determine the order of the AR process. It's important to note that residual chronology produced here is different than the simple residual chronology produced by `chron` which returns the residuals of an AR process using a naive call to `ar`. But in practice the results will be similar. For more on the residual chronology in this function, see pp. 153-154 in Cook [-@cook1985].
+
+The ARSTAN chronology builds on the residual chronology but returns a re-whitened chronology where the pooled AR coefficients from the multivariate autoregressive modeling are reintroduced.
+
+```{r crn ars}
+wa082ArsCrnSSS <- chron.ars(wa082RwiSSS)
+str(wa082ArsCrnSSS)
+wa082ArsCrnSSS <- wa082ArsCrnSSS[,3:4]
+plot(wa082ArsCrnSSS,add.spline=TRUE,nyrs=20)
+```
+
+
+## Stabalizing the Variance
+The function `chron.stabilized` builds a *variance stabilized* mean-value chronology following Frank et al. [-@frank2006]. The code for this function was written by David Frank and adapted for `dplR` by Stefan Klesse. The stabilized chronology accounts for both temporal changes in the interseries correlation and sample depth to produce a mean value chronology with stabilized variance.
+
+```{r crn stab}
+wa082StabCrnSSS <- chron.stabilized(wa082RwiSSS,winLength=101)
+str(wa082StabCrnSSS) # not class crn
+
+dat <- data.frame(yrs = as.numeric(rownames(wa082StabCrnSSS)), 
+                  Chron = wa082StabCrnSSS$adj.crn) %>%
+  mutate(Smoothed = caps(Chron,nyrs=20)) %>%
+  pivot_longer(cols = -yrs,names_to = "variable", values_to = "msmt")
+
+ggplot(dat,aes(x=yrs,y=msmt,color=variable)) +
+  geom_hline(yintercept = 1,linetype="dashed") +
+  geom_line() +
+  scale_color_manual(values = c("grey","darkred")) +
+  labs(x="Year",y="RWI",title="Variable Stabilized Chronology") + 
+  theme_minimal() +
+  theme(legend.title = element_blank(),legend.position = "bottom") 
+
+```
+
+
+## Stripping out series by EPS
+We want to introduce one other approach that doesn't deal explicitly with chronology building but can be used to build a better chronology. The `strip.rwl` function uses EPS-based chronology stripping  where each series is assessed to see if its inclusion in the chronology improves the EPS [@fowler2003]. If it does not the series is dropped from the `rwl` object. As we will see in this example one series are excluded which causes a modest improvement in EPS. This function was contributed by Christain Zang.
+
+```{r crn eps}
+wa082StripRwl <- strip.rwl(wa082, ids = wa082Ids)
+wa082StripRwi <- detrend(wa082StripRwl, method="Spline")
+wa082StripCrn <- chron(wa082StripRwi)
+wa082StripCrn <- subset(wa082StripCrn, samp.depth > 4)
+plot(wa082StripCrn, add.spline=TRUE, nyrs=30)
+```
+
+
+## Conclusion
+We have tried to introduce a few ways of building chronologies with `dplR` that are either typical (like truncating by sample depth) or less commonly used.  In this chapter we aren't advocating any particular method but trying to get the users familiar with ways of interacting with the objects that `dplR` produces. Once the user understands the data structures the rest of `R` opens up.
+
+Again, we feel that it is important to reiterate that the advantage of using `dplR` is that it gets the analyst to use `R` and thus have access to the 
+essentially limitless tool that it provides. Go foRth!

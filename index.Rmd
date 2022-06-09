@@ -6,6 +6,12 @@ date: "`r format(Sys.time(), '%d-%B-%Y')`"
 site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:
+    config:
+      toc:
+        collapse: section
+        scroll_highlight: true
+        before: null
+        after: null
     split_bib: no
 documentclass: book
 bibliography: [dplR.bib, packages.bib]
