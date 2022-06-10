@@ -13,6 +13,14 @@ Throughout this document we will use the onboard data set `wa082` which gives th
 
 ```r
 library(dplR)
+```
+
+```
+## This is dplR version 1.7.3.
+## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
+```
+
+```r
 data(wa082)
 plot(wa082, plot.type="spag")
 ```

@@ -17,6 +17,11 @@ We will be using `dplR` in here. Load it:
 library(dplR)
 ```
 
+```
+## This is dplR version 1.7.3.
+## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
+```
+
 
 ## Working with Ring-Width Data
 

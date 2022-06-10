@@ -2,7 +2,7 @@
 title: "Learning to Love dplR"
 subtitle: "Or Using R for Tree-Ring Analysis"
 author: "Andy Bunn"
-date: "09-June-2022"
+date: "10-June-2022"
 site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:

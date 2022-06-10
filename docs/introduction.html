@@ -156,17 +156,15 @@ div.csl-indent {
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preamble</a></li>
 <li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#layout"><i class="fa fa-check"></i><b>2.1</b> Layout</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="introduction.html"><a href="introduction.html#a-note-on-libraries."><i class="fa fa-check"></i><b>2.1.1</b> A note on libraries.</a></li>
-</ul></li>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#layout"><i class="fa fa-check"></i><b>2.1</b> Layout</a></li>
 <li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#before-starting"><i class="fa fa-check"></i><b>2.2</b> Before Starting</a>
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="introduction.html"><a href="introduction.html#r"><i class="fa fa-check"></i><b>2.2.1</b> R</a></li>
 <li class="chapter" data-level="2.2.2" data-path="introduction.html"><a href="introduction.html#getting-dplr"><i class="fa fa-check"></i><b>2.2.2</b> Getting dplR</a></li>
+<li class="chapter" data-level="2.2.3" data-path="introduction.html"><a href="introduction.html#a-note-on-libraries"><i class="fa fa-check"></i><b>2.2.3</b> A Note on Libraries</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#getting-help-with-r"><i class="fa fa-check"></i><b>2.3</b> Getting Help with R</a></li>
-<li class="chapter" data-level="2.4" data-path="introduction.html"><a href="introduction.html#citing-r-dplr-and-other-packages"><i class="fa fa-check"></i><b>2.4</b> Citing R, dplR, and other packages</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction.html"><a href="introduction.html#citing-r-dplr-and-other-packages"><i class="fa fa-check"></i><b>2.4</b> Citing R, dplR, and Other Packages</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="using-dplr.html"><a href="using-dplr.html"><i class="fa fa-check"></i><b>3</b> Using dplR</a>
 <ul>
@@ -287,34 +285,6 @@ div.csl-indent {
 <div id="layout" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Layout<a href="introduction.html#layout" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This document is laid out in chapters covering some of the more common where statistical software can helpful in in dendrochronology. Although focused on using <code>dplR</code>, we will make use of other packages throughout. If those are not installed on your system, you can get them from CRAN using <code>install.packages</code>. You only have to install a package once. After that it can be loaded with the <code>library</code> function as described in the next section.</p>
-<div id="a-note-on-libraries." class="section level3 hasAnchor" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> A note on libraries.<a href="introduction.html#a-note-on-libraries." class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>A common problem when using libraries is when two libraries use the same function names. This causes a conflict. For instance, the <code>filter</code> which loads as part of <code>R</code>’s initial load applies linear filtering to a time series. E.g., We might make a moving average with a width of 10 via:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction.html#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
-<span id="cb1-2"><a href="introduction.html#cb1-2" aria-hidden="true" tabindex="-1"></a>xFilt5 <span class="ot">&lt;-</span> <span class="fu">filter</span>(x, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>, <span class="dv">10</span>),<span class="at">side=</span><span class="dv">2</span>)</span>
-<span id="cb1-3"><a href="introduction.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span>
-<span id="cb1-4"><a href="introduction.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xFilt5,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="01-treeringsR_files/figure-html/filt1-1.png" width="672" /></p>
-<p>However if we were to load the <code>dplyr</code> in <code>tidyverse</code> we’d get different behavior.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="introduction.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
-## ✓ tidyr   1.2.0     ✓ stringr 1.4.0
-## ✓ readr   2.1.2     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<p>Note that a list of conflicts is printed to the screen including <code>dplyr::filter() masks stats::filter()</code>. Now if we rerun the code above we get an error.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="introduction.html#cb6-1" aria-hidden="true" tabindex="-1"></a>xFilt5 <span class="ot">&lt;-</span> <span class="fu">filter</span>(x, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">5</span>),<span class="at">side=</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## Error in UseMethod(&quot;filter&quot;): no applicable method for &#39;filter&#39; applied to an object of class &quot;c(&#39;double&#39;, &#39;numeric&#39;)&quot;</code></pre>
-<p>The error message is quite vague as to the cause of the error! But what is happening here is that <code>filter</code> is calling <code>filter</code> from <code>dplyr</code> and not from <code>stats</code>. We can still use the original function but we need to specify which <code>filter</code> we want to use.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="introduction.html#cb8-1" aria-hidden="true" tabindex="-1"></a>xFilt10 <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">filter</span>(x, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>, <span class="dv">10</span>),<span class="at">side=</span><span class="dv">2</span>)</span>
-<span id="cb8-2"><a href="introduction.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span>
-<span id="cb8-3"><a href="introduction.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xFilt10,<span class="at">col=</span><span class="st">&quot;darkred&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="01-treeringsR_files/figure-html/filt2-1.png" width="672" /></p>
-<p>So when you load packages watch for any warnings about conflicts! This book is laid out in chapters which are self contained to reduce this behavior.</p>
-</div>
 </div>
 <div id="before-starting" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Before Starting<a href="introduction.html#before-starting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -326,12 +296,40 @@ We recommend that you use <a href="https://www.rstudio.com/">RStudio</a> to inte
 <div id="getting-dplr" class="section level3 hasAnchor" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Getting dplR<a href="introduction.html#getting-dplr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Install the add-on library <code>dplR</code>. You can download and install <code>dplR</code>using the <code>install.packages</code> function from the <code>R</code> prompt:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="introduction.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;dplR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;dplR&quot;</span>)</span></code></pre></div>
 <p>These documents use version 1.7.3 of <code>dplR</code>. You can check the version of your version of <code>dplR</code> via:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="introduction.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;dplR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="introduction.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;dplR&quot;</span>)</span></code></pre></div>
 <p>If your version is older you can update it (and all your other packages) in <code>R</code> via:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="introduction.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>()</span></code></pre></div>
 <p>These documents were all made using the most up-to-date versions of the packages available on the Comprehensive R Archive Network. Updating regularly is good practice!</p>
+</div>
+<div id="a-note-on-libraries" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> A Note on Libraries<a href="introduction.html#a-note-on-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A common problem when using libraries is when two libraries use the same function names. This causes a conflict. For instance, the <code>filter</code> which loads as part of <code>R</code>’s initial load applies linear filtering to a time series. E.g., We might make a moving average with a width of 10 via:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="introduction.html#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb4-2"><a href="introduction.html#cb4-2" aria-hidden="true" tabindex="-1"></a>xFilt5 <span class="ot">&lt;-</span> <span class="fu">filter</span>(x, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>, <span class="dv">10</span>),<span class="at">side=</span><span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="introduction.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb4-4"><a href="introduction.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xFilt5,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="01-treeringsR_files/figure-html/filt1-1.png" width="672" /></p>
+<p>However if we were to load the <code>dplyr</code> in <code>tidyverse</code> we’d get different behavior.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="introduction.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
+## ✓ tidyr   1.2.0     ✓ stringr 1.4.0
+## ✓ readr   2.1.2     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<p>Note that a list of conflicts is printed to the screen including <code>dplyr::filter() masks stats::filter()</code>. Now if we rerun the code above we get an error.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="introduction.html#cb9-1" aria-hidden="true" tabindex="-1"></a>xFilt5 <span class="ot">&lt;-</span> <span class="fu">filter</span>(x, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">5</span>),<span class="at">side=</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## Error in UseMethod(&quot;filter&quot;): no applicable method for &#39;filter&#39; applied to an object of class &quot;c(&#39;double&#39;, &#39;numeric&#39;)&quot;</code></pre>
+<p>The error message is quite vague as to the cause of the error! But what is happening here is that <code>filter</code> is calling <code>filter</code> from <code>dplyr</code> and not from <code>stats</code>. We can still use the original function but we need to specify which <code>filter</code> we want to use.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="introduction.html#cb11-1" aria-hidden="true" tabindex="-1"></a>xFilt10 <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">filter</span>(x, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>, <span class="dv">10</span>),<span class="at">side=</span><span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="introduction.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb11-3"><a href="introduction.html#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xFilt10,<span class="at">col=</span><span class="st">&quot;darkred&quot;</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="01-treeringsR_files/figure-html/filt2-1.png" width="672" /></p>
+<p>So when you load packages watch for any warnings about conflicts! This book is laid out in chapters which are self contained to reduce this behavior.</p>
 </div>
 </div>
 <div id="getting-help-with-r" class="section level2 hasAnchor" number="2.3">
@@ -340,7 +338,7 @@ We recommend that you use <a href="https://www.rstudio.com/">RStudio</a> to inte
 <p>No prior <code>R</code> experience is necessary but for those who are new to R, we suggest using the resources at <a href="https://bookdown.org/ndphillips/YaRrr/">YaRrr! The Pirate’s Guide to R</a> to get started.</p>
 </div>
 <div id="citing-r-dplr-and-other-packages" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Citing R, dplR, and other packages<a href="introduction.html#citing-r-dplr-and-other-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">2.4</span> Citing R, dplR, and Other Packages<a href="introduction.html#citing-r-dplr-and-other-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>It’s important to cite software for any number of reasons. E.g., being specific about version numbers you used will help track down discrepancies as software evolves. There is a nifty <code>citation()</code> function in R that gives you information on how to best cite R and, in many cases, its packages.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="introduction.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>()</span></code></pre></div>
 <pre><code>## 
@@ -381,7 +379,7 @@ We recommend that you use <a href="https://www.rstudio.com/">RStudio</a> to inte
 ##   Andy Bunn, Mikko Korpela, Franco Biondi, Filipe Campelo, Pierre
 ##   Mérian, Fares Qeadan and Christian Zang (2022). dplR:
 ##   Dendrochronology Program Library in R. R package version 1.7.3.
-##   https://github.com/AndyBunn/dplR
+##   https://CRAN.R-project.org/package=dplR
 ## 
 ## To see these entries in BibTeX format, use &#39;print(&lt;citation&gt;,
 ## bibtex=TRUE)&#39;, &#39;toBibtex(.)&#39;, or set

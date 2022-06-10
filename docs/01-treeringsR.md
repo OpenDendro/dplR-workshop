@@ -7,7 +7,37 @@ Although extremely powerful, `R` has a steep learning curve that has led some to
 ## Layout
 This document is laid out in chapters covering some of the more common where statistical software can helpful in in dendrochronology. Although focused on using `dplR`, we will make use of other packages throughout. If those are not installed on your system, you can get them from CRAN using `install.packages`. You only have to install a package once. After that it can be loaded with the `library` function as described in the next section.
 
-### A note on libraries. 
+## Before Starting
+
+### R
+
+Install `R` by visiting [www.r-project.org](https://www.r-project.org/). 
+We recommend that you use [RStudio](https://www.rstudio.com/) to interact with, and script in `R`. These documents were all made using R version 4.1.3 (2022-03-10).
+
+### Getting dplR
+
+Install the add-on library `dplR`. You can download and install `dplR `using the `install.packages` function from the `R` prompt:
+
+```r
+install.packages("dplR")
+```
+
+These documents use version 1.7.3 of `dplR`. You can check the version of your version of `dplR` via:
+
+
+```r
+packageVersion("dplR")
+```
+
+If your version is older you can update it (and all your other packages) in `R` via:
+
+```r
+update.packages()
+```
+
+These documents were all made using the most up-to-date versions of the packages available on the Comprehensive R Archive Network. Updating regularly is good practice!
+
+### A Note on Libraries
 
 A common problem when using libraries is when two libraries use the same function  names. This causes a conflict. For instance, the `filter` which loads as part of `R`'s initial load applies linear filtering to a time series. E.g., We might make a moving average with a width of 10 via:
 
@@ -69,42 +99,12 @@ lines(xFilt10,col="darkred",lwd=2)
 
 So when you load packages watch for any warnings about conflicts! This book is laid out in chapters which are self contained to reduce this behavior.
 
-## Before Starting
-
-### R
-
-Install `R` by visiting [www.r-project.org](https://www.r-project.org/). 
-We recommend that you use [RStudio](https://www.rstudio.com/) to interact with, and script in `R`. These documents were all made using R version 4.1.3 (2022-03-10).
-
-### Getting dplR
-
-Install the add-on library `dplR`. You can download and install `dplR `using the `install.packages` function from the `R` prompt:
-
-```r
-install.packages("dplR")
-```
-
-These documents use version 1.7.3 of `dplR`. You can check the version of your version of `dplR` via:
-
-
-```r
-packageVersion("dplR")
-```
-
-If your version is older you can update it (and all your other packages) in `R` via:
-
-```r
-update.packages()
-```
-
-These documents were all made using the most up-to-date versions of the packages available on the Comprehensive R Archive Network. Updating regularly is good practice!
-
 ## Getting Help with R
 These pages demonstrate some basic aspects of tree-ring analysis through executable examples with on-board data sets. After a basic introduction, you will have a chance to work through examples yourself or work on your own analysis. 
 
 No prior `R` experience is necessary but for those who are new to R, we suggest using the resources at [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/) to get started.
 
-## Citing R, dplR, and other packages
+## Citing R, dplR, and Other Packages
 
 It's important to cite software for any number of reasons. E.g., being specific about version numbers you used will help track down discrepancies as software evolves. There is a nifty  `citation()` function in R that gives you information on how to best cite R and, in many cases, its packages. 
 
@@ -161,7 +161,7 @@ citation("dplR")
 ##   Andy Bunn, Mikko Korpela, Franco Biondi, Filipe Campelo, Pierre
 ##   Mérian, Fares Qeadan and Christian Zang (2022). dplR:
 ##   Dendrochronology Program Library in R. R package version 1.7.3.
-##   https://github.com/AndyBunn/dplR
+##   https://CRAN.R-project.org/package=dplR
 ## 
 ## To see these entries in BibTeX format, use 'print(<citation>,
 ## bibtex=TRUE)', 'toBibtex(.)', or set

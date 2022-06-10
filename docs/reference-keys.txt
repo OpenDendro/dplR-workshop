@@ -1,10 +1,10 @@
 preamble
 introduction
 layout
-a-note-on-libraries.
 before-starting
 r
 getting-dplr
+a-note-on-libraries
 getting-help-with-r
 citing-r-dplr-and-other-packages
 using-dplr

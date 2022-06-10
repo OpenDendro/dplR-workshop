@@ -33,6 +33,11 @@ We will be usinf `dplR` in here. Load it:
 library(dplR)
 ```
 
+```
+## This is dplR version 1.7.3.
+## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
+```
+
 ## Ruining a Perfectly Good Data Set
 
 Throughout this document we will use the on-board data set `co021` which gives the raw ring widths for Douglas fir *Pseudotsuga menziesii* at Mesa Verde in Colorado, USA. There are 35 series spanning 788 years. 

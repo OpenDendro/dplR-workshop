@@ -110,12 +110,14 @@ tail(data.frame(dat,ma32, han32), n = 20)
 
 ### Splines
 
-In the world of tree rings, you'll see frequent mention of cubic smoothing splines and typically a citation for something by Ed Cook who is the greatest quantitative dendrochronologist of all time. His work has left an enduring mark on nearly every aspect of quantitative dendrochronology. For splines, Cook and Peters [-@Cook1981] is the canonical citation but we would point you to Cook and Kairiukstis [@Cook1990] for an overview. An R implementation of this spline is implemented in `dplR` with the `ffcsaps` function.^[The gory details on the calculations for the spline are given in "Mathematical Details of Functions in dplR." See the example section in the help file for `ffcsaps` to access the document.]  The `nyrs` argument fits a spline of that many "years" to the data. (All the functions in dplR assume annual resolution but they don't really care if you are using data with a different frequency.)
+In the world of tree rings, you'll see frequent mention of cubic smoothing splines and typically a citation for something by Ed Cook who is the greatest quantitative dendrochronologist of all time. His work has left an enduring mark on nearly every aspect of quantitative dendrochronology. For splines, Cook and Peters [-@Cook1981] is the canonical citation but we would point you to Cook and Kairiukstis [@Cook1990] for an overview. An R implementation of this spline is implemented in `dplR` with the `ffcsaps` function which was written in R and also in the `caps` function which is a wrapper for Cook's Fortran code. They produce (nearly) identical results. Because `caps` is quite a bit faster than `ffcsaps`, `dplR` uses it by default. 
+
+The important argument for users is the `nyrs` argument which fits a spline of that many "years" to the data. All the functions in dplR assume annual resolution but they don't really care if you are using data with a different frequency.
 
 ```{r}
-spl128 <- ffcsaps(dat,nyrs=128)
-spl64 <- ffcsaps(dat,nyrs=64)
-spl32 <- ffcsaps(dat,nyrs=32)
+spl128 <- caps(dat,nyrs=128)
+spl64 <- caps(dat,nyrs=64)
+spl32 <- caps(dat,nyrs=32)
 
 par(mar=rep(2.5,4),mgp=c(1.2,0.25,0),tcl=0.5, xaxs="i",yaxs="i")
 my.cols <- c("#1B9E77", "#D95F02", "#7570B3")
