@@ -136,9 +136,10 @@ The algorithm first creates signal-free measurements for each series. At the fir
 
 These signal-free measurements are output in `sfRW_Array` which is an array of years by series, by iteration. The signal-free measurements are then rescaled to have the original mean of each series.
 
-```{r sf resc iter1}
+```{r sf resc iter1, class.source = 'fold-hide'}
 sfRWRescaled <- data.frame(yrs = yrs, sfRWRescaled_Array[,,1]) %>% 
-  pivot_longer(!yrs,names_to = "series", values_to = "msmt") 
+  pivot_longer(!yrs,names_to = "series", values_to = "msmt")
+
 ggplot(data=sfRWRescaled,mapping = aes(x=yrs,y=msmt,color=series)) +
   geom_line(alpha=0.75) +
   scale_color_manual(values = seriesColors) +
@@ -152,7 +153,7 @@ ggplot(data=sfRWRescaled,mapping = aes(x=yrs,y=msmt,color=series)) +
 
 In these steps the algorithm first looks for any places in the rescaled ring width array that have a sample depth of one and replaces the individual signal-free measurements values with the original measurement values. Then the curve fitting is repeated giving the detrending curves for iteration one.
 
-```{r}
+```{r sf curve iter1, class.source = 'fold-hide'}
 sfRWRescaledCurves <- data.frame(yrs = yrs, sfRWRescaledCurves_Array[,,1]) %>% 
   pivot_longer(!yrs,names_to = "series", values_to = "msmt") 
 ggplot(data=sfRWRescaledCurves,mapping = aes(x=yrs,y=msmt,color=series)) +
@@ -168,7 +169,7 @@ ggplot(data=sfRWRescaledCurves,mapping = aes(x=yrs,y=msmt,color=series)) +
 
 With the detrending curves above, we make the first signal-free ring-width indices by dividing the original measurements by the curves above.
 
-```{r}
+```{r sf rwi iter1, class.source = 'fold-hide'}
 sfRWI <- data.frame(yrs = yrs, sfRWI_Array[,,1]) %>% 
   pivot_longer(!yrs,names_to = "series", values_to = "msmt") 
 ggplot(data=sfRWI,mapping = aes(x=yrs,y=msmt,color=series)) +
@@ -184,7 +185,7 @@ ggplot(data=sfRWI,mapping = aes(x=yrs,y=msmt,color=series)) +
 
 With these ring width indices we can make the signal-free chronology for the first iteration which we will plot with a 50-year smoothing spline.
 
-```{r}
+```{r sf chron iter1, class.source = 'fold-hide'}
 sfCrn <- data.frame(yrs = yrs, 
                     msmt = sfCrn_Mat[,1], 
                     msmstSm= caps(sfCrn_Mat[,1],nyrs = 50)) %>%
@@ -209,7 +210,7 @@ ggplot(data=sfCrn,mapping = aes(x=yrs,y=msmt,
 
 Now we begin iterating through the steps above until the stopping criteria is met or until the maximum number of iterations is reached. Here we show how the chronology changes from iteration one to iteration two and how the high-pass filtering is used to calculate the median absolute difference (MAD) used as the stopping criteria.
 
-```{r}
+```{r sf chron iters, class.source = 'fold-hide'}
 sfCrn <- data.frame(yrs = yrs, msmt = sfCrn_Mat[,1:2]) %>%
   rename(`Iteration 1` = 2,`Iteration 2` = 3) %>%
   pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt")
@@ -252,7 +253,7 @@ These chronologies are quite similar but differ at higher RWI values.
 
 The median absolute error between these two chronologies is calculated on the high frequency component which is calculated using a cubic smoothing spline with stiffness set to the median segment length.
 
-```{r, fig.height=6}
+```{r hf, fig.height=6, class.source = 'fold-hide'}
 highFreqCrn <- data.frame(yrs = yrs, 
                           highFreqIter1 = hfCrn_Mat[,1],
                           highFreqIter2 = hfCrn_Mat[,2]) %>%
@@ -300,7 +301,7 @@ This is also returned in `MAD_Vec`.
 
 Since this value is greater than the the stopping criteria of 5e-04, the algorithm continues to iterate until the difference is below the threshold or the maximum number of iterations is reached. Here is the difference plot between iterations nine and ten.
 
-```{r}
+```{r highFreqDiff, class.source = 'fold-hide'}
 highFreqDiff <- data.frame(yrs=yrs, 
                            difference =  hfCrnResids_Mat[,9])
 
@@ -319,7 +320,7 @@ ggplot(highFreqDiff,aes(x=yrs,y=difference)) +
 
 We can see the progression of the output chronology relatively clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
 
-```{r, fig.height=4}
+```{r plot all sm, fig.height=4, class.source = 'fold-hide'}
 crnCols <- pnw_palette(name="Starfish",n=dim(sfCrn_Mat)[2])
 
 # smooth chrons
@@ -366,7 +367,7 @@ ggdraw(p1) +
 We can also use the `gganimate` package to combine some of these elements in a way that allows us to see the progression of the chronology through the fitting process. 
 
 
-```{r, make fancy animation, message=FALSE, warning=FALSE, echo=FALSE}
+```{r, make fancy animation, message=FALSE, warning=FALSE, class.source = 'fold-hide'}
 library(gganimate)
 library(magick)
 if(!file.exists("sfAnim.gif")){
@@ -483,9 +484,7 @@ if(!file.exists("sfAnim.gif")){
   }
   image_write(image = combined_gif,format = "gif",path = "sfAnim.gif")
 }
-```
 
-```{r plot that gif, echo=FALSE}
 knitr::include_graphics("sfAnim.gif")
 ```
 

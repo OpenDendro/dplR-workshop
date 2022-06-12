@@ -166,10 +166,7 @@ These smoothing lines above are essentially eye candy. We can and will use filte
 ## Characterizing Temporal Structure
 
 ### ACF and PACF
-Let's start with a quick exploratory data analysis into the time-series
-process. We will start our analysis
-on the chronology by looking at its autocorrelation structure using R's 
-`acf` and `pacf` functions.
+Let's start with a quick exploratory data analysis into the time-series process. We will start our analysis on the chronology by looking at its autocorrelation structure using R's `acf` and `pacf` functions.
 
 ```{r}
 par(mfcol=c(1, 2))
@@ -177,16 +174,9 @@ acf(dat)
 pacf(dat)
 ```
 
-The ACF function indicates significant autocorrelation out to a lag of
-about 10 years (which is not uncommon in tree-ring data) while the PACF plot
-suggests that the persistence after lag 4 is due to the propagation of the 
-autocorrelation at earlier lags. And one could 
-very well argue that the best model here is an `AR(2)` model given the 
-marginal significance of the PACF value at lags 3 and 4. After all, you can get 
-three opinions by asking one statistician to look a time series. But we digress.
+The ACF function indicates significant autocorrelation out to a lag of about 10 years (which is not uncommon in tree-ring data) while the PACF plot suggests that the persistence after lag 4 is due to the propagation of the  autocorrelation at earlier lags. And one could very well argue that the best model here is an `AR(2)` model given the low value of the PACF at lags 3 and 4. After all, you can get three opinions by asking one statistician to look a time series. But we digress.
 
-We now have the first bit of solid information about the time-series 
-properties of these data, it looks like they fit an `AR(4)` model. 
+We now have the first bit of solid information about the time-series properties of these data, it looks like they fit an `AR(4)` model. 
 
 ### AR and ARMA
 
@@ -235,8 +225,7 @@ summary(dat.arima)
 ```
 
 Even more confusion! Instead of an `AR(p)` model, `auto.arima` went for an 
-`ARMA(1,1)` model (aka `ARIMA(1,0,1)`). The parsimony principle certainly likes 
-a nice simple `ARMA(1,1)` model. Note that we could look at the residuals, model coefficients, etc. quite easily. And indeed the residuals are quite clean as we would expect.
+`ARMA(1,1)` model (aka `ARIMA(1,0,1)`). The parsimony principle certainly likes a nice simple `ARMA(1,1)` model. Note that we could look at the residuals, model coefficients, etc. quite easily. And indeed the residuals are quite clean as we would expect.
 
 ```{r}
 acf(residuals(dat.arima))
@@ -444,7 +433,7 @@ axis(2); axis(4)
 box()
 ```
 
-#### Interruption: Duplicate function names
+### Interruption: Duplicate function names
 
 Take a moment to look back at the messages given off from loading `signal`. There are times when two packages will have the same function names. For instance both the `signal` package and `dplR` have a function called `hanning` (which applies the hanning filter to a time series). When two libraries are loaded that have two functions with the same name, R has to decide which to use when the function is called from the command line. Thus if we type `hanning` at the prompt we will get the ``hanning` function from the `signal` library. Because `signal` was loaded after `dplR` the `hanning` function from `signal` gets primacy. The same goes for the signal functions `filter` and `poly` which have counterparts the library `stats` which is loaded when `R` is first started. 
 

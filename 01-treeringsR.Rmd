@@ -4,9 +4,6 @@ The `R` language and programming environment is now commonly used in dendrochron
 
 Although extremely powerful, `R` has a steep learning curve that has led some to postpone using it in their own work. In these pages we will demonstrate the ways in which analysts can work with tree-ring data in `R` over the entire life cycle of a project in a transparent and reproducible way -- from initial measuring of the wood to statistical tests to producing publication-quality graphics.  These pages are written as a demonstration using on-board data sets but can easily be adapted for users to work with their own data.
 
-## Layout
-This document is laid out in chapters covering some of the more common where statistical software can helpful in in dendrochronology. Although focused on using `dplR`, we will make use of other packages throughout. If those are not installed on your system, you can get them from CRAN using `install.packages`. You only have to install a package once. After that it can be loaded with the `library` function as described in the next section.
-
 ## Before Starting
 
 ### R
@@ -34,18 +31,34 @@ update.packages()
 
 These documents were all made using the most up-to-date versions of the packages available on the Comprehensive R Archive Network. Updating regularly is good practice!
 
-### A Note on Libraries
+## Layout
+This document is laid out in chapters covering some of the more common where statistical software can helpful in in dendrochronology. Although focused on using `dplR`, we will make use of other packages throughout. If those are not installed on your system, you can get them from Comprehensive R Archive Network (CRAN) using `install.packages`. You only have to install a package once. After that it can be loaded with the `library` function as described in the next section.
 
-A common problem when using libraries is when two libraries use the same function  names. This causes a conflict. For instance, the `filter` which loads as part of `R`'s initial load applies linear filtering to a time series. E.g., We might make a moving average with a width of 10 via:
+For instance, we will sometimes plot using `ggplot` which comes with the `tidyverse` bundle of packages. If we were doing time-series analysis we might use the `signal` package. If those aren't on your R system you would install them via:
 
-```{r filt1}
-x <- rnorm(100)
-xFilt5 <- filter(x, rep(1/10, 10),side=2)
-plot(x,type="l")
-lines(xFilt5,col="red")
+```{r, eval=FALSE}
+install.packages("tidyverse")
+install.packages("signal")
 ```
 
-However if we were to load the `dplyr` in `tidyverse` we'd get different behavior.
+Note that you only have to do this one time. After the package is installed it remains on your system.
+
+At the of of each chapter we will include a list of packages that are used for that individual chapter.
+
+### A Note on Name Conflicts
+
+There are over ten thousand of R packages (aka libraries) available on CRAN. With that magnitude of user-developed content, it is inevitable that function names get reused. When two packages are loaded and have functions with the same name it creates a conflict. For instance, the function `filter` is part of the `stats` package that loads as part of `R`'s initial start up. It applies linear filtering to a time series. E.g., I'll generate a time series (y) with a periodic component and we can plot it with a centered moving average (`yFilt5`).
+
+
+```{r filt1}
+n <- 100
+y <- 2 * sin(2 * pi / 10 * 1:n) + rnorm(100)
+yFilt5 <- filter(x = y, filter = rep(1/5, 5),sides =2)
+plot(y,type="l",col="grey30")
+lines(yFilt5,col="darkred",lwd=2)
+```
+
+However if we were to load the extremely popular `dplyr` package from the  `tidyverse` we'd get different behavior from `filter`. Loading the `tidyverse` get several packages into this work space.
 
 ```{r load tv}
 library(tidyverse)
@@ -54,15 +67,17 @@ library(tidyverse)
 Note that a list of conflicts is printed to the screen including `dplyr::filter() masks stats::filter()`. Now if we rerun the code above we get an error.
 
 ```{r bad, error=TRUE}
-xFilt5 <- filter(x, rep(1/5, 5),side=2)
+yFilt5 <- filter(x = y, filter = rep(1/5, 5),sides =2)
 ```
 
-The error message is quite vague as to the cause of the error! But what is happening here is that `filter` is calling `filter` from `dplyr` and not from `stats`. We can still use the original function but we need to specify which `filter` we want to use.
+This is happening because both `stats` and `dplyr` have functions named `filter` and the `filter` from `stats` is being preempted by `filter` from `dplyr`.
+
+However, the error message is quite vague as to the cause of the error. But what is happening here is that `filter` is calling `filter` from `dplyr` and not from `stats`.[^1]  We can still use the original function but we need to specify which `filter` we want to use.
 
 ```{r filt2}
-xFilt10 <- stats::filter(x, rep(1/10, 10),side=2)
-plot(x,type="l")
-lines(xFilt10,col="darkred",lwd=2)
+yFilt10 <- stats::filter(x = y, filter = rep(1/10, 10),sides =2)
+plot(y,type="l",col="grey30")
+lines(yFilt5,col="darkred",lwd=2)
 ```
 
 So when you load packages watch for any warnings about conflicts! This book is laid out in chapters which are self contained to reduce this behavior.
@@ -78,7 +93,6 @@ It's important to cite software for any number of reasons. E.g., being specific 
 
 ```{r}
 citation()
-
 ```
 
 As the citation function indicates: "We have invested a lot of time and effort in creating R, please cite it when using it for data analysis." 
@@ -93,3 +107,4 @@ citation("dplR")
 The same practice goes for any other add-on package you might use.
 
 
+[^1]: The `filter` function from `dplyr` acts much like subset from base `R`.
