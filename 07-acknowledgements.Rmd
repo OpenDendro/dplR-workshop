@@ -20,3 +20,4 @@ auths2 <- tidyr::separate(auths2,col = 1, sep = ":", into = c("Person", "Role(s)
 knitr::kable(auths2)
 ```
 
+Thanks to J Zobolas, creator of `rtemps`, for the [template](https://github.com/bblodfon/rtemps) used here.
