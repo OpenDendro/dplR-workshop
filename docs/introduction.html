@@ -1045,7 +1045,7 @@ We recommend that you use <a href="https://www.rstudio.com/">RStudio</a> to inte
 <h3><span class="header-section-number">2.1.2</span> Getting dplR<a href="introduction.html#getting-dplr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Install the add-on library <code>dplR</code>. You can download and install <code>dplR</code>using the <code>install.packages</code> function from the <code>R</code> prompt:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;dplR&quot;</span>)</span></code></pre></div>
-<p>These documents use version 1.7.3 of <code>dplR</code>. You can check the version of your version of <code>dplR</code> via:</p>
+<p>These documents use version 1.7.4 of <code>dplR</code>. You can check the version of your version of <code>dplR</code> via:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="introduction.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;dplR&quot;</span>)</span></code></pre></div>
 <p>If your version is older you can update it (and all your other packages) in <code>R</code> via:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>()</span></code></pre></div>
@@ -1124,6 +1124,10 @@ We recommend that you use <a href="https://www.rstudio.com/">RStudio</a> to inte
 <p>As the citation function indicates: “We have invested a lot of time and effort in creating R, please cite it when using it for data analysis.”</p>
 <p>The creation of <code>dplR</code> is an act of love. We enjoy writing this software and helping users. However, we are not among the idle rich. Alas. We have jobs and occasionally have to answer to our betters. We ask that you please cite <code>dplR</code> and <code>R</code> appropriately in your work. This way when our department chairs and deans accuse us of being dilettantes we can point to the use of <code>dplR</code> as a partial excuse. There is more detailed information available in the help files and in the literature <span class="citation">(<a href="references.html#ref-Bunn2008" role="doc-biblioref">Bunn, 2008</a>, <a href="references.html#ref-Bunn2010" role="doc-biblioref">2010</a>)</span>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="introduction.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;dplR&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in citation(auto = meta): no date field in DESCRIPTION file of package
+## &#39;dplR&#39;</code></pre>
+<pre><code>## Warning in citation(auto = meta): could not determine year for &#39;dplR&#39; from
+## package DESCRIPTION file</code></pre>
 <pre><code>## 
 ## Bunn AG (2008). &quot;A dendrochronology program library in R (dplR).&quot;
 ## _Dendrochronologia_, *26*(2), 115-124. ISSN 1125-7865, doi:
@@ -1136,9 +1140,9 @@ We recommend that you use <a href="https://www.rstudio.com/">RStudio</a> to inte
 ## https://doi.org/10.1016/j.dendro.2009.12.001).
 ## 
 ##   Andy Bunn, Mikko Korpela, Franco Biondi, Filipe Campelo, Pierre
-##   Mérian, Fares Qeadan and Christian Zang (2022). dplR:
-##   Dendrochronology Program Library in R. R package version 1.7.3.
-##   https://CRAN.R-project.org/package=dplR
+##   Mérian, Fares Qeadan and Christian Zang (NA). dplR: Dendrochronology
+##   Program Library in R. R package version 1.7.4.
+##   https://github.com/AndyBunn/dplR
 ## 
 ## To see these entries in BibTeX format, use &#39;print(&lt;citation&gt;,
 ## bibtex=TRUE)&#39;, &#39;toBibtex(.)&#39;, or set

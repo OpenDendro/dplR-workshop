@@ -1056,8 +1056,9 @@ information on all these functions in the help files.</p>
 <div id="load-dplr-1" class="section level3 hasAnchor" number="6.3.1">
 <h3><span class="header-section-number">6.3.1</span> Load dplR<a href="xdate.html#load-dplr-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will be usinf <code>dplR</code> in here. Load it:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="xdate.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
-<pre><code>## This is dplR version 1.7.3.
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="xdate.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
+<pre><code>## This is dplR version 1.7.4.
+## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.</code></pre>
 </div>
 </div>
@@ -1065,20 +1066,20 @@ information on all these functions in the help files.</p>
 <h2><span class="header-section-number">6.4</span> Ruining a Perfectly Good Data Set<a href="xdate.html#ruining-a-perfectly-good-data-set" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Throughout this document we will use the on-board data set <code>co021</code> which gives the raw ring widths for Douglas fir <em>Pseudotsuga menziesii</em> at Mesa Verde in Colorado, USA. There are 35 series spanning 788 years.</p>
 <p>We will rename the <code>co021</code> object to <code>dat</code> because we are going to mess around with it and it seems like good practice to rename it.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="xdate.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(co021)</span>
-<span id="cb127-2"><a href="xdate.html#cb127-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> co021</span>
-<span id="cb127-3"><a href="xdate.html#cb127-3" aria-hidden="true" tabindex="-1"></a>dat.sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(dat)</span>
-<span id="cb127-4"><a href="xdate.html#cb127-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>year)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="xdate.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(co021)</span>
+<span id="cb129-2"><a href="xdate.html#cb129-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> co021</span>
+<span id="cb129-3"><a href="xdate.html#cb129-3" aria-hidden="true" tabindex="-1"></a>dat.sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(dat)</span>
+<span id="cb129-4"><a href="xdate.html#cb129-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>year)</span></code></pre></div>
 <pre><code>## [1] 564.9</code></pre>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="xdate.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>stdev)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="xdate.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>stdev)</span></code></pre></div>
 <pre><code>## [1] 0.3232</code></pre>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="xdate.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>median)</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="xdate.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>median)</span></code></pre></div>
 <pre><code>## [1] 0.3211</code></pre>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="xdate.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>ar1)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="xdate.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat.sum<span class="sc">$</span>ar1)</span></code></pre></div>
 <pre><code>## [1] 0.6038</code></pre>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="xdate.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">interseries.cor</span>(dat)[, <span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="xdate.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">interseries.cor</span>(dat)[, <span class="dv">1</span>])</span></code></pre></div>
 <pre><code>## [1] 0.8478</code></pre>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="xdate.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="xdate.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
 <p><img src="05-xdate_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>We can see that this is a beautifully sensitive collection with long segment lengths, high standard deviation (relative to ring widths), large first-order autocorrelation, and a high mean interseries correlation (<span class="math inline">\(\mathrm{r}\approx 0.84\)</span>).</p>
 <p>To demonstrate how crossdating works in <code>dplR</code>, we will take this perfectly
@@ -1087,12 +1088,12 @@ will be able to reenact one of the most common tasks of the dendrochronologist:
 tracking down a misdated core. Here we will take a random series and remove
 one of the years of growth. This simulates a missing ring in the series. We will
 pick a random year in the core to give us a bit of a challenge in finding it.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="xdate.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4576</span>)</span>
-<span id="cb138-2"><a href="xdate.html#cb138-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">nrow</span>(dat), <span class="at">size=</span><span class="dv">1</span>)</span>
-<span id="cb138-3"><a href="xdate.html#cb138-3" aria-hidden="true" tabindex="-1"></a>j <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">ncol</span>(dat), <span class="at">size=</span><span class="dv">1</span>)</span>
-<span id="cb138-4"><a href="xdate.html#cb138-4" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> dat[, j]</span>
-<span id="cb138-5"><a href="xdate.html#cb138-5" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, tmp[<span class="sc">-</span>i])</span>
-<span id="cb138-6"><a href="xdate.html#cb138-6" aria-hidden="true" tabindex="-1"></a>dat[, j] <span class="ot">&lt;-</span> tmp</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="xdate.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4576</span>)</span>
+<span id="cb140-2"><a href="xdate.html#cb140-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">nrow</span>(dat), <span class="at">size=</span><span class="dv">1</span>)</span>
+<span id="cb140-3"><a href="xdate.html#cb140-3" aria-hidden="true" tabindex="-1"></a>j <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">ncol</span>(dat), <span class="at">size=</span><span class="dv">1</span>)</span>
+<span id="cb140-4"><a href="xdate.html#cb140-4" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> dat[, j]</span>
+<span id="cb140-5"><a href="xdate.html#cb140-5" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, tmp[<span class="sc">-</span>i])</span>
+<span id="cb140-6"><a href="xdate.html#cb140-6" aria-hidden="true" tabindex="-1"></a>dat[, j] <span class="ot">&lt;-</span> tmp</span></code></pre></div>
 <p>We have now deleted the <span class="math inline">\(i^{th}\)</span> observation from the <span class="math inline">\(j^{th}\)</span> core while making sure that <code>dat</code> still has the appropriate numbers of rows. By sticking the NA at the
 start of the series it is as if we missed a ring while measuring.</p>
 </div>
@@ -1118,7 +1119,7 @@ are indicated by the red segments (p-values greater than the user-set
 critical value). Green lines show segments that do not completely overlap
 the time period and thus have no correlations calculated. Our modified data
 set indicates one series with dating problems.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="xdate.html#cb139-1" aria-hidden="true" tabindex="-1"></a>rwl<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">corr.rwl.seg</span>(dat, <span class="at">seg.length=</span><span class="dv">60</span>, <span class="at">pcrit=</span><span class="fl">0.01</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="xdate.html#cb141-1" aria-hidden="true" tabindex="-1"></a>rwl<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">corr.rwl.seg</span>(dat, <span class="at">seg.length=</span><span class="dv">60</span>, <span class="at">pcrit=</span><span class="fl">0.01</span>)</span></code></pre></div>
 <p><img src="05-xdate_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>In this figure, each 60-year segment of each series in the modified Mesa
 Verde data set is shown and colored by its correlation with the master.
@@ -1128,8 +1129,8 @@ Our modified data set indicates one series with dating problems.</p>
 <h2><span class="header-section-number">6.6</span> Individual Series Correlation<a href="xdate.html#individual-series-correlation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The low correlation between series <code>643114</code> and the master indicates a dating
 problem. Now that we suspect a dating problem, let us take a closer look at this problem child. The figure above shows that series <code>643114</code> begins to lose correlation with the master at the end of the 19th century.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="xdate.html#cb140-1" aria-hidden="true" tabindex="-1"></a>seg<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">corr.series.seg</span>(<span class="at">rwl=</span>dat, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>,</span>
-<span id="cb140-2"><a href="xdate.html#cb140-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">seg.length=</span><span class="dv">60</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="xdate.html#cb142-1" aria-hidden="true" tabindex="-1"></a>seg<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">corr.series.seg</span>(<span class="at">rwl=</span>dat, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>,</span>
+<span id="cb142-2"><a href="xdate.html#cb142-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">seg.length=</span><span class="dv">60</span>)</span></code></pre></div>
 <p><img src="05-xdate_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Correlations between series <code>643114</code> and the master chronology are
 shown with horizontal lines according (60-year segments lagged by 30 years).
@@ -1141,11 +1142,11 @@ segment correlations. The critical level is shown with a dashed line.</p>
 <p>This figure strongly indicates that the dating in the series <code>643114</code>
 begins to deteriorate between 1850 and 1910. We can create a window (<code>win</code>) of years
 and subset <code>dat</code> to the window if years we want to look at. Then we can look more closely at this time period and compute a cross-correlation function to look at lagged correlations to see if we can spot the dating problem.</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="xdate.html#cb141-1" aria-hidden="true" tabindex="-1"></a>win <span class="ot">&lt;-</span> <span class="dv">1800</span><span class="sc">:</span><span class="dv">1960</span></span>
-<span id="cb141-2"><a href="xdate.html#cb141-2" aria-hidden="true" tabindex="-1"></a>dat.yrs <span class="ot">&lt;-</span> <span class="fu">time</span>(dat)</span>
-<span id="cb141-3"><a href="xdate.html#cb141-3" aria-hidden="true" tabindex="-1"></a>dat.win <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat,dat.yrs <span class="sc">%in%</span> win)</span>
-<span id="cb141-4"><a href="xdate.html#cb141-4" aria-hidden="true" tabindex="-1"></a>ccf<span class="fl">.30</span> <span class="ot">&lt;-</span> <span class="fu">ccf.series.rwl</span>(<span class="at">rwl=</span>dat.win, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>, </span>
-<span id="cb141-5"><a href="xdate.html#cb141-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">seg.length=</span><span class="dv">30</span>, <span class="at">bin.floor=</span><span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="xdate.html#cb143-1" aria-hidden="true" tabindex="-1"></a>win <span class="ot">&lt;-</span> <span class="dv">1800</span><span class="sc">:</span><span class="dv">1960</span></span>
+<span id="cb143-2"><a href="xdate.html#cb143-2" aria-hidden="true" tabindex="-1"></a>dat.yrs <span class="ot">&lt;-</span> <span class="fu">time</span>(dat)</span>
+<span id="cb143-3"><a href="xdate.html#cb143-3" aria-hidden="true" tabindex="-1"></a>dat.win <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat,dat.yrs <span class="sc">%in%</span> win)</span>
+<span id="cb143-4"><a href="xdate.html#cb143-4" aria-hidden="true" tabindex="-1"></a>ccf<span class="fl">.30</span> <span class="ot">&lt;-</span> <span class="fu">ccf.series.rwl</span>(<span class="at">rwl=</span>dat.win, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>, </span>
+<span id="cb143-5"><a href="xdate.html#cb143-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">seg.length=</span><span class="dv">30</span>, <span class="at">bin.floor=</span><span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## NB: With series.x = FALSE (default), negative lags indicate missing rings in series</code></pre>
 <p><img src="05-xdate_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Cross-correlations between series <code>643114</code> and the master
@@ -1162,10 +1163,10 @@ We will, of course, have to be very careful about using such short segments
 for correlation and be ready to adjust our expectations accordingly.
 Fortunately, in this case the trees are so exquisitely sensitive that we can
 look at 20-year segments with some confidence.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="xdate.html#cb143-1" aria-hidden="true" tabindex="-1"></a>win <span class="ot">&lt;-</span> <span class="dv">1850</span><span class="sc">:</span><span class="dv">1900</span></span>
-<span id="cb143-2"><a href="xdate.html#cb143-2" aria-hidden="true" tabindex="-1"></a>dat.win <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat,dat.yrs <span class="sc">%in%</span> win)</span>
-<span id="cb143-3"><a href="xdate.html#cb143-3" aria-hidden="true" tabindex="-1"></a>ccf<span class="fl">.20</span> <span class="ot">&lt;-</span> <span class="fu">ccf.series.rwl</span>(<span class="at">rwl=</span>dat.win, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>,</span>
-<span id="cb143-4"><a href="xdate.html#cb143-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">seg.length=</span><span class="dv">20</span>, <span class="at">bin.floor=</span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="xdate.html#cb145-1" aria-hidden="true" tabindex="-1"></a>win <span class="ot">&lt;-</span> <span class="dv">1850</span><span class="sc">:</span><span class="dv">1900</span></span>
+<span id="cb145-2"><a href="xdate.html#cb145-2" aria-hidden="true" tabindex="-1"></a>dat.win <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat,dat.yrs <span class="sc">%in%</span> win)</span>
+<span id="cb145-3"><a href="xdate.html#cb145-3" aria-hidden="true" tabindex="-1"></a>ccf<span class="fl">.20</span> <span class="ot">&lt;-</span> <span class="fu">ccf.series.rwl</span>(<span class="at">rwl=</span>dat.win, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>,</span>
+<span id="cb145-4"><a href="xdate.html#cb145-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">seg.length=</span><span class="dv">20</span>, <span class="at">bin.floor=</span><span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## NB: With series.x = FALSE (default), negative lags indicate missing rings in series</code></pre>
 <p><img src="05-xdate_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Cross-correlations between series `643114’ and the master
@@ -1184,8 +1185,8 @@ the visual style of crossdating using skeleton plots with the statistical
 approach of cross-correlation analysis. The <code>skel.ccf.plot</code> function does
 just this. Here we make a skeleton plot from the 40-year period around the
 suspected dating error (1885):</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="xdate.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xskel.ccf.plot</span>(<span class="at">rwl=</span>dat, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>,</span>
-<span id="cb145-2"><a href="xdate.html#cb145-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">win.start=</span><span class="dv">1865</span>, <span class="at">win.width=</span><span class="dv">40</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="xdate.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xskel.ccf.plot</span>(<span class="at">rwl=</span>dat, <span class="at">series=</span><span class="st">&quot;643114&quot;</span>,</span>
+<span id="cb147-2"><a href="xdate.html#cb147-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">win.start=</span><span class="dv">1865</span>, <span class="at">win.width=</span><span class="dv">40</span>)</span></code></pre></div>
 <p><img src="05-xdate_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>The top panel shows the normalized values for the master chronology
 (bottom half) and the series <code>643114</code> (top half) in green. The values are
@@ -1207,13 +1208,13 @@ but nothing ever takes the place of looking at the sample!</p>
 <p>We have strong inference now that series <code>643114</code> is misdated somewhere in a ten
 year period around 1885. We have still not revealed whether this is correct
 or not. Let us look at the values for <code>i</code> and <code>j</code> and see how we did:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="xdate.html#cb146-1" aria-hidden="true" tabindex="-1"></a>j</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="xdate.html#cb148-1" aria-hidden="true" tabindex="-1"></a>j</span></code></pre></div>
 <pre><code>## [1] 13</code></pre>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="xdate.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(co021)[j]</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="xdate.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(co021)[j]</span></code></pre></div>
 <pre><code>## [1] &quot;643143&quot;</code></pre>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="xdate.html#cb150-1" aria-hidden="true" tabindex="-1"></a>i</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="xdate.html#cb152-1" aria-hidden="true" tabindex="-1"></a>i</span></code></pre></div>
 <pre><code>## [1] 557</code></pre>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="xdate.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(co021)[i]</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="xdate.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(co021)[i]</span></code></pre></div>
 <pre><code>## [1] &quot;1732&quot;</code></pre>
 <p>Our sleuthing indicated that our dating error was around the year 1885. In
 fact, <code>i</code> was the year 1884.</p>

@@ -18,7 +18,8 @@ library(dplR)
 ```
 
 ```
-## This is dplR version 1.7.3.
+## This is dplR version 1.7.4.
+## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
 ```
 
@@ -332,7 +333,7 @@ CAM011.rwi <- detrend.series(y = ca533[, "CAM011"],verbose=TRUE)
 ## Order selected 23  sigma^2 estimated as  0.0209
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Fits from method=='Ar' are not all positive. 
-##   Setting values <0 to 0.  
+##   Setting values <0 to 0 before rescaling.  
 ##   This might not be what you want. 
 ##   ARSTAN would tell you to plot that dirty dog at this point. 
 ##   Proceed with caution.

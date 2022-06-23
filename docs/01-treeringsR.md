@@ -19,7 +19,7 @@ Install the add-on library `dplR`. You can download and install `dplR `using the
 install.packages("dplR")
 ```
 
-These documents use version 1.7.3 of `dplR`. You can check the version of your version of `dplR` via:
+These documents use version 1.7.4 of `dplR`. You can check the version of your version of `dplR` via:
 
 
 ```r
@@ -163,6 +163,16 @@ citation("dplR")
 ```
 
 ```
+## Warning in citation(auto = meta): no date field in DESCRIPTION file of package
+## 'dplR'
+```
+
+```
+## Warning in citation(auto = meta): could not determine year for 'dplR' from
+## package DESCRIPTION file
+```
+
+```
 ## 
 ## Bunn AG (2008). "A dendrochronology program library in R (dplR)."
 ## _Dendrochronologia_, *26*(2), 115-124. ISSN 1125-7865, doi:
@@ -175,9 +185,9 @@ citation("dplR")
 ## https://doi.org/10.1016/j.dendro.2009.12.001).
 ## 
 ##   Andy Bunn, Mikko Korpela, Franco Biondi, Filipe Campelo, Pierre
-##   Mérian, Fares Qeadan and Christian Zang (2022). dplR:
-##   Dendrochronology Program Library in R. R package version 1.7.3.
-##   https://CRAN.R-project.org/package=dplR
+##   Mérian, Fares Qeadan and Christian Zang (NA). dplR: Dendrochronology
+##   Program Library in R. R package version 1.7.4.
+##   https://github.com/AndyBunn/dplR
 ## 
 ## To see these entries in BibTeX format, use 'print(<citation>,
 ## bibtex=TRUE)', 'toBibtex(.)', or set
