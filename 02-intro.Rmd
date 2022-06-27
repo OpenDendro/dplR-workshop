@@ -132,7 +132,14 @@ Let us detrend a single series and apply more than one detrending method when we
 CAM011.rwi <- detrend.series(y = ca533[, "CAM011"],verbose=TRUE)
 ```
 
-Note that advanced users can use `return.info=TRUE` to have all the curve-fitting parameters returned in a `list`. Having access to these curves is occasionally desirable. Also, sometimes a user will want to interactively detrend each series and fit a negative exponential curve to one series, a spline to another, and the mean to a third. This can be done via the `i.detrend` and `i.detrend.series` functions. See their help pages for details. Users can also power transform tree-ring data (`powt`) and detrend via subtraction instead of division using `detrend` and `detrend.series`.
+Note that advanced users can use `return.info=TRUE` to have all the fitting parameters returned in a `list`. Having access to these is occasionally desirable. 
+
+### Interactive detrending
+
+There are many instances where a user needs fine scale control while detrending perhaps fitting a negative exponential curve to one series, a spline to another, and the mean to a third. Like with crossdating, interactive detrending is a case where an app is useful. The `iDetrend` app is relatively simple interface to `detrend.series` that let's users fit curves and plot them with several different options. When completed the user can save a file with the detrended data as well as generate log file that allows reproduction of the detrending from the command line. It's available here 
+
+[andybunn.shinyapps.io/iDetrend/](https://andybunn.shinyapps.io/iDetrend/){target="_blank"}
+
 
 ### Other Detrending Methods
 

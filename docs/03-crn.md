@@ -194,7 +194,7 @@ ggplot() +
 
 
 ## Chronology Uncertainty
-Typically we calculate a chronology by taking the average of each year from the ring-width indices. And that is typically the biweight robust mean. The function `chron` like pretty many of the functions in `dplR` are relatively simple chunks of code that are used for convenience. We can make our own chronology and get the mean plus two standard errors of the yearly growth quite simply. It's important for new users of `dplR` not to get stuck with just the available functions and to roll your own code.
+Typically we calculate a chronology by taking the average of each year from the ring-width indices. And that is typically the biweight robust mean. The function `chron` like  many of the functions in `dplR` are relatively simple chunks of code that are used for convenience. We can make our own chronology and get the mean plus two standard errors of the yearly growth quite simply. It's important for new users of `dplR` not to get stuck with just the available functions and to roll your own code.
 
 
 ```r
@@ -221,6 +221,37 @@ ggplot(dat,aes(x=yrs)) +
 <img src="03-crn_files/figure-html/crn se-1.png" width="672" />
 
 It is interesting to note how the uncertainty increases towards the end of the chronology. This is somewhat unusual.
+
+### Bootstrapping confidence intervals
+The above method uses a parametric approach to quantifying uncertainty. We can also use the `boot` library which is an incredibly powerful suite of functions for using resampling techniques to  calculate almost any imaginable statistic. Although `boot` and is used ubiquitously throughout R, its syntax is byzantine. Because of that we have created a wrapper for the `boot.ci` function will generate a mean-value chronology with bootstrapped confidence intervals. Here is a chronology using the `wa082RwiSSS` again but with 99% confidence intervals around the robust mean generated with 500 boostrap replicates.
+
+
+```r
+wa082CrnCI <- chron.ci(wa082RwiSSS, biweight = TRUE, R = 500, conf = 0.99)
+head(wa082CrnCI)
+```
+
+```
+##       yrs    std lowerCI upperCI samp.depth
+## 1764 1764 0.9974  0.8416   1.175          9
+## 1765 1765 1.1763  0.9827   1.387          9
+## 1766 1766 1.0711  0.9266   1.217          9
+## 1767 1767 1.0074  0.7170   1.284          9
+## 1768 1768 1.1974  0.9280   1.558          9
+## 1769 1769 1.2375  1.0287   1.445          9
+```
+
+```r
+ggplot(wa082CrnCI,aes(x=yrs)) +
+  geom_hline(yintercept = 1,linetype="dashed") +
+  geom_ribbon(aes(ymin=lowerCI,ymax=upperCI),
+              alpha=0.5,fill="blue") +
+  geom_line(aes(y=std),col="grey30") +
+  labs(x="Year",y="RWI") + theme_minimal()
+```
+
+<img src="03-crn_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+
 
 ## The ARSTAN Chronology
 

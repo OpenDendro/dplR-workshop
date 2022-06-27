@@ -16,6 +16,7 @@ describing-and-plotting-ring-width-data
 descriptive-statistics
 detrending
 common-detrending-methods
+interactive-detrending
 other-detrending-methods
 descriptive-statistics-for-detrended-data
 building-a-mean-value-chronology
@@ -27,6 +28,7 @@ traditional-chronology
 using-a-sample-depth-cutoff
 using-sss-as-a-cutoff
 chronology-uncertainty
+bootstrapping-confidence-intervals
 the-arstan-chronology
 stabalizing-the-variance
 stripping-out-series-by-eps

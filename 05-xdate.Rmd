@@ -14,7 +14,7 @@ cite that paper if you use dplR for crossdating. There is more detailed
 information on all these functions in the help files. 
 
 ## Using the xDater app
-Below I'll walk through using `dplR`'s crossdating functions on the command line. I've also built a Shiny app for doing crossdating in an interactive graphical workflow. This is definitely still in development and I plan on cleaning it up some soon. It's meant to mimic a lot of the look and feel of COFECHA since that's what most folks are used to using. Here it is:
+Below I'll walk through using `dplR`'s crossdating functions on the command line. But I've also built a Shiny app for doing crossdating in an interactive graphical workflow that is one of the rare cases where an app and GUI are more useful than working in a script. This is definitely still in development and I plan on cleaning it up soon. It's meant to mimic a lot of the look and feel of COFECHA since that's what most folks are used to using. Here it is:
 
 [andybunn.shinyapps.io/xDateR/](https://andybunn.shinyapps.io/xDateR/){target="_blank"}
 
