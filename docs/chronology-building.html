@@ -1173,12 +1173,12 @@ subsample signal strength (SSS). Just for fun, I’ll show how we can do this us
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="chronology-building.html#cb81-1" aria-hidden="true" tabindex="-1"></a>wa082CrnCI <span class="ot">&lt;-</span> <span class="fu">chron.ci</span>(wa082RwiSSS, <span class="at">biweight =</span> <span class="cn">TRUE</span>, <span class="at">R =</span> <span class="dv">500</span>, <span class="at">conf =</span> <span class="fl">0.99</span>)</span>
 <span id="cb81-2"><a href="chronology-building.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wa082CrnCI)</span></code></pre></div>
 <pre><code>##       yrs    std lowerCI upperCI samp.depth
-## 1764 1764 0.9974  0.8416   1.175          9
-## 1765 1765 1.1763  0.9827   1.387          9
-## 1766 1766 1.0711  0.9266   1.217          9
-## 1767 1767 1.0074  0.7170   1.284          9
-## 1768 1768 1.1974  0.9280   1.558          9
-## 1769 1769 1.2375  1.0287   1.445          9</code></pre>
+## 1764 1764 0.9974  0.8514   1.162          9
+## 1765 1765 1.1763  0.9871   1.377          9
+## 1766 1766 1.0711  0.9369   1.212          9
+## 1767 1767 1.0074  0.7237   1.296          9
+## 1768 1768 1.1974  0.9280   1.536          9
+## 1769 1769 1.2375  1.0293   1.457          9</code></pre>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="chronology-building.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wa082CrnCI,<span class="fu">aes</span>(<span class="at">x=</span>yrs)) <span class="sc">+</span></span>
 <span id="cb83-2"><a href="chronology-building.html#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
 <span id="cb83-3"><a href="chronology-building.html#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>lowerCI,<span class="at">ymax=</span>upperCI),</span>
