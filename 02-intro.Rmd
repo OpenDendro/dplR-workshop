@@ -71,9 +71,16 @@ ca533.stats <- summary(ca533) # same as calling rwl.stats(ca533)
 head(ca533.stats,n=5) # look at the first five series
 ```
 
-These are common summary statistics like mean, median, etc. but also statistics that are more specific to dendrochronology like the first-order autocorrelation (`ar1`), gini (`gini`), and mean sensitivity (`sens1` and `sens2`). **We would be remiss if we did not here mention that mean sensitivity is actually a terrible statistic that should rarely, if ever, be used [@Bunn2013].** Note that output object `ca533.stats` is itself a `data.frame` and its data can be used to plot, etc.
+These are common summary statistics like mean, median, etc. but also statistics that are more specific to dendrochronology like the first-order autocorrelation (`ar1`), gini (`gini`), and mean sensitivity (`sens1` and `sens2`). **We would be remiss if we did not here mention that mean sensitivity is actually a terrible statistic that should rarely, if ever, be used [@Bunn2013].** Note that output object `ca533.stats` is itself a `data.frame` and its data can be used to plot, summarize, etc.
 
-For instance, we can look at the spread of the first-order autocorrelation via `summary(ca533.stats$ar1)` or make a plot to show the data. Here we will demonstrate a somewhat involved plot to get you an idea of how to layer plotting commands:
+For instance, we can get the mean and variance of segment length via:
+
+```{r mean seg}
+mean(ca533.stats$year)
+var(ca533.stats$year)
+```
+
+Or, we can look at the spread of the first-order autocorrelation via `summary(ca533.stats$ar1)` or make a plot to show the data. Here we will demonstrate a somewhat involved plot to get you an idea of how to layer plotting commands:
 
 ```{r,fig.height=5, fig.width=5}
 boxplot(ca533.stats$ar1,ylab=expression(phi[1]),col = "lightblue")
@@ -94,6 +101,8 @@ ggplot(ar1,aes(x,y)) + geom_boxplot(width=.2) +
   labs(y=expression(phi[1]),x=element_blank()) +
   theme_minimal()
 ```
+
+
 
 ## Detrending
 
