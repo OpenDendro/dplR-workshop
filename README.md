@@ -3,5 +3,5 @@ This is a set of rough notes for doing workshops with `dplR`. I occasionally thi
 
 [https://opendendro.github.io/dplR-workshop/](https://opendendro.github.io/dplR-workshop/)
 
--AB
+-Andy Bunn
 
