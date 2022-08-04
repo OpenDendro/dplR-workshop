@@ -167,9 +167,9 @@ head(ca533.stats,n=5) # look at the first five series
 ## 5 CAM041  1683 1983  301 0.526   0.53 0.223 0.488 0.238 0.690
 ```
 
-These are common summary statistics like mean, median, etc. but also statistics that are more specific to dendrochronology like the first-order autocorrelation (`ar1`), gini (`gini`), and mean sensitivity (`sens1` and `sens2`). **We would be remiss if we did not here mention that mean sensitivity is actually a terrible statistic that should rarely, if ever, be used [@Bunn2013].** Note that output object `ca533.stats` is itself a `data.frame` and its data can be used to plot, summarize, etc.
+These are common summary statistics like mean, median, etc. but also statistics that are more specific to dendrochronology like the first-order autocorrelation (`ar1`), gini (`gini`). Note that output object `ca533.stats` is itself a `data.frame` and its data can be used to plot, summarize, etc.
 
-For instance, we can get the mean and variance of segment length via:
+For instance, we can get the mean and standard deviation of segment length via:
 
 
 ```r
@@ -181,11 +181,11 @@ mean(ca533.stats$year)
 ```
 
 ```r
-var(ca533.stats$year)
+sd(ca533.stats$year)
 ```
 
 ```
-## [1] 76727
+## [1] 277
 ```
 
 Or, we can look at the spread of the first-order autocorrelation via `summary(ca533.stats$ar1)` or make a plot to show the data. Here we will demonstrate a somewhat involved plot to get you an idea of how to layer plotting commands:
@@ -216,7 +216,7 @@ ggplot(ar1,aes(x,y)) + geom_boxplot(width=.2) +
 
 <img src="02-intro_files/figure-html/unnamed-chunk-9-1.png" width="192" />
 
-
+There are a few other descriptive stats that are available. Mean sensitivity (`sens1` and `sens2`) used to be included in the standard summary statistics but **mean sensitivity is actually a terrible statistic that should rarely, if ever, be used [@Bunn2013].** It is at best equivalent to the standard deviation of a time series in cases without high autocorrelation and is an inefficient estimator of the coefficient of variation. So use cautiously if at all.
 
 ## Detrending
 
