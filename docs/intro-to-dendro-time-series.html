@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Intro to dendro time-series | Learning to Love dplR</title>
   <meta name="description" content="Helful materials for dplR" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Intro to dendro time-series | Learning to Love dplR" />
   <meta property="og:type" content="book" />
@@ -840,7 +840,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -853,7 +853,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -867,6 +867,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -1045,8 +1049,8 @@ div.csl-indent {
 <div id="load-libraries" class="section level3 hasAnchor" number="7.1.1">
 <h3><span class="header-section-number">7.1.1</span> Load libraries<a href="intro-to-dendro-time-series.html#load-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will be using <code>dplR</code> in here as well as a few other packages that are useful for working with time-series data. If you haven’t installed these packages yet you will want to using the <code>install.packages()</code> function.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="intro-to-dendro-time-series.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
-<pre><code>## This is dplR version 1.7.5.
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="intro-to-dendro-time-series.html#cb158-1" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
+<pre><code>## This is dplR version 1.7.6.
 ## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.</code></pre>
 </div>
@@ -1054,9 +1058,9 @@ div.csl-indent {
 <div id="data-sets-1" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Data Sets<a href="intro-to-dendro-time-series.html#data-sets-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Throughout this document we will use the on-board data set <code>co021</code> which gives the raw ring widths for Douglas fir <em>Pseudotsuga menziesii</em> at Mesa Verde in Colorado, USA. There are 35 series spanning 788 years.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="intro-to-dendro-time-series.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(co021)</span>
-<span id="cb165-2"><a href="intro-to-dendro-time-series.html#cb165-2" aria-hidden="true" tabindex="-1"></a>co021.sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(co021)</span>
-<span id="cb165-3"><a href="intro-to-dendro-time-series.html#cb165-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(co021.sum)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="intro-to-dendro-time-series.html#cb160-1" tabindex="-1"></a><span class="fu">data</span>(co021)</span>
+<span id="cb160-2"><a href="intro-to-dendro-time-series.html#cb160-2" tabindex="-1"></a>co021.sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(co021)</span>
+<span id="cb160-3"><a href="intro-to-dendro-time-series.html#cb160-3" tabindex="-1"></a><span class="fu">head</span>(co021.sum)</span></code></pre></div>
 <pre><code>##   series first last year  mean median stdev  skew  gini   ar1
 ## 1 641114  1270 1963  694 0.287   0.23 0.231 2.884 0.372 0.686
 ## 2 641121  1250 1963  714 0.328   0.26 0.315 3.306 0.410 0.744
@@ -1064,16 +1068,16 @@ div.csl-indent {
 ## 4 641143  1237 1963  727 0.344   0.27 0.287 2.341 0.397 0.708
 ## 5 642114  1243 1963  721 0.281   0.24 0.219 2.848 0.358 0.673
 ## 6 642121  1260 1963  704 0.313   0.21 0.416 4.399 0.474 0.865</code></pre>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="intro-to-dendro-time-series.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(co021, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="intro-to-dendro-time-series.html#cb162-1" tabindex="-1"></a><span class="fu">plot</span>(co021, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>These data are gorgeous with long segments (564), high interseries correlation (0.6), and high first-order autocorrelation (0.85).</p>
 <p>Let us make a mean-value chronology of the <code>co021</code> data after detrending
 each series with a frequency response of 50% at a wavelength of 2/3 of
 each series’s length.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="intro-to-dendro-time-series.html#cb168-1" aria-hidden="true" tabindex="-1"></a>co021.rwi <span class="ot">&lt;-</span> <span class="fu">detrend</span>(co021, <span class="at">method=</span><span class="st">&quot;Spline&quot;</span>)</span>
-<span id="cb168-2"><a href="intro-to-dendro-time-series.html#cb168-2" aria-hidden="true" tabindex="-1"></a>co021.crn <span class="ot">&lt;-</span> <span class="fu">chron</span>(co021.rwi)</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="intro-to-dendro-time-series.html#cb163-1" tabindex="-1"></a>co021.rwi <span class="ot">&lt;-</span> <span class="fu">detrend</span>(co021, <span class="at">method=</span><span class="st">&quot;Spline&quot;</span>)</span>
+<span id="cb163-2"><a href="intro-to-dendro-time-series.html#cb163-2" tabindex="-1"></a>co021.crn <span class="ot">&lt;-</span> <span class="fu">chron</span>(co021.rwi)</span></code></pre></div>
 <p>We can plot the chronology with a smoothing spline with a 20-year period:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="intro-to-dendro-time-series.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(co021.crn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="intro-to-dendro-time-series.html#cb164-1" tabindex="-1"></a><span class="fu">plot</span>(co021.crn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">20</span>)</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="smoothing" class="section level2 hasAnchor" number="7.3">
@@ -1081,135 +1085,135 @@ each series’s length.</p>
 <p>Very often one wants to smooth data to analyze or work only with particular aspects of the data. This kind of analysis is a big deal in time-series analysis. Smoothing is a way of isolating different frequencies of data but still thinking in the time domain. One such mark that we already alluded to above is the use of smoothing splines to detrend and filter tree-ring data. The urge to smooth a time series when we plot it is almost irresistible. It’s a sickness that dendro folks have. There are many different ways of smoothing and we will look at couple here.</p>
 <p>The <code>co021.crn</code> object has two columns, the first giving the chronology
 and the second the sample depth during that year. Let’s grab the years and the standard chronology and store them in their own objects.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="intro-to-dendro-time-series.html#cb170-1" aria-hidden="true" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">time</span>(co021.crn)</span>
-<span id="cb170-2"><a href="intro-to-dendro-time-series.html#cb170-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> co021.crn<span class="sc">$</span>std</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="intro-to-dendro-time-series.html#cb165-1" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">time</span>(co021.crn)</span>
+<span id="cb165-2"><a href="intro-to-dendro-time-series.html#cb165-2" tabindex="-1"></a>dat <span class="ot">&lt;-</span> co021.crn<span class="sc">$</span>std</span></code></pre></div>
 <div id="moving-running-average" class="section level3 hasAnchor" number="7.3.1">
 <h3><span class="header-section-number">7.3.1</span> Moving (running) average<a href="intro-to-dendro-time-series.html#moving-running-average" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Centered moving averages (aka running averages) tend to be the first smoothing method that most people learn. Let’s revisit them. These have the advantage of being dirt simple. Below we will see that they emphasize low frequency in the examples below (at 32, 64, and 128 years) but retain some jaggedness too.</p>
 <p>We will use the base <code>filter</code> function which is a straightforward convolution filter. As with any function always you can see the help file for details (<code>?filter</code>).</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="intro-to-dendro-time-series.html#cb171-1" aria-hidden="true" tabindex="-1"></a>ma32 <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">x=</span>dat, <span class="at">filter=</span><span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">32</span>,<span class="at">times=</span><span class="dv">32</span>), <span class="at">sides=</span><span class="dv">2</span>)</span>
-<span id="cb171-2"><a href="intro-to-dendro-time-series.html#cb171-2" aria-hidden="true" tabindex="-1"></a>ma64 <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">x=</span>dat, <span class="at">filter=</span><span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">64</span>,<span class="at">times=</span><span class="dv">64</span>), <span class="at">sides=</span><span class="dv">2</span>)</span>
-<span id="cb171-3"><a href="intro-to-dendro-time-series.html#cb171-3" aria-hidden="true" tabindex="-1"></a>ma128 <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">x=</span>dat, <span class="at">filter=</span><span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">128</span>,<span class="at">times=</span><span class="dv">128</span>), <span class="at">sides=</span><span class="dv">2</span>)</span>
-<span id="cb171-4"><a href="intro-to-dendro-time-series.html#cb171-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb171-5"><a href="intro-to-dendro-time-series.html#cb171-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Change plotting parameters</span></span>
-<span id="cb171-6"><a href="intro-to-dendro-time-series.html#cb171-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb171-7"><a href="intro-to-dendro-time-series.html#cb171-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb171-8"><a href="intro-to-dendro-time-series.html#cb171-8" aria-hidden="true" tabindex="-1"></a>my.cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#1B9E77&quot;</span>, <span class="st">&quot;#D95F02&quot;</span>, <span class="st">&quot;#7570B3&quot;</span>)</span>
-<span id="cb171-9"><a href="intro-to-dendro-time-series.html#cb171-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;l&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb171-10"><a href="intro-to-dendro-time-series.html#cb171-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
-<span id="cb171-11"><a href="intro-to-dendro-time-series.html#cb171-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,ma128, <span class="at">col =</span> my.cols[<span class="dv">1</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb171-12"><a href="intro-to-dendro-time-series.html#cb171-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,ma64, <span class="at">col =</span> my.cols[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb171-13"><a href="intro-to-dendro-time-series.html#cb171-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,ma32, <span class="at">col =</span> my.cols[<span class="dv">3</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb171-14"><a href="intro-to-dendro-time-series.html#cb171-14" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="intro-to-dendro-time-series.html#cb166-1" tabindex="-1"></a>ma32 <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">x=</span>dat, <span class="at">filter=</span><span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">32</span>,<span class="at">times=</span><span class="dv">32</span>), <span class="at">sides=</span><span class="dv">2</span>)</span>
+<span id="cb166-2"><a href="intro-to-dendro-time-series.html#cb166-2" tabindex="-1"></a>ma64 <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">x=</span>dat, <span class="at">filter=</span><span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">64</span>,<span class="at">times=</span><span class="dv">64</span>), <span class="at">sides=</span><span class="dv">2</span>)</span>
+<span id="cb166-3"><a href="intro-to-dendro-time-series.html#cb166-3" tabindex="-1"></a>ma128 <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">x=</span>dat, <span class="at">filter=</span><span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">128</span>,<span class="at">times=</span><span class="dv">128</span>), <span class="at">sides=</span><span class="dv">2</span>)</span>
+<span id="cb166-4"><a href="intro-to-dendro-time-series.html#cb166-4" tabindex="-1"></a></span>
+<span id="cb166-5"><a href="intro-to-dendro-time-series.html#cb166-5" tabindex="-1"></a><span class="co"># Change plotting parameters</span></span>
+<span id="cb166-6"><a href="intro-to-dendro-time-series.html#cb166-6" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb166-7"><a href="intro-to-dendro-time-series.html#cb166-7" tabindex="-1"></a></span>
+<span id="cb166-8"><a href="intro-to-dendro-time-series.html#cb166-8" tabindex="-1"></a>my.cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#1B9E77&quot;</span>, <span class="st">&quot;#D95F02&quot;</span>, <span class="st">&quot;#7570B3&quot;</span>)</span>
+<span id="cb166-9"><a href="intro-to-dendro-time-series.html#cb166-9" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;l&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb166-10"><a href="intro-to-dendro-time-series.html#cb166-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
+<span id="cb166-11"><a href="intro-to-dendro-time-series.html#cb166-11" tabindex="-1"></a><span class="fu">lines</span>(yrs,ma128, <span class="at">col =</span> my.cols[<span class="dv">1</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb166-12"><a href="intro-to-dendro-time-series.html#cb166-12" tabindex="-1"></a><span class="fu">lines</span>(yrs,ma64, <span class="at">col =</span> my.cols[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb166-13"><a href="intro-to-dendro-time-series.html#cb166-13" tabindex="-1"></a><span class="fu">lines</span>(yrs,ma32, <span class="at">col =</span> my.cols[<span class="dv">3</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb166-14"><a href="intro-to-dendro-time-series.html#cb166-14" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="hanning" class="section level3 hasAnchor" number="7.3.2">
 <h3><span class="header-section-number">7.3.2</span> Hanning<a href="intro-to-dendro-time-series.html#hanning" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The Hanning filter is similar to the moving average in the sense that the curve emphasizes low frequency variability and loses the jaggedness over the moving average. It’s also a simple filter (look at the code by typing <code>hanning</code> at the <code>R</code> prompt) but it also is a start into thinking in the frequency domain. It’s part of a family of functions called window functions that are zero-valued outside of some interval chosen by the user. It’s used quite a bit by time-series wonks and it is implemented in <code>dplR</code> with the function <code>hanning</code>. I’ll skip the theory here but it’s a great precursor to the work we will do with spectral analysis below.</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="intro-to-dendro-time-series.html#cb172-1" aria-hidden="true" tabindex="-1"></a>han32 <span class="ot">&lt;-</span> <span class="fu">hanning</span>(dat,<span class="at">n=</span><span class="dv">32</span>)</span>
-<span id="cb172-2"><a href="intro-to-dendro-time-series.html#cb172-2" aria-hidden="true" tabindex="-1"></a>han64 <span class="ot">&lt;-</span> <span class="fu">hanning</span>(dat,<span class="at">n=</span><span class="dv">64</span>)</span>
-<span id="cb172-3"><a href="intro-to-dendro-time-series.html#cb172-3" aria-hidden="true" tabindex="-1"></a>han128 <span class="ot">&lt;-</span> <span class="fu">hanning</span>(dat,<span class="at">n=</span><span class="dv">128</span>)</span>
-<span id="cb172-4"><a href="intro-to-dendro-time-series.html#cb172-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-5"><a href="intro-to-dendro-time-series.html#cb172-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb172-6"><a href="intro-to-dendro-time-series.html#cb172-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;l&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb172-7"><a href="intro-to-dendro-time-series.html#cb172-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
-<span id="cb172-8"><a href="intro-to-dendro-time-series.html#cb172-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,han128, <span class="at">col =</span> my.cols[<span class="dv">1</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb172-9"><a href="intro-to-dendro-time-series.html#cb172-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,han64, <span class="at">col =</span> my.cols[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb172-10"><a href="intro-to-dendro-time-series.html#cb172-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,han32, <span class="at">col =</span> my.cols[<span class="dv">3</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb172-11"><a href="intro-to-dendro-time-series.html#cb172-11" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="intro-to-dendro-time-series.html#cb167-1" tabindex="-1"></a>han32 <span class="ot">&lt;-</span> <span class="fu">hanning</span>(dat,<span class="at">n=</span><span class="dv">32</span>)</span>
+<span id="cb167-2"><a href="intro-to-dendro-time-series.html#cb167-2" tabindex="-1"></a>han64 <span class="ot">&lt;-</span> <span class="fu">hanning</span>(dat,<span class="at">n=</span><span class="dv">64</span>)</span>
+<span id="cb167-3"><a href="intro-to-dendro-time-series.html#cb167-3" tabindex="-1"></a>han128 <span class="ot">&lt;-</span> <span class="fu">hanning</span>(dat,<span class="at">n=</span><span class="dv">128</span>)</span>
+<span id="cb167-4"><a href="intro-to-dendro-time-series.html#cb167-4" tabindex="-1"></a></span>
+<span id="cb167-5"><a href="intro-to-dendro-time-series.html#cb167-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb167-6"><a href="intro-to-dendro-time-series.html#cb167-6" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;l&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb167-7"><a href="intro-to-dendro-time-series.html#cb167-7" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
+<span id="cb167-8"><a href="intro-to-dendro-time-series.html#cb167-8" tabindex="-1"></a><span class="fu">lines</span>(yrs,han128, <span class="at">col =</span> my.cols[<span class="dv">1</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb167-9"><a href="intro-to-dendro-time-series.html#cb167-9" tabindex="-1"></a><span class="fu">lines</span>(yrs,han64, <span class="at">col =</span> my.cols[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb167-10"><a href="intro-to-dendro-time-series.html#cb167-10" tabindex="-1"></a><span class="fu">lines</span>(yrs,han32, <span class="at">col =</span> my.cols[<span class="dv">3</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb167-11"><a href="intro-to-dendro-time-series.html#cb167-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Like the moving average the smooth is shorter than the input data. This is too bad because it is nice to preserve the ends of the data but there is much wringing of hands and gnashing of teeth about the “right” way of running a smoothing algorithm where the data are sparse. This end-member problem is the subject of a lot of work in the time-series literature.</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="intro-to-dendro-time-series.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(dat,ma32, han32), <span class="at">n =</span> <span class="dv">20</span>)</span></code></pre></div>
-<pre><code>##       dat   ma32  han32
-## 1  1.0644     NA     NA
-## 2  0.9241     NA     NA
-## 3  0.9602     NA     NA
-## 4  0.8011     NA     NA
-## 5  1.2448     NA     NA
-## 6  1.3222     NA     NA
-## 7  0.4193     NA     NA
-## 8  0.7125     NA     NA
-## 9  1.0207     NA     NA
-## 10 0.9851     NA     NA
-## 11 0.4199     NA     NA
-## 12 0.7638     NA     NA
-## 13 1.4655     NA     NA
-## 14 1.0005     NA     NA
-## 15 1.0725     NA     NA
-## 16 0.4987 0.9226 0.9609
-## 17 0.6365 0.9167 0.9648
-## 18 0.7509 0.9147 0.9667
-## 19 2.0863 0.9205 0.9665
-## 20 1.2892 0.9464 0.9644</code></pre>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="intro-to-dendro-time-series.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">data.frame</span>(dat,ma32, han32), <span class="at">n =</span> <span class="dv">20</span>)</span></code></pre></div>
-<pre><code>##        dat   ma32  han32
-## 769 1.0528 0.9214 0.9836
-## 770 0.9065 0.9094 0.9761
-## 771 0.4347 0.8989 0.9660
-## 772 1.1876 0.8883 0.9533
-## 773 1.1743     NA     NA
-## 774 1.7610     NA     NA
-## 775 0.6408     NA     NA
-## 776 0.1934     NA     NA
-## 777 1.3441     NA     NA
-## 778 0.4973     NA     NA
-## 779 0.7076     NA     NA
-## 780 0.7565     NA     NA
-## 781 0.5028     NA     NA
-## 782 1.0647     NA     NA
-## 783 1.1284     NA     NA
-## 784 0.1459     NA     NA
-## 785 1.1805     NA     NA
-## 786 0.7720     NA     NA
-## 787 0.6233     NA     NA
-## 788 0.6441     NA     NA</code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="intro-to-dendro-time-series.html#cb168-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(dat,ma32, han32), <span class="at">n =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>##          dat      ma32     han32
+## 1  1.0643873        NA        NA
+## 2  0.9241237        NA        NA
+## 3  0.9601997        NA        NA
+## 4  0.8010647        NA        NA
+## 5  1.2447996        NA        NA
+## 6  1.3222396        NA        NA
+## 7  0.4192779        NA        NA
+## 8  0.7124878        NA        NA
+## 9  1.0206848        NA        NA
+## 10 0.9850787        NA        NA
+## 11 0.4199383        NA        NA
+## 12 0.7638127        NA        NA
+## 13 1.4655058        NA        NA
+## 14 1.0004812        NA        NA
+## 15 1.0724711        NA        NA
+## 16 0.4986574 0.9226408 0.9609363
+## 17 0.6365006 0.9166904 0.9648015
+## 18 0.7508537 0.9147007 0.9667203
+## 19 2.0862874 0.9205192 0.9665152
+## 20 1.2891764 0.9464016 0.9643568</code></pre>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="intro-to-dendro-time-series.html#cb170-1" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">data.frame</span>(dat,ma32, han32), <span class="at">n =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>##           dat      ma32     han32
+## 769 1.0527750 0.9214173 0.9836078
+## 770 0.9065366 0.9093858 0.9761478
+## 771 0.4347168 0.8989346 0.9660133
+## 772 1.1875561 0.8882747 0.9532577
+## 773 1.1743372        NA        NA
+## 774 1.7610164        NA        NA
+## 775 0.6407908        NA        NA
+## 776 0.1934492        NA        NA
+## 777 1.3441389        NA        NA
+## 778 0.4973201        NA        NA
+## 779 0.7076330        NA        NA
+## 780 0.7564769        NA        NA
+## 781 0.5027972        NA        NA
+## 782 1.0646861        NA        NA
+## 783 1.1284148        NA        NA
+## 784 0.1459389        NA        NA
+## 785 1.1804609        NA        NA
+## 786 0.7720185        NA        NA
+## 787 0.6232634        NA        NA
+## 788 0.6440584        NA        NA</code></pre>
 </div>
 <div id="splines" class="section level3 hasAnchor" number="7.3.3">
 <h3><span class="header-section-number">7.3.3</span> Splines<a href="intro-to-dendro-time-series.html#splines" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In the world of tree rings, you’ll see frequent mention of cubic smoothing splines and typically a citation for something by Ed Cook who is the greatest quantitative dendrochronologist of all time. His work has left an enduring mark on nearly every aspect of quantitative dendrochronology. For splines, Cook and Peters <span class="citation">(<a href="references.html#ref-Cook1981" role="doc-biblioref">1981</a>)</span> is the canonical citation but we would point you to Cook and Kairiukstis <span class="citation">(<a href="references.html#ref-Cook1990" role="doc-biblioref">Cook <em>et al.</em>, 1990</a>)</span> for an overview. An R implementation of this spline is implemented in <code>dplR</code> with the <code>ffcsaps</code> function which was written in R and also in the <code>caps</code> function which is a wrapper for Cook’s Fortran code. They produce (nearly) identical results. Because <code>caps</code> is quite a bit faster than <code>ffcsaps</code>, <code>dplR</code> uses it by default.</p>
+<p>In the world of tree rings, you’ll see frequent mention of cubic smoothing splines and typically a citation for something by Ed Cook who is the greatest quantitative dendrochronologist of all time. His work has left an enduring mark on nearly every aspect of quantitative dendrochronology. For splines, Cook and Peters <span class="citation">(<a href="references.html#ref-Cook1981">1981</a>)</span> is the canonical citation but we would point you to Cook and Kairiukstis <span class="citation">(<a href="references.html#ref-Cook1990">Cook <em>et al.</em>, 1990</a>)</span> for an overview. An R implementation of this spline is implemented in <code>dplR</code> with the <code>ffcsaps</code> function which was written in R and also in the <code>caps</code> function which is a wrapper for Cook’s Fortran code. They produce (nearly) identical results. Because <code>caps</code> is quite a bit faster than <code>ffcsaps</code>, <code>dplR</code> uses it by default.</p>
 <p>The important argument for users is the <code>nyrs</code> argument which fits a spline of that many “years” to the data. All the functions in dplR assume annual resolution but they don’t really care if you are using data with a different frequency.</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="intro-to-dendro-time-series.html#cb177-1" aria-hidden="true" tabindex="-1"></a>spl128 <span class="ot">&lt;-</span> <span class="fu">caps</span>(dat,<span class="at">nyrs=</span><span class="dv">128</span>)</span>
-<span id="cb177-2"><a href="intro-to-dendro-time-series.html#cb177-2" aria-hidden="true" tabindex="-1"></a>spl64 <span class="ot">&lt;-</span> <span class="fu">caps</span>(dat,<span class="at">nyrs=</span><span class="dv">64</span>)</span>
-<span id="cb177-3"><a href="intro-to-dendro-time-series.html#cb177-3" aria-hidden="true" tabindex="-1"></a>spl32 <span class="ot">&lt;-</span> <span class="fu">caps</span>(dat,<span class="at">nyrs=</span><span class="dv">32</span>)</span>
-<span id="cb177-4"><a href="intro-to-dendro-time-series.html#cb177-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb177-5"><a href="intro-to-dendro-time-series.html#cb177-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb177-6"><a href="intro-to-dendro-time-series.html#cb177-6" aria-hidden="true" tabindex="-1"></a>my.cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#1B9E77&quot;</span>, <span class="st">&quot;#D95F02&quot;</span>, <span class="st">&quot;#7570B3&quot;</span>)</span>
-<span id="cb177-7"><a href="intro-to-dendro-time-series.html#cb177-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
-<span id="cb177-8"><a href="intro-to-dendro-time-series.html#cb177-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
-<span id="cb177-9"><a href="intro-to-dendro-time-series.html#cb177-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
-<span id="cb177-10"><a href="intro-to-dendro-time-series.html#cb177-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,dat,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)</span>
-<span id="cb177-11"><a href="intro-to-dendro-time-series.html#cb177-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,spl128,<span class="at">col=</span>my.cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb177-12"><a href="intro-to-dendro-time-series.html#cb177-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,spl64,<span class="at">col=</span>my.cols[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb177-13"><a href="intro-to-dendro-time-series.html#cb177-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,spl32,<span class="at">col=</span>my.cols[<span class="dv">3</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb177-14"><a href="intro-to-dendro-time-series.html#cb177-14" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
-<span id="cb177-15"><a href="intro-to-dendro-time-series.html#cb177-15" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;dat&quot;</span>, <span class="st">&quot;128yrs&quot;</span>, <span class="st">&quot;64yrs&quot;</span>, <span class="st">&quot;32yrs&quot;</span>), </span>
-<span id="cb177-16"><a href="intro-to-dendro-time-series.html#cb177-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>,my.cols),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
-<span id="cb177-17"><a href="intro-to-dendro-time-series.html#cb177-17" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="intro-to-dendro-time-series.html#cb172-1" tabindex="-1"></a>spl128 <span class="ot">&lt;-</span> <span class="fu">caps</span>(dat,<span class="at">nyrs=</span><span class="dv">128</span>)</span>
+<span id="cb172-2"><a href="intro-to-dendro-time-series.html#cb172-2" tabindex="-1"></a>spl64 <span class="ot">&lt;-</span> <span class="fu">caps</span>(dat,<span class="at">nyrs=</span><span class="dv">64</span>)</span>
+<span id="cb172-3"><a href="intro-to-dendro-time-series.html#cb172-3" tabindex="-1"></a>spl32 <span class="ot">&lt;-</span> <span class="fu">caps</span>(dat,<span class="at">nyrs=</span><span class="dv">32</span>)</span>
+<span id="cb172-4"><a href="intro-to-dendro-time-series.html#cb172-4" tabindex="-1"></a></span>
+<span id="cb172-5"><a href="intro-to-dendro-time-series.html#cb172-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb172-6"><a href="intro-to-dendro-time-series.html#cb172-6" tabindex="-1"></a>my.cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#1B9E77&quot;</span>, <span class="st">&quot;#D95F02&quot;</span>, <span class="st">&quot;#7570B3&quot;</span>)</span>
+<span id="cb172-7"><a href="intro-to-dendro-time-series.html#cb172-7" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
+<span id="cb172-8"><a href="intro-to-dendro-time-series.html#cb172-8" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
+<span id="cb172-9"><a href="intro-to-dendro-time-series.html#cb172-9" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
+<span id="cb172-10"><a href="intro-to-dendro-time-series.html#cb172-10" tabindex="-1"></a><span class="fu">lines</span>(yrs,dat,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)</span>
+<span id="cb172-11"><a href="intro-to-dendro-time-series.html#cb172-11" tabindex="-1"></a><span class="fu">lines</span>(yrs,spl128,<span class="at">col=</span>my.cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb172-12"><a href="intro-to-dendro-time-series.html#cb172-12" tabindex="-1"></a><span class="fu">lines</span>(yrs,spl64,<span class="at">col=</span>my.cols[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb172-13"><a href="intro-to-dendro-time-series.html#cb172-13" tabindex="-1"></a><span class="fu">lines</span>(yrs,spl32,<span class="at">col=</span>my.cols[<span class="dv">3</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb172-14"><a href="intro-to-dendro-time-series.html#cb172-14" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
+<span id="cb172-15"><a href="intro-to-dendro-time-series.html#cb172-15" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;dat&quot;</span>, <span class="st">&quot;128yrs&quot;</span>, <span class="st">&quot;64yrs&quot;</span>, <span class="st">&quot;32yrs&quot;</span>), </span>
+<span id="cb172-16"><a href="intro-to-dendro-time-series.html#cb172-16" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>,my.cols),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb172-17"><a href="intro-to-dendro-time-series.html#cb172-17" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="loess" class="section level3 hasAnchor" number="7.3.4">
 <h3><span class="header-section-number">7.3.4</span> Loess<a href="intro-to-dendro-time-series.html#loess" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will highlight a filter used commonly in time-series analysis but largely ignored in dendro. We’ve become increasingly fond of the loess smoother which uses a local, linear polynomial fit to smooth data. The parameter to adjust is the span <code>f</code>. Because <code>f</code> is the proportion of points used in the smoothing, the smaller the number the less smooth the curve will be. E.g., our series is 788 years long. If we want something that approaches a 25-year smooth we can take 25 over 788 and use 0.0317 of the points in the fit.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="intro-to-dendro-time-series.html#cb178-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(yrs)</span>
-<span id="cb178-2"><a href="intro-to-dendro-time-series.html#cb178-2" aria-hidden="true" tabindex="-1"></a>f128 <span class="ot">&lt;-</span> <span class="dv">128</span><span class="sc">/</span>n</span>
-<span id="cb178-3"><a href="intro-to-dendro-time-series.html#cb178-3" aria-hidden="true" tabindex="-1"></a>f128.lo <span class="ot">&lt;-</span> <span class="fu">lowess</span>(<span class="at">x =</span> yrs, <span class="at">y =</span> dat, <span class="at">f =</span> f128)</span>
-<span id="cb178-4"><a href="intro-to-dendro-time-series.html#cb178-4" aria-hidden="true" tabindex="-1"></a>f64 <span class="ot">&lt;-</span> <span class="dv">64</span><span class="sc">/</span>n</span>
-<span id="cb178-5"><a href="intro-to-dendro-time-series.html#cb178-5" aria-hidden="true" tabindex="-1"></a>f64.lo <span class="ot">&lt;-</span> <span class="fu">lowess</span>(<span class="at">x =</span> yrs, <span class="at">y =</span> dat, <span class="at">f =</span> f64)</span>
-<span id="cb178-6"><a href="intro-to-dendro-time-series.html#cb178-6" aria-hidden="true" tabindex="-1"></a>f32 <span class="ot">&lt;-</span> <span class="dv">32</span><span class="sc">/</span>n</span>
-<span id="cb178-7"><a href="intro-to-dendro-time-series.html#cb178-7" aria-hidden="true" tabindex="-1"></a>f32.lo <span class="ot">&lt;-</span> <span class="fu">lowess</span>(<span class="at">x =</span> yrs, <span class="at">y =</span> dat, <span class="at">f =</span> f32)</span>
-<span id="cb178-8"><a href="intro-to-dendro-time-series.html#cb178-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb178-9"><a href="intro-to-dendro-time-series.html#cb178-9" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb178-10"><a href="intro-to-dendro-time-series.html#cb178-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
-<span id="cb178-11"><a href="intro-to-dendro-time-series.html#cb178-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
-<span id="cb178-12"><a href="intro-to-dendro-time-series.html#cb178-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
-<span id="cb178-13"><a href="intro-to-dendro-time-series.html#cb178-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,dat,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)</span>
-<span id="cb178-14"><a href="intro-to-dendro-time-series.html#cb178-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,f128.lo<span class="sc">$</span>y,<span class="at">col=</span>my.cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb178-15"><a href="intro-to-dendro-time-series.html#cb178-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,f64.lo<span class="sc">$</span>y,<span class="at">col=</span>my.cols[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb178-16"><a href="intro-to-dendro-time-series.html#cb178-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,f32.lo<span class="sc">$</span>y,<span class="at">col=</span>my.cols[<span class="dv">3</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb178-17"><a href="intro-to-dendro-time-series.html#cb178-17" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
-<span id="cb178-18"><a href="intro-to-dendro-time-series.html#cb178-18" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;dat&quot;</span>, <span class="st">&quot;f128&quot;</span>, <span class="st">&quot;f64&quot;</span>, <span class="st">&quot;f32&quot;</span>), </span>
-<span id="cb178-19"><a href="intro-to-dendro-time-series.html#cb178-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>,my.cols),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
-<span id="cb178-20"><a href="intro-to-dendro-time-series.html#cb178-20" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="intro-to-dendro-time-series.html#cb173-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(yrs)</span>
+<span id="cb173-2"><a href="intro-to-dendro-time-series.html#cb173-2" tabindex="-1"></a>f128 <span class="ot">&lt;-</span> <span class="dv">128</span><span class="sc">/</span>n</span>
+<span id="cb173-3"><a href="intro-to-dendro-time-series.html#cb173-3" tabindex="-1"></a>f128.lo <span class="ot">&lt;-</span> <span class="fu">lowess</span>(<span class="at">x =</span> yrs, <span class="at">y =</span> dat, <span class="at">f =</span> f128)</span>
+<span id="cb173-4"><a href="intro-to-dendro-time-series.html#cb173-4" tabindex="-1"></a>f64 <span class="ot">&lt;-</span> <span class="dv">64</span><span class="sc">/</span>n</span>
+<span id="cb173-5"><a href="intro-to-dendro-time-series.html#cb173-5" tabindex="-1"></a>f64.lo <span class="ot">&lt;-</span> <span class="fu">lowess</span>(<span class="at">x =</span> yrs, <span class="at">y =</span> dat, <span class="at">f =</span> f64)</span>
+<span id="cb173-6"><a href="intro-to-dendro-time-series.html#cb173-6" tabindex="-1"></a>f32 <span class="ot">&lt;-</span> <span class="dv">32</span><span class="sc">/</span>n</span>
+<span id="cb173-7"><a href="intro-to-dendro-time-series.html#cb173-7" tabindex="-1"></a>f32.lo <span class="ot">&lt;-</span> <span class="fu">lowess</span>(<span class="at">x =</span> yrs, <span class="at">y =</span> dat, <span class="at">f =</span> f32)</span>
+<span id="cb173-8"><a href="intro-to-dendro-time-series.html#cb173-8" tabindex="-1"></a></span>
+<span id="cb173-9"><a href="intro-to-dendro-time-series.html#cb173-9" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb173-10"><a href="intro-to-dendro-time-series.html#cb173-10" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
+<span id="cb173-11"><a href="intro-to-dendro-time-series.html#cb173-11" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
+<span id="cb173-12"><a href="intro-to-dendro-time-series.html#cb173-12" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
+<span id="cb173-13"><a href="intro-to-dendro-time-series.html#cb173-13" tabindex="-1"></a><span class="fu">lines</span>(yrs,dat,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)</span>
+<span id="cb173-14"><a href="intro-to-dendro-time-series.html#cb173-14" tabindex="-1"></a><span class="fu">lines</span>(yrs,f128.lo<span class="sc">$</span>y,<span class="at">col=</span>my.cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb173-15"><a href="intro-to-dendro-time-series.html#cb173-15" tabindex="-1"></a><span class="fu">lines</span>(yrs,f64.lo<span class="sc">$</span>y,<span class="at">col=</span>my.cols[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb173-16"><a href="intro-to-dendro-time-series.html#cb173-16" tabindex="-1"></a><span class="fu">lines</span>(yrs,f32.lo<span class="sc">$</span>y,<span class="at">col=</span>my.cols[<span class="dv">3</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb173-17"><a href="intro-to-dendro-time-series.html#cb173-17" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
+<span id="cb173-18"><a href="intro-to-dendro-time-series.html#cb173-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;dat&quot;</span>, <span class="st">&quot;f128&quot;</span>, <span class="st">&quot;f64&quot;</span>, <span class="st">&quot;f32&quot;</span>), </span>
+<span id="cb173-19"><a href="intro-to-dendro-time-series.html#cb173-19" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>,my.cols),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb173-20"><a href="intro-to-dendro-time-series.html#cb173-20" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>These smoothing lines above are essentially eye candy. We can and will use filtering for more sophisticated analysis below but let’s back up.</p>
 </div>
@@ -1219,9 +1223,9 @@ and the second the sample depth during that year. Let’s grab the years and the
 <div id="acf-and-pacf" class="section level3 hasAnchor" number="7.4.1">
 <h3><span class="header-section-number">7.4.1</span> ACF and PACF<a href="intro-to-dendro-time-series.html#acf-and-pacf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s start with a quick exploratory data analysis into the time-series process. We will start our analysis on the chronology by looking at its autocorrelation structure using R’s <code>acf</code> and <code>pacf</code> functions.</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="intro-to-dendro-time-series.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb179-2"><a href="intro-to-dendro-time-series.html#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(dat)</span>
-<span id="cb179-3"><a href="intro-to-dendro-time-series.html#cb179-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(dat)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="intro-to-dendro-time-series.html#cb174-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb174-2"><a href="intro-to-dendro-time-series.html#cb174-2" tabindex="-1"></a><span class="fu">acf</span>(dat)</span>
+<span id="cb174-3"><a href="intro-to-dendro-time-series.html#cb174-3" tabindex="-1"></a><span class="fu">pacf</span>(dat)</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>The ACF function indicates significant autocorrelation out to a lag of about 10 years (which is not uncommon in tree-ring data) while the PACF plot suggests that the persistence after lag 4 is due to the propagation of the autocorrelation at earlier lags. And one could very well argue that the best model here is an <code>AR(2)</code> model given the low value of the PACF at lags 3 and 4. After all, you can get three opinions by asking one statistician to look a time series. But we digress.</p>
 <p>We now have the first bit of solid information about the time-series properties of these data, it looks like they fit an <code>AR(4)</code> model.</p>
@@ -1229,71 +1233,73 @@ and the second the sample depth during that year. Let’s grab the years and the
 <div id="ar-and-arma" class="section level3 hasAnchor" number="7.4.2">
 <h3><span class="header-section-number">7.4.2</span> AR and ARMA<a href="intro-to-dendro-time-series.html#ar-and-arma" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>But, <code>R</code> being <code>R</code>, there are many other ways to check this. The easiest way is to use the <code>ar</code> function which fits an autoregressive models up to a specified order and selects the final model by AIC.</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="intro-to-dendro-time-series.html#cb180-1" aria-hidden="true" tabindex="-1"></a>dat.ar <span class="ot">&lt;-</span> <span class="fu">ar</span>(dat,<span class="at">order.max =</span> <span class="dv">10</span>)</span>
-<span id="cb180-2"><a href="intro-to-dendro-time-series.html#cb180-2" aria-hidden="true" tabindex="-1"></a>dat.ar</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="intro-to-dendro-time-series.html#cb175-1" tabindex="-1"></a>dat.ar <span class="ot">&lt;-</span> <span class="fu">ar</span>(dat,<span class="at">order.max =</span> <span class="dv">10</span>)</span>
+<span id="cb175-2"><a href="intro-to-dendro-time-series.html#cb175-2" tabindex="-1"></a>dat.ar</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## ar(x = dat, order.max = 10)
 ## 
 ## Coefficients:
-##     1      2      3      4  
-## 0.200  0.148  0.046  0.075  
+##      1       2       3       4  
+## 0.1997  0.1484  0.0462  0.0748  
 ## 
-## Order selected 4  sigma^2 estimated as  0.188</code></pre>
+## Order selected 4  sigma^2 estimated as  0.1884</code></pre>
 <p>Indeed, <code>ar</code> selects an <code>AR(4)</code> model based on AIC. But as our tea-leaf gazing above indicates, an <code>AR(2)</code> model is very close when we look at the AIC values.</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="intro-to-dendro-time-series.html#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>,dat.ar<span class="sc">$</span>aic,<span class="at">type=</span><span class="st">&quot;b&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;AR Order&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;AIC&quot;</span>,</span>
-<span id="cb182-2"><a href="intro-to-dendro-time-series.html#cb182-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;Difference in AIC between each model and the best-fitting model&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="intro-to-dendro-time-series.html#cb177-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>,dat.ar<span class="sc">$</span>aic,<span class="at">type=</span><span class="st">&quot;b&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;AR Order&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;AIC&quot;</span>,</span>
+<span id="cb177-2"><a href="intro-to-dendro-time-series.html#cb177-2" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;Difference in AIC between each model and the best-fitting model&quot;</span>)</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>A strong argument can be made that a model with fewer parameters (e.g., an <code>AR(2)</code> might serve to characterize the data better than a model with more parameters.</p>
 <p>We could also fit these models as <code>ARIMA</code> models individually using the <code>arima</code> function. That function will fit a model with components (p, d, q) as the AR order, the degree of difference, and the MA order. Thus, we could fit <code>AR(1)</code> to <code>AR(4)</code> models:</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="intro-to-dendro-time-series.html#cb183-1" aria-hidden="true" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb183-2"><a href="intro-to-dendro-time-series.html#cb183-2" aria-hidden="true" tabindex="-1"></a>ar2 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb183-3"><a href="intro-to-dendro-time-series.html#cb183-3" aria-hidden="true" tabindex="-1"></a>ar3 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb183-4"><a href="intro-to-dendro-time-series.html#cb183-4" aria-hidden="true" tabindex="-1"></a>ar4 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb183-5"><a href="intro-to-dendro-time-series.html#cb183-5" aria-hidden="true" tabindex="-1"></a><span class="co"># example output</span></span>
-<span id="cb183-6"><a href="intro-to-dendro-time-series.html#cb183-6" aria-hidden="true" tabindex="-1"></a>ar1</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="intro-to-dendro-time-series.html#cb178-1" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb178-2"><a href="intro-to-dendro-time-series.html#cb178-2" tabindex="-1"></a>ar2 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb178-3"><a href="intro-to-dendro-time-series.html#cb178-3" tabindex="-1"></a>ar3 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb178-4"><a href="intro-to-dendro-time-series.html#cb178-4" tabindex="-1"></a>ar4 <span class="ot">&lt;-</span> <span class="fu">arima</span>(dat,<span class="at">order=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb178-5"><a href="intro-to-dendro-time-series.html#cb178-5" tabindex="-1"></a><span class="co"># example output</span></span>
+<span id="cb178-6"><a href="intro-to-dendro-time-series.html#cb178-6" tabindex="-1"></a>ar1</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## arima(x = dat, order = c(1, 0, 0))
 ## 
 ## Coefficients:
-##         ar1  intercept
-##       0.260      0.975
-## s.e.  0.034      0.021
+##          ar1  intercept
+##       0.2600     0.9750
+## s.e.  0.0344     0.0212
 ## 
-## sigma^2 estimated as 0.195:  log likelihood = -473.7,  aic = 953.3</code></pre>
+## sigma^2 estimated as 0.1948:  log likelihood = -473.66,  aic = 953.32</code></pre>
 <p>And then compare the Bayesian Information Criterion (BIC) values:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="intro-to-dendro-time-series.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(ar1,ar2,ar3,ar4)</span></code></pre></div>
-<pre><code>##     df   BIC
-## ar1  3 967.3
-## ar2  4 949.9
-## ar3  5 953.5
-## ar4  6 955.8</code></pre>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="intro-to-dendro-time-series.html#cb180-1" tabindex="-1"></a><span class="fu">BIC</span>(ar1,ar2,ar3,ar4)</span></code></pre></div>
+<pre><code>##     df      BIC
+## ar1  3 967.3249
+## ar2  4 949.8544
+## ar3  5 953.5312
+## ar4  6 955.8220</code></pre>
 <p>Here we find evidence for an <code>AR(2)</code> model over the AR(4) mode that the <code>ar</code> function chose. Clearly there is some wiggle room here.</p>
 <p>So as we’ve seen, in addition to AR models we can fit their more complicated cousins, ARIMA models, as well. We can do the same sort of automatic selection of the model order by automatically fitting an ARIMA model using the <code>auto.arima</code> function in the package <code>forecast</code>. As with <code>ar</code>, this will choose a model that minimizes an information criterion after searching over user given constraints. We will use the default search parameters and use BIC to select the model.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="intro-to-dendro-time-series.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="intro-to-dendro-time-series.html#cb182-1" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code></pre></div>
 <pre><code>## Registered S3 method overwritten by &#39;quantmod&#39;:
 ##   method            from
 ##   as.zoo.data.frame zoo</code></pre>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="intro-to-dendro-time-series.html#cb189-1" aria-hidden="true" tabindex="-1"></a>dat.arima <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(dat, <span class="at">ic=</span><span class="st">&quot;bic&quot;</span>)</span>
-<span id="cb189-2"><a href="intro-to-dendro-time-series.html#cb189-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat.arima)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="intro-to-dendro-time-series.html#cb184-1" tabindex="-1"></a>dat.arima <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(dat, <span class="at">ic=</span><span class="st">&quot;bic&quot;</span>)</span>
+<span id="cb184-2"><a href="intro-to-dendro-time-series.html#cb184-2" tabindex="-1"></a><span class="fu">summary</span>(dat.arima)</span></code></pre></div>
 <pre><code>## Series: dat 
 ## ARIMA(1,0,1) with non-zero mean 
 ## 
 ## Coefficients:
-##         ar1     ma1   mean
-##       0.827  -0.634  0.974
-## s.e.  0.050   0.068  0.032
+##          ar1      ma1    mean
+##       0.8272  -0.6339  0.9740
+## s.e.  0.0495   0.0684  0.0325
 ## 
-## sigma^2 = 0.187:  log likelihood = -457.1
-## AIC=922.2   AICc=922.3   BIC=940.9
+## sigma^2 = 0.1875:  log likelihood = -457.13
+## AIC=922.25   AICc=922.3   BIC=940.93
 ## 
 ## Training set error measures:
-##                     ME   RMSE    MAE    MPE  MAPE   MASE       ACF1
-## Training set 7.679e-05 0.4322 0.3427 -457.9 481.3 0.7942 -0.0004114</code></pre>
+##                        ME      RMSE       MAE       MPE     MAPE      MASE
+## Training set 7.679477e-05 0.4321663 0.3426744 -457.9301 481.3235 0.7941686
+##                       ACF1
+## Training set -0.0004114487</code></pre>
 <p>Even more confusion! Instead of an <code>AR(p)</code> model, <code>auto.arima</code> went for an
 <code>ARMA(1,1)</code> model (aka <code>ARIMA(1,0,1)</code>). The parsimony principle certainly likes a nice simple <code>ARMA(1,1)</code> model. Note that we could look at the residuals, model coefficients, etc. quite easily. And indeed the residuals are quite clean as we would expect.</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="intro-to-dendro-time-series.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">residuals</span>(dat.arima))</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="intro-to-dendro-time-series.html#cb186-1" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">residuals</span>(dat.arima))</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>This is clearly an incredibly shallow look at a deep topic. Hopefully these will get you started with different tools to characterize temporal structure in data. There are many more resources available and techniques we haven’t covered (e.g., GARCH modelling).</p>
 </div>
@@ -1305,67 +1311,67 @@ and the second the sample depth during that year. Let’s grab the years and the
 <div id="power-via-spectral-analysis-and-wavelets" class="section level3 hasAnchor" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Power via Spectral Analysis and Wavelets<a href="intro-to-dendro-time-series.html#power-via-spectral-analysis-and-wavelets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Given the above rationale, we will limit ourselves here to some of the tools that are used in dendro without building these up from the fast Fourier transform itself. In <code>dplR</code>, we’ve implemented two of the most common ways that dendrochronologists go about this and there are a host of other approaches in <code>R</code> that we won’t get to here.</p>
-<p>The <code>redfit</code> function in <code>dplR</code> is a port of Schulz’s REDFIT (version 3.8e) program and estimates the red-noise spectrum of a time series <span class="citation">(<a href="references.html#ref-Schulz2002" role="doc-biblioref">Schulz &amp; Mudelsee, 2002</a>)</span> with optional testing of that spectrum against a red-noise background using Monte Carlo simulations.</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="intro-to-dendro-time-series.html#cb192-1" aria-hidden="true" tabindex="-1"></a>redf.dat <span class="ot">&lt;-</span> <span class="fu">redfit</span>(dat, <span class="at">nsim =</span> <span class="dv">1000</span>)</span>
-<span id="cb192-2"><a href="intro-to-dendro-time-series.html#cb192-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-3"><a href="intro-to-dendro-time-series.html#cb192-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">2.2</span>, <span class="dv">4</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">0.1</span>, <span class="dv">0</span>),<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb192-4"><a href="intro-to-dendro-time-series.html#cb192-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-5"><a href="intro-to-dendro-time-series.html#cb192-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]],</span>
-<span id="cb192-6"><a href="intro-to-dendro-time-series.html#cb192-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">range</span>(redf.dat[[<span class="st">&quot;ci99&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]]),</span>
-<span id="cb192-7"><a href="intro-to-dendro-time-series.html#cb192-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spectrum&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Frequency (cycles per year)&quot;</span>,</span>
-<span id="cb192-8"><a href="intro-to-dendro-time-series.html#cb192-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb192-9"><a href="intro-to-dendro-time-series.html#cb192-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
-<span id="cb192-10"><a href="intro-to-dendro-time-series.html#cb192-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
-<span id="cb192-11"><a href="intro-to-dendro-time-series.html#cb192-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], <span class="fu">smooth.spline</span>(redf.dat[[<span class="st">&quot;ci99&quot;</span>]],<span class="at">spar =</span> <span class="fl">0.8</span>)<span class="sc">$</span>y, <span class="at">col =</span> <span class="st">&quot;#D95F02&quot;</span>)</span>
-<span id="cb192-12"><a href="intro-to-dendro-time-series.html#cb192-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], <span class="fu">smooth.spline</span>(redf.dat[[<span class="st">&quot;ci95&quot;</span>]],<span class="at">spar =</span> <span class="fl">0.8</span>)<span class="sc">$</span>y, <span class="at">col =</span> <span class="st">&quot;#7570B3&quot;</span>)</span>
-<span id="cb192-13"><a href="intro-to-dendro-time-series.html#cb192-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], <span class="fu">smooth.spline</span>(redf.dat[[<span class="st">&quot;ci90&quot;</span>]],<span class="at">spar =</span> <span class="fl">0.8</span>)<span class="sc">$</span>y, <span class="at">col =</span> <span class="st">&quot;#E7298A&quot;</span>)</span>
-<span id="cb192-14"><a href="intro-to-dendro-time-series.html#cb192-14" aria-hidden="true" tabindex="-1"></a>freqs <span class="ot">&lt;-</span> <span class="fu">pretty</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]])</span>
-<span id="cb192-15"><a href="intro-to-dendro-time-series.html#cb192-15" aria-hidden="true" tabindex="-1"></a>pers <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">/</span> freqs, <span class="dv">2</span>)</span>
-<span id="cb192-16"><a href="intro-to-dendro-time-series.html#cb192-16" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb192-17"><a href="intro-to-dendro-time-series.html#cb192-17" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> pers)</span>
-<span id="cb192-18"><a href="intro-to-dendro-time-series.html#cb192-18" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="st">&quot;Period (year)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.1</span>)</span>
-<span id="cb192-19"><a href="intro-to-dendro-time-series.html#cb192-19" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>); <span class="fu">axis</span>(<span class="dv">4</span>)</span>
-<span id="cb192-20"><a href="intro-to-dendro-time-series.html#cb192-20" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;dat&quot;</span>, <span class="st">&quot;CI99&quot;</span>, <span class="st">&quot;CI95&quot;</span>, <span class="st">&quot;CI90&quot;</span>), <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb192-21"><a href="intro-to-dendro-time-series.html#cb192-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;#D95F02&quot;</span>, <span class="st">&quot;#7570B3&quot;</span>, <span class="st">&quot;#E7298A&quot;</span>),</span>
-<span id="cb192-22"><a href="intro-to-dendro-time-series.html#cb192-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
-<span id="cb192-23"><a href="intro-to-dendro-time-series.html#cb192-23" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<p>The <code>redfit</code> function in <code>dplR</code> is a port of Schulz’s REDFIT (version 3.8e) program and estimates the red-noise spectrum of a time series <span class="citation">(<a href="references.html#ref-Schulz2002">Schulz &amp; Mudelsee, 2002</a>)</span> with optional testing of that spectrum against a red-noise background using Monte Carlo simulations.</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="intro-to-dendro-time-series.html#cb187-1" tabindex="-1"></a>redf.dat <span class="ot">&lt;-</span> <span class="fu">redfit</span>(dat, <span class="at">nsim =</span> <span class="dv">1000</span>)</span>
+<span id="cb187-2"><a href="intro-to-dendro-time-series.html#cb187-2" tabindex="-1"></a></span>
+<span id="cb187-3"><a href="intro-to-dendro-time-series.html#cb187-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">2.2</span>, <span class="dv">4</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">0.1</span>, <span class="dv">0</span>),<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb187-4"><a href="intro-to-dendro-time-series.html#cb187-4" tabindex="-1"></a></span>
+<span id="cb187-5"><a href="intro-to-dendro-time-series.html#cb187-5" tabindex="-1"></a><span class="fu">plot</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]],</span>
+<span id="cb187-6"><a href="intro-to-dendro-time-series.html#cb187-6" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">range</span>(redf.dat[[<span class="st">&quot;ci99&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]]),</span>
+<span id="cb187-7"><a href="intro-to-dendro-time-series.html#cb187-7" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spectrum&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Frequency (cycles per year)&quot;</span>,</span>
+<span id="cb187-8"><a href="intro-to-dendro-time-series.html#cb187-8" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb187-9"><a href="intro-to-dendro-time-series.html#cb187-9" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb187-10"><a href="intro-to-dendro-time-series.html#cb187-10" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
+<span id="cb187-11"><a href="intro-to-dendro-time-series.html#cb187-11" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], <span class="fu">smooth.spline</span>(redf.dat[[<span class="st">&quot;ci99&quot;</span>]],<span class="at">spar =</span> <span class="fl">0.8</span>)<span class="sc">$</span>y, <span class="at">col =</span> <span class="st">&quot;#D95F02&quot;</span>)</span>
+<span id="cb187-12"><a href="intro-to-dendro-time-series.html#cb187-12" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], <span class="fu">smooth.spline</span>(redf.dat[[<span class="st">&quot;ci95&quot;</span>]],<span class="at">spar =</span> <span class="fl">0.8</span>)<span class="sc">$</span>y, <span class="at">col =</span> <span class="st">&quot;#7570B3&quot;</span>)</span>
+<span id="cb187-13"><a href="intro-to-dendro-time-series.html#cb187-13" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], <span class="fu">smooth.spline</span>(redf.dat[[<span class="st">&quot;ci90&quot;</span>]],<span class="at">spar =</span> <span class="fl">0.8</span>)<span class="sc">$</span>y, <span class="at">col =</span> <span class="st">&quot;#E7298A&quot;</span>)</span>
+<span id="cb187-14"><a href="intro-to-dendro-time-series.html#cb187-14" tabindex="-1"></a>freqs <span class="ot">&lt;-</span> <span class="fu">pretty</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]])</span>
+<span id="cb187-15"><a href="intro-to-dendro-time-series.html#cb187-15" tabindex="-1"></a>pers <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">/</span> freqs, <span class="dv">2</span>)</span>
+<span id="cb187-16"><a href="intro-to-dendro-time-series.html#cb187-16" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb187-17"><a href="intro-to-dendro-time-series.html#cb187-17" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> pers)</span>
+<span id="cb187-18"><a href="intro-to-dendro-time-series.html#cb187-18" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="st">&quot;Period (year)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.1</span>)</span>
+<span id="cb187-19"><a href="intro-to-dendro-time-series.html#cb187-19" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>); <span class="fu">axis</span>(<span class="dv">4</span>)</span>
+<span id="cb187-20"><a href="intro-to-dendro-time-series.html#cb187-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;dat&quot;</span>, <span class="st">&quot;CI99&quot;</span>, <span class="st">&quot;CI95&quot;</span>, <span class="st">&quot;CI90&quot;</span>), <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb187-21"><a href="intro-to-dendro-time-series.html#cb187-21" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;#D95F02&quot;</span>, <span class="st">&quot;#7570B3&quot;</span>, <span class="st">&quot;#E7298A&quot;</span>),</span>
+<span id="cb187-22"><a href="intro-to-dendro-time-series.html#cb187-22" tabindex="-1"></a>       <span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb187-23"><a href="intro-to-dendro-time-series.html#cb187-23" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Using the Mesa Verde chronology we see that there are frequencies in that time series that are significantly different from a red-noise assumption in the interannual (&lt;3 years) and at low frequencies (multidecadal).</p>
 <p>Another popular way to visualize a tree-ring chronology in the frequency domain is through a continuous wavelet transform. In <code>dplR</code>, there is are functions for calculating the transform via <code>wavelet</code> and plotting the result via <code>wavelet.plot</code>.</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="intro-to-dendro-time-series.html#cb193-1" aria-hidden="true" tabindex="-1"></a>out.wave <span class="ot">&lt;-</span> <span class="fu">morlet</span>(<span class="at">y1 =</span> dat, <span class="at">x1 =</span> yrs, <span class="at">p2 =</span> <span class="dv">8</span>, <span class="at">dj =</span> <span class="fl">0.1</span>,</span>
-<span id="cb193-2"><a href="intro-to-dendro-time-series.html#cb193-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">siglvl =</span> <span class="fl">0.99</span>)</span>
-<span id="cb193-3"><a href="intro-to-dendro-time-series.html#cb193-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wavelet.plot</span>(out.wave, <span class="at">useRaster=</span><span class="cn">NA</span>, <span class="at">reverse.y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="intro-to-dendro-time-series.html#cb188-1" tabindex="-1"></a>out.wave <span class="ot">&lt;-</span> <span class="fu">morlet</span>(<span class="at">y1 =</span> dat, <span class="at">x1 =</span> yrs, <span class="at">p2 =</span> <span class="dv">8</span>, <span class="at">dj =</span> <span class="fl">0.1</span>,</span>
+<span id="cb188-2"><a href="intro-to-dendro-time-series.html#cb188-2" tabindex="-1"></a>                   <span class="at">siglvl =</span> <span class="fl">0.99</span>)</span>
+<span id="cb188-3"><a href="intro-to-dendro-time-series.html#cb188-3" tabindex="-1"></a><span class="fu">wavelet.plot</span>(out.wave, <span class="at">useRaster=</span><span class="cn">NA</span>, <span class="at">reverse.y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>The wavelet plot shows a similar story as the plot from <code>redfit</code> with significant variation at interannual to multidecadal scales.</p>
 </div>
 <div id="extracting-signals" class="section level3 hasAnchor" number="7.5.2">
 <h3><span class="header-section-number">7.5.2</span> Extracting signals<a href="intro-to-dendro-time-series.html#extracting-signals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Another common task we’ll mention here is extracting specific frequency components from a time series to look at different aspects of say, high vs low frequency growth. One approach to doing this is to use wavelets again but here we will decompose a time series into its constituent voices using a discrete wavelet transform with the <code>mra</code> function in the package <code>waveslim</code>.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="intro-to-dendro-time-series.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(waveslim)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="intro-to-dendro-time-series.html#cb189-1" tabindex="-1"></a><span class="fu">library</span>(waveslim)</span></code></pre></div>
 <pre><code>## 
-## waveslim: Wavelet Method for 1/2/3D Signals (version = 1.8.2)</code></pre>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="intro-to-dendro-time-series.html#cb196-1" aria-hidden="true" tabindex="-1"></a>nPwrs2 <span class="ot">&lt;-</span> <span class="fu">trunc</span>(<span class="fu">log</span>(n)<span class="sc">/</span><span class="fu">log</span>(<span class="dv">2</span>)) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb196-2"><a href="intro-to-dendro-time-series.html#cb196-2" aria-hidden="true" tabindex="-1"></a>dat.mra <span class="ot">&lt;-</span> <span class="fu">mra</span>(dat, <span class="at">wf =</span> <span class="st">&quot;la8&quot;</span>, <span class="at">J =</span> nPwrs2, <span class="at">method =</span> <span class="st">&quot;modwt&quot;</span>,</span>
-<span id="cb196-3"><a href="intro-to-dendro-time-series.html#cb196-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">boundary =</span> <span class="st">&quot;periodic&quot;</span>)</span>
-<span id="cb196-4"><a href="intro-to-dendro-time-series.html#cb196-4" aria-hidden="true" tabindex="-1"></a>yrsLabels <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="dv">2</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">:</span>nPwrs2),<span class="st">&quot;yrs&quot;</span>,<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb196-5"><a href="intro-to-dendro-time-series.html#cb196-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb196-6"><a href="intro-to-dendro-time-series.html#cb196-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.25</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb196-7"><a href="intro-to-dendro-time-series.html#cb196-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs,<span class="fu">rep</span>(<span class="dv">1</span>,n),<span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">axes=</span><span class="cn">FALSE</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;&quot;</span>,</span>
-<span id="cb196-8"><a href="intro-to-dendro-time-series.html#cb196-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">38</span>))</span>
-<span id="cb196-9"><a href="intro-to-dendro-time-series.html#cb196-9" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main=</span><span class="st">&quot;Multiresolution decomposition&quot;</span>,<span class="at">line=</span><span class="fl">0.75</span>)</span>
-<span id="cb196-10"><a href="intro-to-dendro-time-series.html#cb196-10" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side=</span><span class="dv">1</span>)</span>
-<span id="cb196-11"><a href="intro-to-dendro-time-series.html#cb196-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Years&quot;</span>,<span class="at">side=</span><span class="dv">1</span>,<span class="at">line =</span> <span class="fl">1.25</span>)</span>
-<span id="cb196-12"><a href="intro-to-dendro-time-series.html#cb196-12" aria-hidden="true" tabindex="-1"></a>Offset <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb196-13"><a href="intro-to-dendro-time-series.html#cb196-13" aria-hidden="true" tabindex="-1"></a>dat.mra2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(<span class="fu">as.data.frame</span>(dat.mra))</span>
-<span id="cb196-14"><a href="intro-to-dendro-time-series.html#cb196-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> nPwrs2<span class="sc">:</span><span class="dv">1</span>){</span>
-<span id="cb196-15"><a href="intro-to-dendro-time-series.html#cb196-15" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> dat.mra2[,i] <span class="sc">+</span> Offset</span>
-<span id="cb196-16"><a href="intro-to-dendro-time-series.html#cb196-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(yrs,x)</span>
-<span id="cb196-17"><a href="intro-to-dendro-time-series.html#cb196-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h=</span>Offset,<span class="at">lty=</span><span class="st">&quot;dashed&quot;</span>)</span>
-<span id="cb196-18"><a href="intro-to-dendro-time-series.html#cb196-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">names</span>(dat.mra)[[i]],<span class="at">side=</span><span class="dv">2</span>,<span class="at">at=</span>Offset,<span class="at">line =</span> <span class="dv">0</span>)</span>
-<span id="cb196-19"><a href="intro-to-dendro-time-series.html#cb196-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(yrsLabels[i],<span class="at">side=</span><span class="dv">4</span>,<span class="at">at=</span>Offset,<span class="at">line =</span> <span class="dv">0</span>)</span>
-<span id="cb196-20"><a href="intro-to-dendro-time-series.html#cb196-20" aria-hidden="true" tabindex="-1"></a>  Offset <span class="ot">&lt;-</span> Offset<span class="sc">+</span><span class="dv">5</span></span>
-<span id="cb196-21"><a href="intro-to-dendro-time-series.html#cb196-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb196-22"><a href="intro-to-dendro-time-series.html#cb196-22" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+## waveslim: Wavelet Method for 1/2/3D Signals (version = 1.8.4)</code></pre>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="intro-to-dendro-time-series.html#cb191-1" tabindex="-1"></a>nPwrs2 <span class="ot">&lt;-</span> <span class="fu">trunc</span>(<span class="fu">log</span>(n)<span class="sc">/</span><span class="fu">log</span>(<span class="dv">2</span>)) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb191-2"><a href="intro-to-dendro-time-series.html#cb191-2" tabindex="-1"></a>dat.mra <span class="ot">&lt;-</span> <span class="fu">mra</span>(dat, <span class="at">wf =</span> <span class="st">&quot;la8&quot;</span>, <span class="at">J =</span> nPwrs2, <span class="at">method =</span> <span class="st">&quot;modwt&quot;</span>,</span>
+<span id="cb191-3"><a href="intro-to-dendro-time-series.html#cb191-3" tabindex="-1"></a>               <span class="at">boundary =</span> <span class="st">&quot;periodic&quot;</span>)</span>
+<span id="cb191-4"><a href="intro-to-dendro-time-series.html#cb191-4" tabindex="-1"></a>yrsLabels <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="dv">2</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">:</span>nPwrs2),<span class="st">&quot;yrs&quot;</span>,<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb191-5"><a href="intro-to-dendro-time-series.html#cb191-5" tabindex="-1"></a></span>
+<span id="cb191-6"><a href="intro-to-dendro-time-series.html#cb191-6" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.25</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb191-7"><a href="intro-to-dendro-time-series.html#cb191-7" tabindex="-1"></a><span class="fu">plot</span>(yrs,<span class="fu">rep</span>(<span class="dv">1</span>,n),<span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">axes=</span><span class="cn">FALSE</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;&quot;</span>,</span>
+<span id="cb191-8"><a href="intro-to-dendro-time-series.html#cb191-8" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">38</span>))</span>
+<span id="cb191-9"><a href="intro-to-dendro-time-series.html#cb191-9" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main=</span><span class="st">&quot;Multiresolution decomposition&quot;</span>,<span class="at">line=</span><span class="fl">0.75</span>)</span>
+<span id="cb191-10"><a href="intro-to-dendro-time-series.html#cb191-10" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side=</span><span class="dv">1</span>)</span>
+<span id="cb191-11"><a href="intro-to-dendro-time-series.html#cb191-11" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Years&quot;</span>,<span class="at">side=</span><span class="dv">1</span>,<span class="at">line =</span> <span class="fl">1.25</span>)</span>
+<span id="cb191-12"><a href="intro-to-dendro-time-series.html#cb191-12" tabindex="-1"></a>Offset <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb191-13"><a href="intro-to-dendro-time-series.html#cb191-13" tabindex="-1"></a>dat.mra2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(<span class="fu">as.data.frame</span>(dat.mra))</span>
+<span id="cb191-14"><a href="intro-to-dendro-time-series.html#cb191-14" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> nPwrs2<span class="sc">:</span><span class="dv">1</span>){</span>
+<span id="cb191-15"><a href="intro-to-dendro-time-series.html#cb191-15" tabindex="-1"></a>  x <span class="ot">&lt;-</span> dat.mra2[,i] <span class="sc">+</span> Offset</span>
+<span id="cb191-16"><a href="intro-to-dendro-time-series.html#cb191-16" tabindex="-1"></a>  <span class="fu">lines</span>(yrs,x)</span>
+<span id="cb191-17"><a href="intro-to-dendro-time-series.html#cb191-17" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h=</span>Offset,<span class="at">lty=</span><span class="st">&quot;dashed&quot;</span>)</span>
+<span id="cb191-18"><a href="intro-to-dendro-time-series.html#cb191-18" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">names</span>(dat.mra)[[i]],<span class="at">side=</span><span class="dv">2</span>,<span class="at">at=</span>Offset,<span class="at">line =</span> <span class="dv">0</span>)</span>
+<span id="cb191-19"><a href="intro-to-dendro-time-series.html#cb191-19" tabindex="-1"></a>  <span class="fu">mtext</span>(yrsLabels[i],<span class="at">side=</span><span class="dv">4</span>,<span class="at">at=</span>Offset,<span class="at">line =</span> <span class="dv">0</span>)</span>
+<span id="cb191-20"><a href="intro-to-dendro-time-series.html#cb191-20" tabindex="-1"></a>  Offset <span class="ot">&lt;-</span> Offset<span class="sc">+</span><span class="dv">5</span></span>
+<span id="cb191-21"><a href="intro-to-dendro-time-series.html#cb191-21" tabindex="-1"></a>}</span>
+<span id="cb191-22"><a href="intro-to-dendro-time-series.html#cb191-22" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>Here the Mesa Verde chronology is shown via an additive decomposition for each power of 2 from <span class="math inline">\(2^1\)</span> to <span class="math inline">\(2^8\)</span>. Note that each voice is scaled to itself by dividing by its standard deviation in order to present them on the same y-axis. If the <code>scale</code> function were to be removed (and we leave that as an exercise to the reader) the variations between voices would be greatly reduced. Note the similarity in the continuous and discrete wavelet plots for the variation in the 64-year band around the year 1600 and the lower frequency variation at 128 years around the year 1400.</p>
 </div>
@@ -1373,7 +1379,7 @@ and the second the sample depth during that year. Let’s grab the years and the
 <h3><span class="header-section-number">7.5.3</span> High-pass, low-pass, and bandpass filtering<a href="intro-to-dendro-time-series.html#high-pass-low-pass-and-bandpass-filtering" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Another common technique used in tree-ring analysis is to filter data like we did above with moving averages, splines, and so on but doing so in the frequency domain explicitly rather than in the time domain. For instance, we might want to remove the high frequencies from a data set and leave the low frequencies (low-pass filtering) or vice versa (high-pass filtering). Or extract specific frequencies and discard others (band-pass and stop-pass filtering).</p>
 <p>Let’s look at the <code>signal</code> library.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="intro-to-dendro-time-series.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(signal)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="intro-to-dendro-time-series.html#cb192-1" tabindex="-1"></a><span class="fu">library</span>(signal)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;signal&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:dplR&#39;:
@@ -1383,97 +1389,97 @@ and the second the sample depth during that year. Let’s grab the years and the
 ## 
 ##     filter, poly</code></pre>
 <p>We can start low-pass filtering in <code>R</code> with the Butterworth filter. We will fit two 4th order filters with frequencies of 0.2 and 0.05.</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="intro-to-dendro-time-series.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="co"># here are two frequencies that we will use for demonstrating filtering</span></span>
-<span id="cb201-2"><a href="intro-to-dendro-time-series.html#cb201-2" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="co"># period of 5</span></span>
-<span id="cb201-3"><a href="intro-to-dendro-time-series.html#cb201-3" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fl">0.05</span> <span class="co"># period of 20</span></span>
-<span id="cb201-4"><a href="intro-to-dendro-time-series.html#cb201-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-5"><a href="intro-to-dendro-time-series.html#cb201-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the butterworth filter.</span></span>
-<span id="cb201-6"><a href="intro-to-dendro-time-series.html#cb201-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiply freq by 2</span></span>
-<span id="cb201-7"><a href="intro-to-dendro-time-series.html#cb201-7" aria-hidden="true" tabindex="-1"></a>f1Low <span class="ot">&lt;-</span> <span class="fu">butter</span>(<span class="at">n=</span><span class="dv">4</span>, <span class="at">W=</span>f1<span class="sc">*</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;low&quot;</span>)</span>
-<span id="cb201-8"><a href="intro-to-dendro-time-series.html#cb201-8" aria-hidden="true" tabindex="-1"></a>f2Low <span class="ot">&lt;-</span> <span class="fu">butter</span>(<span class="at">n=</span><span class="dv">4</span>, <span class="at">W=</span>f2<span class="sc">*</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;low&quot;</span>)</span>
-<span id="cb201-9"><a href="intro-to-dendro-time-series.html#cb201-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-10"><a href="intro-to-dendro-time-series.html#cb201-10" aria-hidden="true" tabindex="-1"></a><span class="co"># We will use filtfilt do run the filter. </span></span>
-<span id="cb201-11"><a href="intro-to-dendro-time-series.html#cb201-11" aria-hidden="true" tabindex="-1"></a><span class="co"># But before that there is a wrinkle. We have to </span></span>
-<span id="cb201-12"><a href="intro-to-dendro-time-series.html#cb201-12" aria-hidden="true" tabindex="-1"></a><span class="co"># mirror and extend the data near the edge to </span></span>
-<span id="cb201-13"><a href="intro-to-dendro-time-series.html#cb201-13" aria-hidden="true" tabindex="-1"></a><span class="co"># avoid end effects. The matlab/octave versions do something </span></span>
-<span id="cb201-14"><a href="intro-to-dendro-time-series.html#cb201-14" aria-hidden="true" tabindex="-1"></a><span class="co"># like this behind the scenes I think. Regardless, it</span></span>
-<span id="cb201-15"><a href="intro-to-dendro-time-series.html#cb201-15" aria-hidden="true" tabindex="-1"></a><span class="co"># is a simple form of padding.</span></span>
-<span id="cb201-16"><a href="intro-to-dendro-time-series.html#cb201-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-17"><a href="intro-to-dendro-time-series.html#cb201-17" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(dat)</span>
-<span id="cb201-18"><a href="intro-to-dendro-time-series.html#cb201-18" aria-hidden="true" tabindex="-1"></a><span class="co"># create a pas that is adds a 1/4 of the length to the front and</span></span>
-<span id="cb201-19"><a href="intro-to-dendro-time-series.html#cb201-19" aria-hidden="true" tabindex="-1"></a><span class="co"># back of the data. This can be tuned according to the freqs in question</span></span>
-<span id="cb201-20"><a href="intro-to-dendro-time-series.html#cb201-20" aria-hidden="true" tabindex="-1"></a><span class="co"># and there is nothing special about 1/4</span></span>
-<span id="cb201-21"><a href="intro-to-dendro-time-series.html#cb201-21" aria-hidden="true" tabindex="-1"></a>pad <span class="ot">&lt;-</span> <span class="fu">floor</span>(n<span class="sc">/</span><span class="dv">4</span>)</span>
-<span id="cb201-22"><a href="intro-to-dendro-time-series.html#cb201-22" aria-hidden="true" tabindex="-1"></a><span class="co"># pad the data</span></span>
-<span id="cb201-23"><a href="intro-to-dendro-time-series.html#cb201-23" aria-hidden="true" tabindex="-1"></a>datPad <span class="ot">&lt;-</span> <span class="fu">c</span>(dat[pad<span class="sc">:</span><span class="dv">1</span>],dat,dat[n<span class="sc">:</span>(n<span class="sc">-</span>pad)]) </span>
-<span id="cb201-24"><a href="intro-to-dendro-time-series.html#cb201-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-25"><a href="intro-to-dendro-time-series.html#cb201-25" aria-hidden="true" tabindex="-1"></a><span class="co"># run the filter  </span></span>
-<span id="cb201-26"><a href="intro-to-dendro-time-series.html#cb201-26" aria-hidden="true" tabindex="-1"></a>datF1Low <span class="ot">&lt;-</span> <span class="fu">filtfilt</span>(f1Low, datPad)</span>
-<span id="cb201-27"><a href="intro-to-dendro-time-series.html#cb201-27" aria-hidden="true" tabindex="-1"></a>datF2Low <span class="ot">&lt;-</span> <span class="fu">filtfilt</span>(f2Low, datPad)</span>
-<span id="cb201-28"><a href="intro-to-dendro-time-series.html#cb201-28" aria-hidden="true" tabindex="-1"></a><span class="co"># unpad the filtered data</span></span>
-<span id="cb201-29"><a href="intro-to-dendro-time-series.html#cb201-29" aria-hidden="true" tabindex="-1"></a>datF1Low <span class="ot">&lt;-</span> datF1Low[(pad<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n<span class="sc">+</span>pad)]</span>
-<span id="cb201-30"><a href="intro-to-dendro-time-series.html#cb201-30" aria-hidden="true" tabindex="-1"></a>datF2Low <span class="ot">&lt;-</span> datF2Low[(pad<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n<span class="sc">+</span>pad)]</span>
-<span id="cb201-31"><a href="intro-to-dendro-time-series.html#cb201-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-32"><a href="intro-to-dendro-time-series.html#cb201-32" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb201-33"><a href="intro-to-dendro-time-series.html#cb201-33" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
-<span id="cb201-34"><a href="intro-to-dendro-time-series.html#cb201-34" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
-<span id="cb201-35"><a href="intro-to-dendro-time-series.html#cb201-35" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
-<span id="cb201-36"><a href="intro-to-dendro-time-series.html#cb201-36" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,dat,<span class="at">col=</span><span class="st">&quot;grey80&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)</span>
-<span id="cb201-37"><a href="intro-to-dendro-time-series.html#cb201-37" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,datF1Low,<span class="at">col=</span>my.cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
-<span id="cb201-38"><a href="intro-to-dendro-time-series.html#cb201-38" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,datF2Low,<span class="at">col=</span>my.cols[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb201-39"><a href="intro-to-dendro-time-series.html#cb201-39" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
-<span id="cb201-40"><a href="intro-to-dendro-time-series.html#cb201-40" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;f &lt; 0.2&quot;</span>, <span class="st">&quot;f &lt; 0.05&quot;</span>), </span>
-<span id="cb201-41"><a href="intro-to-dendro-time-series.html#cb201-41" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(my.cols[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
-<span id="cb201-42"><a href="intro-to-dendro-time-series.html#cb201-42" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="intro-to-dendro-time-series.html#cb196-1" tabindex="-1"></a><span class="co"># here are two frequencies that we will use for demonstrating filtering</span></span>
+<span id="cb196-2"><a href="intro-to-dendro-time-series.html#cb196-2" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="co"># period of 5</span></span>
+<span id="cb196-3"><a href="intro-to-dendro-time-series.html#cb196-3" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fl">0.05</span> <span class="co"># period of 20</span></span>
+<span id="cb196-4"><a href="intro-to-dendro-time-series.html#cb196-4" tabindex="-1"></a></span>
+<span id="cb196-5"><a href="intro-to-dendro-time-series.html#cb196-5" tabindex="-1"></a><span class="co"># Initialize the butterworth filter.</span></span>
+<span id="cb196-6"><a href="intro-to-dendro-time-series.html#cb196-6" tabindex="-1"></a><span class="co"># Multiply freq by 2</span></span>
+<span id="cb196-7"><a href="intro-to-dendro-time-series.html#cb196-7" tabindex="-1"></a>f1Low <span class="ot">&lt;-</span> <span class="fu">butter</span>(<span class="at">n=</span><span class="dv">4</span>, <span class="at">W=</span>f1<span class="sc">*</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;low&quot;</span>)</span>
+<span id="cb196-8"><a href="intro-to-dendro-time-series.html#cb196-8" tabindex="-1"></a>f2Low <span class="ot">&lt;-</span> <span class="fu">butter</span>(<span class="at">n=</span><span class="dv">4</span>, <span class="at">W=</span>f2<span class="sc">*</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;low&quot;</span>)</span>
+<span id="cb196-9"><a href="intro-to-dendro-time-series.html#cb196-9" tabindex="-1"></a></span>
+<span id="cb196-10"><a href="intro-to-dendro-time-series.html#cb196-10" tabindex="-1"></a><span class="co"># We will use filtfilt do run the filter. </span></span>
+<span id="cb196-11"><a href="intro-to-dendro-time-series.html#cb196-11" tabindex="-1"></a><span class="co"># But before that there is a wrinkle. We have to </span></span>
+<span id="cb196-12"><a href="intro-to-dendro-time-series.html#cb196-12" tabindex="-1"></a><span class="co"># mirror and extend the data near the edge to </span></span>
+<span id="cb196-13"><a href="intro-to-dendro-time-series.html#cb196-13" tabindex="-1"></a><span class="co"># avoid end effects. The matlab/octave versions do something </span></span>
+<span id="cb196-14"><a href="intro-to-dendro-time-series.html#cb196-14" tabindex="-1"></a><span class="co"># like this behind the scenes I think. Regardless, it</span></span>
+<span id="cb196-15"><a href="intro-to-dendro-time-series.html#cb196-15" tabindex="-1"></a><span class="co"># is a simple form of padding.</span></span>
+<span id="cb196-16"><a href="intro-to-dendro-time-series.html#cb196-16" tabindex="-1"></a></span>
+<span id="cb196-17"><a href="intro-to-dendro-time-series.html#cb196-17" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(dat)</span>
+<span id="cb196-18"><a href="intro-to-dendro-time-series.html#cb196-18" tabindex="-1"></a><span class="co"># create a pas that is adds a 1/4 of the length to the front and</span></span>
+<span id="cb196-19"><a href="intro-to-dendro-time-series.html#cb196-19" tabindex="-1"></a><span class="co"># back of the data. This can be tuned according to the freqs in question</span></span>
+<span id="cb196-20"><a href="intro-to-dendro-time-series.html#cb196-20" tabindex="-1"></a><span class="co"># and there is nothing special about 1/4</span></span>
+<span id="cb196-21"><a href="intro-to-dendro-time-series.html#cb196-21" tabindex="-1"></a>pad <span class="ot">&lt;-</span> <span class="fu">floor</span>(n<span class="sc">/</span><span class="dv">4</span>)</span>
+<span id="cb196-22"><a href="intro-to-dendro-time-series.html#cb196-22" tabindex="-1"></a><span class="co"># pad the data</span></span>
+<span id="cb196-23"><a href="intro-to-dendro-time-series.html#cb196-23" tabindex="-1"></a>datPad <span class="ot">&lt;-</span> <span class="fu">c</span>(dat[pad<span class="sc">:</span><span class="dv">1</span>],dat,dat[n<span class="sc">:</span>(n<span class="sc">-</span>pad)]) </span>
+<span id="cb196-24"><a href="intro-to-dendro-time-series.html#cb196-24" tabindex="-1"></a></span>
+<span id="cb196-25"><a href="intro-to-dendro-time-series.html#cb196-25" tabindex="-1"></a><span class="co"># run the filter  </span></span>
+<span id="cb196-26"><a href="intro-to-dendro-time-series.html#cb196-26" tabindex="-1"></a>datF1Low <span class="ot">&lt;-</span> <span class="fu">filtfilt</span>(f1Low, datPad)</span>
+<span id="cb196-27"><a href="intro-to-dendro-time-series.html#cb196-27" tabindex="-1"></a>datF2Low <span class="ot">&lt;-</span> <span class="fu">filtfilt</span>(f2Low, datPad)</span>
+<span id="cb196-28"><a href="intro-to-dendro-time-series.html#cb196-28" tabindex="-1"></a><span class="co"># unpad the filtered data</span></span>
+<span id="cb196-29"><a href="intro-to-dendro-time-series.html#cb196-29" tabindex="-1"></a>datF1Low <span class="ot">&lt;-</span> datF1Low[(pad<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n<span class="sc">+</span>pad)]</span>
+<span id="cb196-30"><a href="intro-to-dendro-time-series.html#cb196-30" tabindex="-1"></a>datF2Low <span class="ot">&lt;-</span> datF2Low[(pad<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n<span class="sc">+</span>pad)]</span>
+<span id="cb196-31"><a href="intro-to-dendro-time-series.html#cb196-31" tabindex="-1"></a></span>
+<span id="cb196-32"><a href="intro-to-dendro-time-series.html#cb196-32" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb196-33"><a href="intro-to-dendro-time-series.html#cb196-33" tabindex="-1"></a><span class="fu">plot</span>(yrs,dat,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
+<span id="cb196-34"><a href="intro-to-dendro-time-series.html#cb196-34" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
+<span id="cb196-35"><a href="intro-to-dendro-time-series.html#cb196-35" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span>
+<span id="cb196-36"><a href="intro-to-dendro-time-series.html#cb196-36" tabindex="-1"></a><span class="fu">lines</span>(yrs,dat,<span class="at">col=</span><span class="st">&quot;grey80&quot;</span>,<span class="at">lwd=</span><span class="dv">1</span>)</span>
+<span id="cb196-37"><a href="intro-to-dendro-time-series.html#cb196-37" tabindex="-1"></a><span class="fu">lines</span>(yrs,datF1Low,<span class="at">col=</span>my.cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
+<span id="cb196-38"><a href="intro-to-dendro-time-series.html#cb196-38" tabindex="-1"></a><span class="fu">lines</span>(yrs,datF2Low,<span class="at">col=</span>my.cols[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb196-39"><a href="intro-to-dendro-time-series.html#cb196-39" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
+<span id="cb196-40"><a href="intro-to-dendro-time-series.html#cb196-40" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;f &lt; 0.2&quot;</span>, <span class="st">&quot;f &lt; 0.05&quot;</span>), </span>
+<span id="cb196-41"><a href="intro-to-dendro-time-series.html#cb196-41" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(my.cols[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb196-42"><a href="intro-to-dendro-time-series.html#cb196-42" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>To satisfy ourselves that the low-pass filter did what we thought it should let’s look at the power spectrum of the filtered data for <code>f1</code>:</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="intro-to-dendro-time-series.html#cb202-1" aria-hidden="true" tabindex="-1"></a>redf.dat <span class="ot">&lt;-</span> <span class="fu">redfit</span>(datF1Low, <span class="at">mctest=</span><span class="cn">FALSE</span>)</span>
-<span id="cb202-2"><a href="intro-to-dendro-time-series.html#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">2.2</span>, <span class="dv">4</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">0.1</span>, <span class="dv">0</span>),<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb202-3"><a href="intro-to-dendro-time-series.html#cb202-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]],</span>
-<span id="cb202-4"><a href="intro-to-dendro-time-series.html#cb202-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.25</span>),</span>
-<span id="cb202-5"><a href="intro-to-dendro-time-series.html#cb202-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spectrum&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Frequency (cycles per year)&quot;</span>,</span>
-<span id="cb202-6"><a href="intro-to-dendro-time-series.html#cb202-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb202-7"><a href="intro-to-dendro-time-series.html#cb202-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
-<span id="cb202-8"><a href="intro-to-dendro-time-series.html#cb202-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
-<span id="cb202-9"><a href="intro-to-dendro-time-series.html#cb202-9" aria-hidden="true" tabindex="-1"></a>freqs <span class="ot">&lt;-</span> <span class="fu">pretty</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]])</span>
-<span id="cb202-10"><a href="intro-to-dendro-time-series.html#cb202-10" aria-hidden="true" tabindex="-1"></a>pers <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">/</span> freqs, <span class="dv">2</span>)</span>
-<span id="cb202-11"><a href="intro-to-dendro-time-series.html#cb202-11" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb202-12"><a href="intro-to-dendro-time-series.html#cb202-12" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> pers)</span>
-<span id="cb202-13"><a href="intro-to-dendro-time-series.html#cb202-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="st">&quot;Period (year)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.1</span>)</span>
-<span id="cb202-14"><a href="intro-to-dendro-time-series.html#cb202-14" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>); <span class="fu">axis</span>(<span class="dv">4</span>)</span>
-<span id="cb202-15"><a href="intro-to-dendro-time-series.html#cb202-15" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="intro-to-dendro-time-series.html#cb197-1" tabindex="-1"></a>redf.dat <span class="ot">&lt;-</span> <span class="fu">redfit</span>(datF1Low, <span class="at">mctest=</span><span class="cn">FALSE</span>)</span>
+<span id="cb197-2"><a href="intro-to-dendro-time-series.html#cb197-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">2.2</span>, <span class="dv">4</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">0.1</span>, <span class="dv">0</span>),<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb197-3"><a href="intro-to-dendro-time-series.html#cb197-3" tabindex="-1"></a><span class="fu">plot</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]],</span>
+<span id="cb197-4"><a href="intro-to-dendro-time-series.html#cb197-4" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.25</span>),</span>
+<span id="cb197-5"><a href="intro-to-dendro-time-series.html#cb197-5" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spectrum&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Frequency (cycles per year)&quot;</span>,</span>
+<span id="cb197-6"><a href="intro-to-dendro-time-series.html#cb197-6" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb197-7"><a href="intro-to-dendro-time-series.html#cb197-7" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb197-8"><a href="intro-to-dendro-time-series.html#cb197-8" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
+<span id="cb197-9"><a href="intro-to-dendro-time-series.html#cb197-9" tabindex="-1"></a>freqs <span class="ot">&lt;-</span> <span class="fu">pretty</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]])</span>
+<span id="cb197-10"><a href="intro-to-dendro-time-series.html#cb197-10" tabindex="-1"></a>pers <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">/</span> freqs, <span class="dv">2</span>)</span>
+<span id="cb197-11"><a href="intro-to-dendro-time-series.html#cb197-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb197-12"><a href="intro-to-dendro-time-series.html#cb197-12" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> pers)</span>
+<span id="cb197-13"><a href="intro-to-dendro-time-series.html#cb197-13" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="st">&quot;Period (year)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.1</span>)</span>
+<span id="cb197-14"><a href="intro-to-dendro-time-series.html#cb197-14" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>); <span class="fu">axis</span>(<span class="dv">4</span>)</span>
+<span id="cb197-15"><a href="intro-to-dendro-time-series.html#cb197-15" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>We could repeat this with high-pass filters by changing <code>type="high"</code> when we first make the filter. We could also filter to include only specified frequencies by providing the lower and upper bands. E.g., <code>butter(n=4, W=c(f2,f1)*2, type="pass")</code>.</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="intro-to-dendro-time-series.html#cb203-1" aria-hidden="true" tabindex="-1"></a>f1f2Pass <span class="ot">&lt;-</span> <span class="fu">butter</span>(<span class="at">n=</span><span class="dv">4</span>, <span class="at">W=</span><span class="fu">c</span>(f2,f1)<span class="sc">*</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;pass&quot;</span>)</span>
-<span id="cb203-2"><a href="intro-to-dendro-time-series.html#cb203-2" aria-hidden="true" tabindex="-1"></a>datPass <span class="ot">&lt;-</span> <span class="fu">filtfilt</span>(f1f2Pass, datPad)</span>
-<span id="cb203-3"><a href="intro-to-dendro-time-series.html#cb203-3" aria-hidden="true" tabindex="-1"></a>datPass <span class="ot">&lt;-</span> datPass[(pad<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n<span class="sc">+</span>pad)]</span>
-<span id="cb203-4"><a href="intro-to-dendro-time-series.html#cb203-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb203-5"><a href="intro-to-dendro-time-series.html#cb203-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb203-6"><a href="intro-to-dendro-time-series.html#cb203-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs,datPass,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
-<span id="cb203-7"><a href="intro-to-dendro-time-series.html#cb203-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
-<span id="cb203-8"><a href="intro-to-dendro-time-series.html#cb203-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span>
-<span id="cb203-9"><a href="intro-to-dendro-time-series.html#cb203-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs,datPass,<span class="at">col=</span>my.cols[<span class="dv">3</span>],<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
-<span id="cb203-10"><a href="intro-to-dendro-time-series.html#cb203-10" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
-<span id="cb203-11"><a href="intro-to-dendro-time-series.html#cb203-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="st">&quot;0.05 &lt; f &lt; 0.2&quot;</span>, </span>
-<span id="cb203-12"><a href="intro-to-dendro-time-series.html#cb203-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(my.cols[<span class="dv">3</span>]),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
-<span id="cb203-13"><a href="intro-to-dendro-time-series.html#cb203-13" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="intro-to-dendro-time-series.html#cb198-1" tabindex="-1"></a>f1f2Pass <span class="ot">&lt;-</span> <span class="fu">butter</span>(<span class="at">n=</span><span class="dv">4</span>, <span class="at">W=</span><span class="fu">c</span>(f2,f1)<span class="sc">*</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;pass&quot;</span>)</span>
+<span id="cb198-2"><a href="intro-to-dendro-time-series.html#cb198-2" tabindex="-1"></a>datPass <span class="ot">&lt;-</span> <span class="fu">filtfilt</span>(f1f2Pass, datPad)</span>
+<span id="cb198-3"><a href="intro-to-dendro-time-series.html#cb198-3" tabindex="-1"></a>datPass <span class="ot">&lt;-</span> datPass[(pad<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n<span class="sc">+</span>pad)]</span>
+<span id="cb198-4"><a href="intro-to-dendro-time-series.html#cb198-4" tabindex="-1"></a></span>
+<span id="cb198-5"><a href="intro-to-dendro-time-series.html#cb198-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">2.5</span>,<span class="dv">4</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.25</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.5</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>,<span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb198-6"><a href="intro-to-dendro-time-series.html#cb198-6" tabindex="-1"></a><span class="fu">plot</span>(yrs,datPass,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;&quot;</span>,<span class="at">axes=</span><span class="cn">FALSE</span>)</span>
+<span id="cb198-7"><a href="intro-to-dendro-time-series.html#cb198-7" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">0.5</span>)</span>
+<span id="cb198-8"><a href="intro-to-dendro-time-series.html#cb198-8" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span>
+<span id="cb198-9"><a href="intro-to-dendro-time-series.html#cb198-9" tabindex="-1"></a><span class="fu">lines</span>(yrs,datPass,<span class="at">col=</span>my.cols[<span class="dv">3</span>],<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
+<span id="cb198-10"><a href="intro-to-dendro-time-series.html#cb198-10" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>);<span class="fu">axis</span>(<span class="dv">2</span>);<span class="fu">axis</span>(<span class="dv">3</span>);<span class="fu">axis</span>(<span class="dv">4</span>)</span>
+<span id="cb198-11"><a href="intro-to-dendro-time-series.html#cb198-11" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="st">&quot;0.05 &lt; f &lt; 0.2&quot;</span>, </span>
+<span id="cb198-12"><a href="intro-to-dendro-time-series.html#cb198-12" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(my.cols[<span class="dv">3</span>]),<span class="at">bg =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb198-13"><a href="intro-to-dendro-time-series.html#cb198-13" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>And as above, here is the power spectrum of the band-pass data:</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="intro-to-dendro-time-series.html#cb204-1" aria-hidden="true" tabindex="-1"></a>redf.dat <span class="ot">&lt;-</span> <span class="fu">redfit</span>(datPass, <span class="at">mctest=</span><span class="cn">FALSE</span>)</span>
-<span id="cb204-2"><a href="intro-to-dendro-time-series.html#cb204-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">2.2</span>, <span class="dv">4</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">0.1</span>, <span class="dv">0</span>),<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
-<span id="cb204-3"><a href="intro-to-dendro-time-series.html#cb204-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]],</span>
-<span id="cb204-4"><a href="intro-to-dendro-time-series.html#cb204-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.25</span>),</span>
-<span id="cb204-5"><a href="intro-to-dendro-time-series.html#cb204-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spectrum&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Frequency (cycles per year)&quot;</span>,</span>
-<span id="cb204-6"><a href="intro-to-dendro-time-series.html#cb204-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb204-7"><a href="intro-to-dendro-time-series.html#cb204-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
-<span id="cb204-8"><a href="intro-to-dendro-time-series.html#cb204-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
-<span id="cb204-9"><a href="intro-to-dendro-time-series.html#cb204-9" aria-hidden="true" tabindex="-1"></a>freqs <span class="ot">&lt;-</span> <span class="fu">pretty</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]])</span>
-<span id="cb204-10"><a href="intro-to-dendro-time-series.html#cb204-10" aria-hidden="true" tabindex="-1"></a>pers <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">/</span> freqs, <span class="dv">2</span>)</span>
-<span id="cb204-11"><a href="intro-to-dendro-time-series.html#cb204-11" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb204-12"><a href="intro-to-dendro-time-series.html#cb204-12" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> pers)</span>
-<span id="cb204-13"><a href="intro-to-dendro-time-series.html#cb204-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="st">&quot;Period (year)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.1</span>)</span>
-<span id="cb204-14"><a href="intro-to-dendro-time-series.html#cb204-14" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>); <span class="fu">axis</span>(<span class="dv">4</span>)</span>
-<span id="cb204-15"><a href="intro-to-dendro-time-series.html#cb204-15" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="intro-to-dendro-time-series.html#cb199-1" tabindex="-1"></a>redf.dat <span class="ot">&lt;-</span> <span class="fu">redfit</span>(datPass, <span class="at">mctest=</span><span class="cn">FALSE</span>)</span>
+<span id="cb199-2"><a href="intro-to-dendro-time-series.html#cb199-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">2.2</span>, <span class="dv">4</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">0.1</span>, <span class="dv">0</span>),<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb199-3"><a href="intro-to-dendro-time-series.html#cb199-3" tabindex="-1"></a><span class="fu">plot</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]],</span>
+<span id="cb199-4"><a href="intro-to-dendro-time-series.html#cb199-4" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.25</span>),</span>
+<span id="cb199-5"><a href="intro-to-dendro-time-series.html#cb199-5" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Spectrum&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Frequency (cycles per year)&quot;</span>,</span>
+<span id="cb199-6"><a href="intro-to-dendro-time-series.html#cb199-6" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb199-7"><a href="intro-to-dendro-time-series.html#cb199-7" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb199-8"><a href="intro-to-dendro-time-series.html#cb199-8" tabindex="-1"></a><span class="fu">lines</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]], redf.dat[[<span class="st">&quot;gxxc&quot;</span>]], <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,<span class="at">lwd=</span><span class="fl">1.5</span>)</span>
+<span id="cb199-9"><a href="intro-to-dendro-time-series.html#cb199-9" tabindex="-1"></a>freqs <span class="ot">&lt;-</span> <span class="fu">pretty</span>(redf.dat[[<span class="st">&quot;freq&quot;</span>]])</span>
+<span id="cb199-10"><a href="intro-to-dendro-time-series.html#cb199-10" tabindex="-1"></a>pers <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">/</span> freqs, <span class="dv">2</span>)</span>
+<span id="cb199-11"><a href="intro-to-dendro-time-series.html#cb199-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb199-12"><a href="intro-to-dendro-time-series.html#cb199-12" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> freqs, <span class="at">labels =</span> pers)</span>
+<span id="cb199-13"><a href="intro-to-dendro-time-series.html#cb199-13" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="st">&quot;Period (year)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.1</span>)</span>
+<span id="cb199-14"><a href="intro-to-dendro-time-series.html#cb199-14" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>); <span class="fu">axis</span>(<span class="dv">4</span>)</span>
+<span id="cb199-15"><a href="intro-to-dendro-time-series.html#cb199-15" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="06-timeSeries_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 </div>
 <div id="interruption-duplicate-function-names" class="section level3 hasAnchor" number="7.5.4">
@@ -1558,7 +1564,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

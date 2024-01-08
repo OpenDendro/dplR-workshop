@@ -20,7 +20,7 @@ library(dplR)
 ```
 
 ```
-## This is dplR version 1.7.5.
+## This is dplR version 1.7.6.
 ## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
 ```
@@ -143,27 +143,27 @@ head(data.frame(dat,ma32, han32), n = 20)
 ```
 
 ```
-##       dat   ma32  han32
-## 1  1.0644     NA     NA
-## 2  0.9241     NA     NA
-## 3  0.9602     NA     NA
-## 4  0.8011     NA     NA
-## 5  1.2448     NA     NA
-## 6  1.3222     NA     NA
-## 7  0.4193     NA     NA
-## 8  0.7125     NA     NA
-## 9  1.0207     NA     NA
-## 10 0.9851     NA     NA
-## 11 0.4199     NA     NA
-## 12 0.7638     NA     NA
-## 13 1.4655     NA     NA
-## 14 1.0005     NA     NA
-## 15 1.0725     NA     NA
-## 16 0.4987 0.9226 0.9609
-## 17 0.6365 0.9167 0.9648
-## 18 0.7509 0.9147 0.9667
-## 19 2.0863 0.9205 0.9665
-## 20 1.2892 0.9464 0.9644
+##          dat      ma32     han32
+## 1  1.0643873        NA        NA
+## 2  0.9241237        NA        NA
+## 3  0.9601997        NA        NA
+## 4  0.8010647        NA        NA
+## 5  1.2447996        NA        NA
+## 6  1.3222396        NA        NA
+## 7  0.4192779        NA        NA
+## 8  0.7124878        NA        NA
+## 9  1.0206848        NA        NA
+## 10 0.9850787        NA        NA
+## 11 0.4199383        NA        NA
+## 12 0.7638127        NA        NA
+## 13 1.4655058        NA        NA
+## 14 1.0004812        NA        NA
+## 15 1.0724711        NA        NA
+## 16 0.4986574 0.9226408 0.9609363
+## 17 0.6365006 0.9166904 0.9648015
+## 18 0.7508537 0.9147007 0.9667203
+## 19 2.0862874 0.9205192 0.9665152
+## 20 1.2891764 0.9464016 0.9643568
 ```
 
 ```r
@@ -171,27 +171,27 @@ tail(data.frame(dat,ma32, han32), n = 20)
 ```
 
 ```
-##        dat   ma32  han32
-## 769 1.0528 0.9214 0.9836
-## 770 0.9065 0.9094 0.9761
-## 771 0.4347 0.8989 0.9660
-## 772 1.1876 0.8883 0.9533
-## 773 1.1743     NA     NA
-## 774 1.7610     NA     NA
-## 775 0.6408     NA     NA
-## 776 0.1934     NA     NA
-## 777 1.3441     NA     NA
-## 778 0.4973     NA     NA
-## 779 0.7076     NA     NA
-## 780 0.7565     NA     NA
-## 781 0.5028     NA     NA
-## 782 1.0647     NA     NA
-## 783 1.1284     NA     NA
-## 784 0.1459     NA     NA
-## 785 1.1805     NA     NA
-## 786 0.7720     NA     NA
-## 787 0.6233     NA     NA
-## 788 0.6441     NA     NA
+##           dat      ma32     han32
+## 769 1.0527750 0.9214173 0.9836078
+## 770 0.9065366 0.9093858 0.9761478
+## 771 0.4347168 0.8989346 0.9660133
+## 772 1.1875561 0.8882747 0.9532577
+## 773 1.1743372        NA        NA
+## 774 1.7610164        NA        NA
+## 775 0.6407908        NA        NA
+## 776 0.1934492        NA        NA
+## 777 1.3441389        NA        NA
+## 778 0.4973201        NA        NA
+## 779 0.7076330        NA        NA
+## 780 0.7564769        NA        NA
+## 781 0.5027972        NA        NA
+## 782 1.0646861        NA        NA
+## 783 1.1284148        NA        NA
+## 784 0.1459389        NA        NA
+## 785 1.1804609        NA        NA
+## 786 0.7720185        NA        NA
+## 787 0.6232634        NA        NA
+## 788 0.6440584        NA        NA
 ```
 
 ### Splines
@@ -290,10 +290,10 @@ dat.ar
 ## ar(x = dat, order.max = 10)
 ## 
 ## Coefficients:
-##     1      2      3      4  
-## 0.200  0.148  0.046  0.075  
+##      1       2       3       4  
+## 0.1997  0.1484  0.0462  0.0748  
 ## 
-## Order selected 4  sigma^2 estimated as  0.188
+## Order selected 4  sigma^2 estimated as  0.1884
 ```
 
 Indeed, `ar` selects an `AR(4)` model based on AIC. But as our tea-leaf gazing above indicates, an `AR(2)` model is very close when we look at the AIC values.
@@ -326,11 +326,11 @@ ar1
 ## arima(x = dat, order = c(1, 0, 0))
 ## 
 ## Coefficients:
-##         ar1  intercept
-##       0.260      0.975
-## s.e.  0.034      0.021
+##          ar1  intercept
+##       0.2600     0.9750
+## s.e.  0.0344     0.0212
 ## 
-## sigma^2 estimated as 0.195:  log likelihood = -473.7,  aic = 953.3
+## sigma^2 estimated as 0.1948:  log likelihood = -473.66,  aic = 953.32
 ```
 
 And then compare the Bayesian Information Criterion (BIC) values:
@@ -340,11 +340,11 @@ BIC(ar1,ar2,ar3,ar4)
 ```
 
 ```
-##     df   BIC
-## ar1  3 967.3
-## ar2  4 949.9
-## ar3  5 953.5
-## ar4  6 955.8
+##     df      BIC
+## ar1  3 967.3249
+## ar2  4 949.8544
+## ar3  5 953.5312
+## ar4  6 955.8220
 ```
 
 Here we find evidence for an `AR(2)` model over the AR(4) mode that the `ar` function chose. Clearly there is some wiggle room here.
@@ -372,16 +372,18 @@ summary(dat.arima)
 ## ARIMA(1,0,1) with non-zero mean 
 ## 
 ## Coefficients:
-##         ar1     ma1   mean
-##       0.827  -0.634  0.974
-## s.e.  0.050   0.068  0.032
+##          ar1      ma1    mean
+##       0.8272  -0.6339  0.9740
+## s.e.  0.0495   0.0684  0.0325
 ## 
-## sigma^2 = 0.187:  log likelihood = -457.1
-## AIC=922.2   AICc=922.3   BIC=940.9
+## sigma^2 = 0.1875:  log likelihood = -457.13
+## AIC=922.25   AICc=922.3   BIC=940.93
 ## 
 ## Training set error measures:
-##                     ME   RMSE    MAE    MPE  MAPE   MASE       ACF1
-## Training set 7.679e-05 0.4322 0.3427 -457.9 481.3 0.7942 -0.0004114
+##                        ME      RMSE       MAE       MPE     MAPE      MASE
+## Training set 7.679477e-05 0.4321663 0.3426744 -457.9301 481.3235 0.7941686
+##                       ACF1
+## Training set -0.0004114487
 ```
 
 Even more confusion! Instead of an `AR(p)` model, `auto.arima` went for an 
@@ -465,7 +467,7 @@ library(waveslim)
 
 ```
 ## 
-## waveslim: Wavelet Method for 1/2/3D Signals (version = 1.8.2)
+## waveslim: Wavelet Method for 1/2/3D Signals (version = 1.8.4)
 ```
 
 ```r

@@ -81,7 +81,7 @@ ggplot(data=rawRW,mapping = aes(x=yrs,y=msmt,color=series)) +
 ```
 
 ```
-## Warning: Removed 11868 row(s) containing missing values (geom_path).
+## Warning: Removed 11868 rows containing missing values (`geom_line()`).
 ```
 
 <img src="04-ssf_files/figure-html/first plot-1.png" width="672" />
@@ -99,15 +99,15 @@ ssfCrn <- ssf(rwl = datTrunc)
 
 ```
 ## Data read. First iteration done.
-## Iteration: 2 Median Abs Diff: 0.00415 (12.05% of threshold)
-## Iteration: 3 Median Abs Diff: 0.00217 (23.08% of threshold)
-## Iteration: 4 Median Abs Diff: 0.00291 (17.19% of threshold)
-## Iteration: 5 Median Abs Diff: 0.00133 (37.68% of threshold)
-## Iteration: 6 Median Abs Diff: 0.001 (50.02% of threshold)
-## Iteration: 7 Median Abs Diff: 0.00076 (66.13% of threshold)
-## Iteration: 8 Median Abs Diff: 0.00066 (75.66% of threshold)
-## Iteration: 9 Median Abs Diff: 0.00055 (91.4% of threshold)
-## Iteration: 10 Median Abs Diff: 0.00047 (105.5% of threshold)
+## Iteration: 2 Median Abs Diff: 0.00415 (12.05102% of threshold)
+## Iteration: 3 Median Abs Diff: 0.00217 (23.0808% of threshold)
+## Iteration: 4 Median Abs Diff: 0.00291 (17.19139% of threshold)
+## Iteration: 5 Median Abs Diff: 0.00133 (37.67632% of threshold)
+## Iteration: 6 Median Abs Diff: 0.001 (50.01761% of threshold)
+## Iteration: 7 Median Abs Diff: 0.00076 (66.13473% of threshold)
+## Iteration: 8 Median Abs Diff: 0.00066 (75.66402% of threshold)
+## Iteration: 9 Median Abs Diff: 0.00055 (91.4003% of threshold)
+## Iteration: 10 Median Abs Diff: 0.00047 (105.4908% of threshold)
 ## Simple Signal Free Chronology Complete
 ## ssf was called with these arguments
 ## Detrending method: AgeDepSpline
@@ -148,29 +148,29 @@ ssfCrn2 <- ssf(rwl = datTrunc,method="Spline",nyrs=medianSegLength)
 
 ```
 ## Data read. First iteration done.
-## Iteration: 2 Median Abs Diff: 0.00212 (23.57% of threshold)
-## Iteration: 3 Median Abs Diff: 0.00185 (26.97% of threshold)
-## Iteration: 4 Median Abs Diff: 0.0017 (29.36% of threshold)
-## Iteration: 5 Median Abs Diff: 0.00153 (32.63% of threshold)
-## Iteration: 6 Median Abs Diff: 0.00144 (34.65% of threshold)
-## Iteration: 7 Median Abs Diff: 0.00138 (36.32% of threshold)
-## Iteration: 8 Median Abs Diff: 0.00125 (39.92% of threshold)
-## Iteration: 9 Median Abs Diff: 0.00121 (41.25% of threshold)
-## Iteration: 10 Median Abs Diff: 0.00114 (43.97% of threshold)
-## Iteration: 11 Median Abs Diff: 0.00106 (47.17% of threshold)
-## Iteration: 12 Median Abs Diff: 0.00103 (48.5% of threshold)
-## Iteration: 13 Median Abs Diff: 0.00098 (50.96% of threshold)
-## Iteration: 14 Median Abs Diff: 0.00095 (52.75% of threshold)
-## Iteration: 15 Median Abs Diff: 0.00089 (55.93% of threshold)
-## Iteration: 16 Median Abs Diff: 0.00086 (58.06% of threshold)
-## Iteration: 17 Median Abs Diff: 0.00081 (61.74% of threshold)
-## Iteration: 18 Median Abs Diff: 0.00074 (67.72% of threshold)
-## Iteration: 19 Median Abs Diff: 0.00067 (74.48% of threshold)
-## Iteration: 20 Median Abs Diff: 0.00064 (77.98% of threshold)
-## Iteration: 21 Median Abs Diff: 6e-04 (82.93% of threshold)
-## Iteration: 22 Median Abs Diff: 0.00057 (88.15% of threshold)
-## Iteration: 23 Median Abs Diff: 0.00053 (94.86% of threshold)
-## Iteration: 24 Median Abs Diff: 0.00048 (104% of threshold)
+## Iteration: 2 Median Abs Diff: 0.00212 (23.57048% of threshold)
+## Iteration: 3 Median Abs Diff: 0.00185 (26.97214% of threshold)
+## Iteration: 4 Median Abs Diff: 0.0017 (29.3594% of threshold)
+## Iteration: 5 Median Abs Diff: 0.00153 (32.62844% of threshold)
+## Iteration: 6 Median Abs Diff: 0.00144 (34.64722% of threshold)
+## Iteration: 7 Median Abs Diff: 0.00138 (36.31909% of threshold)
+## Iteration: 8 Median Abs Diff: 0.00125 (39.92379% of threshold)
+## Iteration: 9 Median Abs Diff: 0.00121 (41.24506% of threshold)
+## Iteration: 10 Median Abs Diff: 0.00114 (43.97276% of threshold)
+## Iteration: 11 Median Abs Diff: 0.00106 (47.16853% of threshold)
+## Iteration: 12 Median Abs Diff: 0.00103 (48.49743% of threshold)
+## Iteration: 13 Median Abs Diff: 0.00098 (50.95603% of threshold)
+## Iteration: 14 Median Abs Diff: 0.00095 (52.74914% of threshold)
+## Iteration: 15 Median Abs Diff: 0.00089 (55.93075% of threshold)
+## Iteration: 16 Median Abs Diff: 0.00086 (58.06452% of threshold)
+## Iteration: 17 Median Abs Diff: 0.00081 (61.74206% of threshold)
+## Iteration: 18 Median Abs Diff: 0.00074 (67.718% of threshold)
+## Iteration: 19 Median Abs Diff: 0.00067 (74.47746% of threshold)
+## Iteration: 20 Median Abs Diff: 0.00064 (77.98195% of threshold)
+## Iteration: 21 Median Abs Diff: 6e-04 (82.93416% of threshold)
+## Iteration: 22 Median Abs Diff: 0.00057 (88.15344% of threshold)
+## Iteration: 23 Median Abs Diff: 0.00053 (94.85591% of threshold)
+## Iteration: 24 Median Abs Diff: 0.00048 (104.0267% of threshold)
 ## Simple Signal Free Chronology Complete
 ## ssf was called with these arguments
 ## Detrending method: Spline
@@ -199,7 +199,7 @@ str(ssfCrn)
 ```
 
 ```
-## List of 11
+## Classes 'crn' and 'data.frame':	0 obs. of  11 variables:
 ##  $ infoList                :List of 5
 ##   ..$ method       : chr "AgeDepSpline"
 ##   ..$ nyrs         : NULL
@@ -207,11 +207,11 @@ str(ssfCrn)
 ##   ..$ maxIterations: num 25
 ##   ..$ madThreshold : num 5e-04
 ##  $ iter0Crn                :Classes 'crn' and 'data.frame':	1007 obs. of  2 variables:
-##   ..$ std       : num [1:1007] 1.288 1.557 0.884 0.703 0.6 ...
-##   ..$ samp.depth: num [1:1007] 5 5 5 5 5 5 5 5 5 5 ...
+##   ..$ std       : num  1.288 1.557 0.884 0.703 0.6 ...
+##   ..$ samp.depth: num  5 5 5 5 5 5 5 5 5 5 ...
 ##  $ ssfCrn                  :Classes 'crn' and 'data.frame':	1007 obs. of  2 variables:
-##   ..$ sfc       : num [1:1007] 1.219 1.487 0.836 0.664 0.57 ...
-##   ..$ samp.depth: num [1:1007] 5 5 5 5 5 5 5 5 5 5 ...
+##   ..$ sfc       : num  1.219 1.487 0.836 0.664 0.57 ...
+##   ..$ samp.depth: num  5 5 5 5 5 5 5 5 5 5 ...
 ##  $ sfRW_Array              : num [1:1007, 1:34, 1:10] NA NA NA NA NA NA NA NA NA NA ...
 ##  $ sfRWRescaled_Array      : num [1:1007, 1:34, 1:10] NA NA NA NA NA NA NA NA NA NA ...
 ##  $ sfRWRescaledCurves_Array: num [1:1007, 1:34, 1:10] NA NA NA NA NA NA NA NA NA NA ...
@@ -219,7 +219,8 @@ str(ssfCrn)
 ##  $ sfCrn_Mat               : num [1:1007, 1:10] 1.264 1.394 0.849 0.666 0.568 ...
 ##  $ hfCrn_Mat               : num [1:1007, 1:25] 0.313 0.443 -0.102 -0.285 -0.383 ...
 ##  $ hfCrnResids_Mat         : num [1:1007, 1:9] -0.02912 0.07009 -0.02075 -0.00941 -0.02138 ...
-##  $ MAD_Vec                 : num [1:9] 0.00415 0.00217 0.00291 0.00133 0.001 ...
+##  $ MAD_Vec                 : num  0.00415 0.00217 0.00291 0.00133 0.001 ...
+##  - attr(*, "comment")= chr "ssfLong"
 ```
 
 The `ssfCrn` object is now a list with information on all the iterations that algorithm has run through. We can save these to their own objects for easier access.
@@ -272,7 +273,7 @@ ggplot(data=sfRWRescaled,mapping = aes(x=yrs,y=msmt,color=series)) +
 ```
 
 ```
-## Warning: Removed 11868 row(s) containing missing values (geom_path).
+## Warning: Removed 11868 rows containing missing values (`geom_line()`).
 ```
 
 <img src="04-ssf_files/figure-html/sf resc iter1-1.png" width="672" />
@@ -295,7 +296,15 @@ ggplot(data=sfRWRescaledCurves,mapping = aes(x=yrs,y=msmt,color=series)) +
 ```
 
 ```
-## Warning: Removed 11868 row(s) containing missing values (geom_path).
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```
+## Warning: Removed 11868 rows containing missing values (`geom_line()`).
 ```
 
 <img src="04-ssf_files/figure-html/sf curve iter1-1.png" width="672" />
@@ -320,7 +329,7 @@ ggplot(data=sfRWI,mapping = aes(x=yrs,y=msmt,color=series)) +
 ```
 
 ```
-## Warning: Removed 11868 row(s) containing missing values (geom_path).
+## Warning: Removed 11868 rows containing missing values (`geom_line()`).
 ```
 
 <img src="04-ssf_files/figure-html/sf rwi iter1-1.png" width="672" />
@@ -450,7 +459,7 @@ median(abs(hfCrn_Mat[,2]*normalizedSampleDepth - hfCrn_Mat[,1]*normalizedSampleD
 ```
 
 ```
-## [1] 0.004149
+## [1] 0.004149028
 ```
 
 This is also returned in `MAD_Vec`.
@@ -486,9 +495,7 @@ crnCols <- pnw_palette(name="Starfish",n=dim(sfCrn_Mat)[2])
 # smooth chrons
 sfCrnSm <- data.frame(yrs = yrs, 
                       msmt = apply(sfCrn_Mat,2,caps,nyrs=50)) %>%
-  rename_with(.fn = seq, .cols = -1) %>%
-  pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt") %>%
-  mutate(Iteration = as.numeric(Iteration))
+  pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt")
 
 p1 <- ggplot() +
   geom_hline(yintercept = 1,linetype="dashed") +

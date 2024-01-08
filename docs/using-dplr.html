@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Using dplR | Learning to Love dplR</title>
   <meta name="description" content="Helful materials for dplR" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Using dplR | Learning to Love dplR" />
   <meta property="og:type" content="book" />
@@ -840,7 +840,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -853,7 +853,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -867,6 +867,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -1039,13 +1043,13 @@ div.csl-indent {
 <p>This document describes basic features of <code>dplR</code> by following the initial steps that an analyst might follow when working with a new tree-ring data set. The document starts with reading in ring widths and plotting them. We describe a few of the available methods for detrending and then show how to extract basic descriptive statistics. We show how to build and plot a simple mean-value chronology. We also show how to build a chronology using the expressed population signal from the detrended ring widths as an example of how more complicated analysis can be done using <code>dplR</code>.</p>
 <div id="what-is-covered" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> What is Covered<a href="using-dplr.html#what-is-covered" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Dendrochronology Program Library in R (<code>dplR</code>) is a package for dendrochronologists to handle data processing and analysis. This document gives just a brief introduction of some of the most commonly used functions in <code>dplR</code>. There is more detailed information available in the help files and in the literature <span class="citation">(<a href="references.html#ref-Bunn2008" role="doc-biblioref">Bunn, 2008</a>)</span>.</p>
+<p>The Dendrochronology Program Library in R (<code>dplR</code>) is a package for dendrochronologists to handle data processing and analysis. This document gives just a brief introduction of some of the most commonly used functions in <code>dplR</code>. There is more detailed information available in the help files and in the literature <span class="citation">(<a href="references.html#ref-Bunn2008">Bunn, 2008</a>)</span>.</p>
 <p>In this document, we will walk through the most basic activities of working with tree-ring data in roughly the order that a user might follow. E.g., reading data, detrending, chronology building, and doing preliminary exploratory data analysis via descriptive statistics.</p>
 <div id="load-dplr" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Load dplR<a href="using-dplr.html#load-dplr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will be using <code>dplR</code> in here. Load it:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="using-dplr.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
-<pre><code>## This is dplR version 1.7.5.
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="using-dplr.html#cb15-1" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
+<pre><code>## This is dplR version 1.7.6.
 ## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.</code></pre>
 </div>
@@ -1058,42 +1062,42 @@ div.csl-indent {
 <p>The workhorse function for getting tree-ring data into R is dplR’s <code>read.rwl</code> function. This function reads files in <code>"tucson"</code>, <code>"compact"</code>, <code>"tridas"</code>, and <code>"heidelberg"</code> formats. The on-board <code>rwl</code> data sets in <code>dplR</code> (i.e., <code>co021</code>, <code>ca533</code>, <code>gp.rwl</code>) were all imported into R using this function.</p>
 <p>Throughout this document we will use the on-board data set <code>ca533</code> which gives the raw ring widths for bristlecone pine <em>Pinus longaeva</em> at Campito Mountain in California, USA. There are 34 series spanning 1358 years.</p>
 <p>These objects are structured very simply as a <code>data.frame</code> with the series in columns and the years as rows. The series IDs are the column names and the years are the row names (both stored as characters). For instance, using the Campito Mountain ring widths we can load the data and learn some basic things about it:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="using-dplr.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ca533) <span class="co"># the result of ca533 &lt;- read.rwl(&#39;ca533.rwl&#39;)</span></span>
-<span id="cb21-2"><a href="using-dplr.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(ca533) <span class="co"># 1358 years</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="using-dplr.html#cb17-1" tabindex="-1"></a><span class="fu">data</span>(ca533) <span class="co"># the result of ca533 &lt;- read.rwl(&#39;ca533.rwl&#39;)</span></span>
+<span id="cb17-2"><a href="using-dplr.html#cb17-2" tabindex="-1"></a><span class="fu">nrow</span>(ca533) <span class="co"># 1358 years</span></span></code></pre></div>
 <pre><code>## [1] 1358</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="using-dplr.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(ca533) <span class="co"># 34 series</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="using-dplr.html#cb19-1" tabindex="-1"></a><span class="fu">ncol</span>(ca533) <span class="co"># 34 series</span></span></code></pre></div>
 <pre><code>## [1] 34</code></pre>
 <p>We can look a little deeper at this object (<code>ca533</code>) and get the series names as well as look at the time values associates with the data:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="using-dplr.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ca533) <span class="co"># the series IDs</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="using-dplr.html#cb21-1" tabindex="-1"></a><span class="fu">colnames</span>(ca533) <span class="co"># the series IDs</span></span></code></pre></div>
 <pre><code>##  [1] &quot;CAM011&quot; &quot;CAM021&quot; &quot;CAM031&quot; &quot;CAM032&quot; &quot;CAM041&quot; &quot;CAM042&quot; &quot;CAM051&quot; &quot;CAM061&quot;
 ##  [9] &quot;CAM062&quot; &quot;CAM071&quot; &quot;CAM072&quot; &quot;CAM081&quot; &quot;CAM082&quot; &quot;CAM091&quot; &quot;CAM092&quot; &quot;CAM101&quot;
 ## [17] &quot;CAM102&quot; &quot;CAM111&quot; &quot;CAM112&quot; &quot;CAM121&quot; &quot;CAM122&quot; &quot;CAM131&quot; &quot;CAM132&quot; &quot;CAM141&quot;
 ## [25] &quot;CAM151&quot; &quot;CAM152&quot; &quot;CAM161&quot; &quot;CAM162&quot; &quot;CAM171&quot; &quot;CAM172&quot; &quot;CAM181&quot; &quot;CAM191&quot;
 ## [33] &quot;CAM201&quot; &quot;CAM211&quot;</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="using-dplr.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">time</span>(ca533),<span class="at">n =</span> <span class="dv">10</span>) <span class="co"># the first 10 years</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="using-dplr.html#cb23-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">time</span>(ca533),<span class="at">n =</span> <span class="dv">10</span>) <span class="co"># the first 10 years</span></span></code></pre></div>
 <pre><code>##  [1] 626 627 628 629 630 631 632 633 634 635</code></pre>
 </div>
 <div id="describing-and-plotting-ring-width-data" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Describing and Plotting Ring-Width Data<a href="using-dplr.html#describing-and-plotting-ring-width-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Once a <code>rwl</code> data set has been read into R, there are a variety of ways to describe and visualize those data. Take note that this object is stored both as a generic <code>data.frame</code> in R but it also is part of a special class called <code>rwl</code> which will let R know how to do some special things with it like summarize and plot the data:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="using-dplr.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ca533) </span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="using-dplr.html#cb25-1" tabindex="-1"></a><span class="fu">class</span>(ca533) </span></code></pre></div>
 <pre><code>## [1] &quot;rwl&quot;        &quot;data.frame&quot;</code></pre>
 <p>Thus, we can plot a <code>rwl</code> object by showing either the segments arranged over time as straight lines or as a “spaghetti plot”. The <code>rwl</code> objects have generic S3 methods for <code>plot</code> and <code>summary</code> meaning that <code>R</code> knows how to do something special when <code>plot</code> or <code>summary</code> are invoked on an object with class <code>rwl</code>. E.g.,:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="using-dplr.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca533, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="using-dplr.html#cb27-1" tabindex="-1"></a><span class="fu">plot</span>(ca533, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
 <p><img src="02-intro_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 </div>
 <div id="descriptive-statistics" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Descriptive Statistics<a href="using-dplr.html#descriptive-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The simplest report on a <code>rwl</code> object can be print to the screen via:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="using-dplr.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rwl.report</span>(ca533)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="using-dplr.html#cb28-1" tabindex="-1"></a><span class="fu">rwl.report</span>(ca533)</span></code></pre></div>
 <pre><code>## Number of dated series: 34 
 ## Number of measurements: 23276 
-## Avg series length: 684.6 
+## Avg series length: 684.5882 
 ## Range:  1358 
 ## Span:  626 - 1983 
-## Mean (Std dev) series intercorrelation: 0.6294 (0.08593)
-## Mean (Std dev) AR1: 0.7093 (0.09812)
+## Mean (Std dev) series intercorrelation: 0.6294255 (0.0859289)
+## Mean (Std dev) AR1: 0.7092647 (0.09811876)
 ## -------------
 ## Years with absent rings listed by series 
 ##     Series CAM011 -- 1753 1782 
@@ -1127,8 +1131,8 @@ div.csl-indent {
 ## Years with internal NA values listed by series 
 ##     None</code></pre>
 <p>That’s pretty basic information. We can look at some common (and not-so common) descriptive statistics of a <code>rwl</code> object:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="using-dplr.html#cb34-1" aria-hidden="true" tabindex="-1"></a>ca533.stats <span class="ot">&lt;-</span> <span class="fu">summary</span>(ca533) <span class="co"># same as calling rwl.stats(ca533)</span></span>
-<span id="cb34-2"><a href="using-dplr.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ca533.stats,<span class="at">n=</span><span class="dv">5</span>) <span class="co"># look at the first five series</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="using-dplr.html#cb30-1" tabindex="-1"></a>ca533.stats <span class="ot">&lt;-</span> <span class="fu">summary</span>(ca533) <span class="co"># same as calling rwl.stats(ca533)</span></span>
+<span id="cb30-2"><a href="using-dplr.html#cb30-2" tabindex="-1"></a><span class="fu">head</span>(ca533.stats,<span class="at">n=</span><span class="dv">5</span>) <span class="co"># look at the first five series</span></span></code></pre></div>
 <pre><code>##   series first last year  mean median stdev  skew  gini   ar1
 ## 1 CAM011  1530 1983  454 0.440   0.40 0.222 1.029 0.273 0.696
 ## 2 CAM021  1433 1983  551 0.424   0.40 0.185 0.946 0.237 0.701
@@ -1137,27 +1141,27 @@ div.csl-indent {
 ## 5 CAM041  1683 1983  301 0.526   0.53 0.223 0.488 0.238 0.690</code></pre>
 <p>These are common summary statistics like mean, median, etc. but also statistics that are more specific to dendrochronology like the first-order autocorrelation (<code>ar1</code>), gini (<code>gini</code>). Note that output object <code>ca533.stats</code> is itself a <code>data.frame</code> and its data can be used to plot, summarize, etc.</p>
 <p>For instance, we can get the mean and standard deviation of segment length via:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="using-dplr.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ca533.stats<span class="sc">$</span>year)</span></code></pre></div>
-<pre><code>## [1] 684.6</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="using-dplr.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(ca533.stats<span class="sc">$</span>year)</span></code></pre></div>
-<pre><code>## [1] 277</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="using-dplr.html#cb32-1" tabindex="-1"></a><span class="fu">mean</span>(ca533.stats<span class="sc">$</span>year)</span></code></pre></div>
+<pre><code>## [1] 684.5882</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="using-dplr.html#cb34-1" tabindex="-1"></a><span class="fu">sd</span>(ca533.stats<span class="sc">$</span>year)</span></code></pre></div>
+<pre><code>## [1] 276.9972</code></pre>
 <p>Or, we can look at the spread of the first-order autocorrelation via <code>summary(ca533.stats$ar1)</code> or make a plot to show the data. Here we will demonstrate a somewhat involved plot to get you an idea of how to layer plotting commands:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="using-dplr.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ca533.stats<span class="sc">$</span>ar1,<span class="at">ylab=</span><span class="fu">expression</span>(phi[<span class="dv">1</span>]),<span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>)</span>
-<span id="cb40-2"><a href="using-dplr.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(ca533.stats<span class="sc">$</span>ar1, <span class="at">vertical =</span> <span class="cn">TRUE</span>,  </span>
-<span id="cb40-3"><a href="using-dplr.html#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;jitter&quot;</span>, <span class="at">jitter =</span> <span class="fl">0.02</span>,<span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">&#39;darkblue&#39;</span>,<span class="at">cex=</span><span class="fl">1.25</span>)</span>
-<span id="cb40-4"><a href="using-dplr.html#cb40-4" aria-hidden="true" tabindex="-1"></a>ar1Quant <span class="ot">&lt;-</span> <span class="fu">quantile</span>(ca533.stats<span class="sc">$</span>ar1,<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>))</span>
-<span id="cb40-5"><a href="using-dplr.html#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>ar1Quant,<span class="at">lty=</span><span class="st">&quot;dashed&quot;</span>,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb40-6"><a href="using-dplr.html#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="fu">names</span>(ar1Quant),<span class="at">side =</span> <span class="dv">4</span>,<span class="at">at =</span> ar1Quant,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="using-dplr.html#cb36-1" tabindex="-1"></a><span class="fu">boxplot</span>(ca533.stats<span class="sc">$</span>ar1,<span class="at">ylab=</span><span class="fu">expression</span>(phi[<span class="dv">1</span>]),<span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>)</span>
+<span id="cb36-2"><a href="using-dplr.html#cb36-2" tabindex="-1"></a><span class="fu">stripchart</span>(ca533.stats<span class="sc">$</span>ar1, <span class="at">vertical =</span> <span class="cn">TRUE</span>,  </span>
+<span id="cb36-3"><a href="using-dplr.html#cb36-3" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;jitter&quot;</span>, <span class="at">jitter =</span> <span class="fl">0.02</span>,<span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">&#39;darkblue&#39;</span>,<span class="at">cex=</span><span class="fl">1.25</span>)</span>
+<span id="cb36-4"><a href="using-dplr.html#cb36-4" tabindex="-1"></a>ar1Quant <span class="ot">&lt;-</span> <span class="fu">quantile</span>(ca533.stats<span class="sc">$</span>ar1,<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>))</span>
+<span id="cb36-5"><a href="using-dplr.html#cb36-5" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>ar1Quant,<span class="at">lty=</span><span class="st">&quot;dashed&quot;</span>,<span class="at">col=</span><span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb36-6"><a href="using-dplr.html#cb36-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="fu">names</span>(ar1Quant),<span class="at">side =</span> <span class="dv">4</span>,<span class="at">at =</span> ar1Quant,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="02-intro_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
 <p>Quick editorial note. I’ve switched from base R plotting to using <code>ggplot</code> in most all of my work. I need to go through and provide new plotting examples for everything, but time is short. Real quick though, here is a <code>ggplot</code></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="using-dplr.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb41-2"><a href="using-dplr.html#cb41-2" aria-hidden="true" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="st">&quot;CA 533&quot;</span>,<span class="at">y=</span>ca533.stats<span class="sc">$</span>ar1)</span>
-<span id="cb41-3"><a href="using-dplr.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ar1,<span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">width=</span>.<span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb41-4"><a href="using-dplr.html#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.1</span>) <span class="sc">+</span> </span>
-<span id="cb41-5"><a href="using-dplr.html#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="fu">expression</span>(phi[<span class="dv">1</span>]),<span class="at">x=</span><span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb41-6"><a href="using-dplr.html#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="using-dplr.html#cb37-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb37-2"><a href="using-dplr.html#cb37-2" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="st">&quot;CA 533&quot;</span>,<span class="at">y=</span>ca533.stats<span class="sc">$</span>ar1)</span>
+<span id="cb37-3"><a href="using-dplr.html#cb37-3" tabindex="-1"></a><span class="fu">ggplot</span>(ar1,<span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">width=</span>.<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="using-dplr.html#cb37-4" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.1</span>) <span class="sc">+</span> </span>
+<span id="cb37-5"><a href="using-dplr.html#cb37-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="fu">expression</span>(phi[<span class="dv">1</span>]),<span class="at">x=</span><span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb37-6"><a href="using-dplr.html#cb37-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="02-intro_files/figure-html/unnamed-chunk-9-1.png" width="192" /></p>
-<p>There are a few other descriptive stats that are available. Mean sensitivity (<code>sens1</code> and <code>sens2</code>) used to be included in the standard summary statistics but <strong>mean sensitivity is actually a terrible statistic that should rarely, if ever, be used <span class="citation">(<a href="references.html#ref-Bunn2013" role="doc-biblioref">Bunn <em>et al.</em>, 2013</a>)</span>.</strong> It is at best equivalent to the standard deviation of a time series in cases without high autocorrelation and is an inefficient estimator of the coefficient of variation. So use cautiously if at all.</p>
+<p>There are a few other descriptive stats that are available. Mean sensitivity (<code>sens1</code> and <code>sens2</code>) used to be included in the standard summary statistics but <strong>mean sensitivity is actually a terrible statistic that should rarely, if ever, be used <span class="citation">(<a href="references.html#ref-Bunn2013">Bunn <em>et al.</em>, 2013</a>)</span>.</strong> It is at best equivalent to the standard deviation of a time series in cases without high autocorrelation and is an inefficient estimator of the coefficient of variation. So use cautiously if at all.</p>
 </div>
 <div id="detrending" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Detrending<a href="using-dplr.html#detrending" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -1166,30 +1170,32 @@ div.csl-indent {
 <div id="common-detrending-methods" class="section level3 hasAnchor" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Common Detrending Methods<a href="using-dplr.html#common-detrending-methods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>As any dendrochronologist will tell you, detrending is a dark art. In <code>dplR</code> we have implemented some of the standard tools for detrending but all have drawbacks. In all of the methods, the detrending is the estimation and removal of the low frequency variability that is due to biological or stand effects. The standardization is done by dividing each series by the growth trend to produce units in the dimensionless ring-width index (RWI). Much of the text that follows is modified from the help page of <code>detrend</code>.</p>
-<p>Probably the most common method for detrending is what is often called the “conservative” approach of attempting to fit a negative exponential curve to a series. In the <code>dplR</code> implementation the <code>"ModNegExp"</code> method of <code>detrend</code> attempts to fit a classic nonlinear model of biological growth of the form <span class="math inline">\((f(t) = a \times \mathrm{e}^{bt} + k)\)</span>, where the argument of the function is time, using <code>nls</code>. See Fritts <span class="citation">(<a href="references.html#ref-Fritts2001" role="doc-biblioref">2001</a>)</span> for details about the parameters. If a suitable nonlinear model cannot be fit (function is non-decreasing or some values are not positive) then a linear model is fit using <code>lm</code>. That linear model can have a positive slope unless <code>pos.slope</code> is <code>FALSE</code> in which case the series is standardized by its mean (method <code>"Mean"</code> in <code>detrend</code>).</p>
-<p>For instance, every series in the <code>ca533</code> object can be detrended at once via:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="using-dplr.html#cb42-1" aria-hidden="true" tabindex="-1"></a>ca533.rwi <span class="ot">&lt;-</span> <span class="fu">detrend</span>(<span class="at">rwl =</span> ca533, <span class="at">method =</span> <span class="st">&quot;ModNegExp&quot;</span>)</span></code></pre></div>
+<p>Probably the most common method for detrending is what is often called the “conservative” approach of attempting to fit a negative exponential curve to a series. In the <code>dplR</code> implementation the <code>"ModNegExp"</code> method of <code>detrend</code> attempts to fit a classic nonlinear model of biological growth of the form <span class="math inline">\((f(t) = a \times \mathrm{e}^{bt} + k)\)</span>, where the argument of the function is time, using <code>nls</code>. See Fritts <span class="citation">(<a href="references.html#ref-Fritts2001">2001</a>)</span> for details about the parameters. If a suitable nonlinear model cannot be fit (function is non-decreasing or some values are not positive) then a linear model is fit using <code>lm</code>. That linear model can have a positive slope unless <code>pos.slope</code> is <code>FALSE</code> in which case the series is standardized by its mean (method <code>"Mean"</code> in <code>detrend</code>).</p>
+<p>For instance, every series in the <code>ca533</code> object can be detrended at once with an age-dependent spline via:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="using-dplr.html#cb38-1" tabindex="-1"></a>ca533.rwi <span class="ot">&lt;-</span> <span class="fu">detrend</span>(<span class="at">rwl =</span> ca533, <span class="at">method =</span> <span class="st">&quot;AgeDepSpline&quot;</span>)</span></code></pre></div>
 <p>This saves the results in <code>ca533.rwi</code> which is a <code>data.frame</code> with the same dimensions as the <code>rwl</code> object <code>ca533</code> and each series standardized.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="using-dplr.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(ca533.rwi) <span class="co"># 1358 years</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="using-dplr.html#cb39-1" tabindex="-1"></a><span class="fu">nrow</span>(ca533.rwi) <span class="co"># 1358 years</span></span></code></pre></div>
 <pre><code>## [1] 1358</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="using-dplr.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(ca533.rwi) <span class="co"># 34 series</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="using-dplr.html#cb41-1" tabindex="-1"></a><span class="fu">ncol</span>(ca533.rwi) <span class="co"># 34 series</span></span></code></pre></div>
 <pre><code>## [1] 34</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="using-dplr.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(ca533.rwi, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## CAM011 CAM021 CAM031 CAM032 CAM041 CAM042 CAM051 CAM061 CAM062 CAM071 CAM072 
-## 0.9996 1.0000 1.0000 1.0000 1.0000 1.0012 1.0002 0.9999 1.0000 1.0000 1.0000 
-## CAM081 CAM082 CAM091 CAM092 CAM101 CAM102 CAM111 CAM112 CAM121 CAM122 CAM131 
-## 1.0000 1.0000 1.0000 0.9996 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9998 
-## CAM132 CAM141 CAM151 CAM152 CAM161 CAM162 CAM171 CAM172 CAM181 CAM191 CAM201 
-## 0.9985 0.9999 0.9995 0.9999 1.0004 0.9994 0.9997 0.9998 1.0000 0.9953 1.0000 
-## CAM211 
-## 0.9998</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="using-dplr.html#cb43-1" tabindex="-1"></a><span class="fu">colMeans</span>(ca533.rwi, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##    CAM011    CAM021    CAM031    CAM032    CAM041    CAM042    CAM051    CAM061 
+## 1.0631050 1.0224109 2.2693152 1.3842987 1.0406039 1.0705729 0.9986579 1.0271454 
+##    CAM062    CAM071    CAM072    CAM081    CAM082    CAM091    CAM092    CAM101 
+## 0.9972379 1.0019581 1.3751516 1.3000696 0.9988440 1.1558844 1.1102479 1.4626404 
+##    CAM102    CAM111    CAM112    CAM121    CAM122    CAM131    CAM132    CAM141 
+## 1.0631347 1.1279841 1.0140838 1.3058103 1.0625794 1.1127666 0.9997782 1.0105626 
+##    CAM151    CAM152    CAM161    CAM162    CAM171    CAM172    CAM181    CAM191 
+## 1.1363804 0.9990169 0.9992451 1.1053696 1.0649315 1.0242845 1.5740168 1.0651213 
+##    CAM201    CAM211 
+## 1.0478775 1.1227146</code></pre>
 <p>When <code>detrend</code> is run on a <code>rwl</code> object the function loops through
 each series. It does this by calling a different function
 (<code>detrend.series</code>) for each column in the <code>rwl</code> object.
 But, a user can also call <code>detrend.series</code> and it is useful to do so here
 for educational purposes.</p>
 <p>Let us detrend a single series and apply more than one detrending method when we call the detrend function. We will call <code>detrend.series</code> using the verbose mode so that we can see the parameters applied for each method. The <code>detrend.series</code> function produces a plot by default.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="using-dplr.html#cb49-1" aria-hidden="true" tabindex="-1"></a>CAM011.rwi <span class="ot">&lt;-</span> <span class="fu">detrend.series</span>(<span class="at">y =</span> ca533[, <span class="st">&quot;CAM011&quot;</span>],<span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="using-dplr.html#cb45-1" tabindex="-1"></a>CAM011.rwi <span class="ot">&lt;-</span> <span class="fu">detrend.series</span>(<span class="at">y =</span> ca533[, <span class="st">&quot;CAM011&quot;</span>],<span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Verbose output: 
 ## 
@@ -1217,18 +1223,18 @@ for educational purposes.</p>
 ##  Detrend by ModNegExp.
 ##  Trying to fit nls model...
 ##  nls coefs
-##  a:  0.66110
-##  b: -0.01184
-##  k:  0.31793
+##  a:  0.66109686
+##  b: -0.01184415
+##  k:  0.31793386
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by ModHugershoff.
 ##  Trying to fit nls model...
 ##  nls coefs
-##  a: 0.45550
-##  b: 0.15420
-##  g: 0.01532
-##  d: 0.32392
+##  a: 0.45550002
+##  b: 0.15419657
+##  g: 0.01532032
+##  d: 0.32391578
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by age-dependent spline.
@@ -1242,7 +1248,7 @@ for educational purposes.</p>
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by mean.
-##  Mean =  0.4396
+##  Mean =  0.4395859
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by prewhitening.
@@ -1250,14 +1256,14 @@ for educational purposes.</p>
 ## ar(x = y[idx.goody])
 ## 
 ## Coefficients:
-##      1       2       3       4       5       6       7       8       9      10  
-##  0.388   0.139   0.000   0.084   0.132   0.061   0.038  -0.126   0.037  -0.100  
-##     11      12      13      14      15      16      17      18      19      20  
-## -0.010   0.015   0.088   0.010   0.064  -0.013   0.015  -0.004  -0.054   0.124  
-##     21      22      23  
-## -0.030  -0.054   0.137  
+##       1        2        3        4        5        6        7        8  
+##  0.3884   0.1393   0.0002   0.0838   0.1321   0.0613   0.0381  -0.1255  
+##       9       10       11       12       13       14       15       16  
+##  0.0366  -0.0996  -0.0102   0.0147   0.0879   0.0104   0.0639  -0.0132  
+##      17       18       19       20       21       22       23  
+##  0.0151  -0.0044  -0.0539   0.1240  -0.0302  -0.0545   0.1370  
 ## 
-## Order selected 23  sigma^2 estimated as  0.0209
+## Order selected 23  sigma^2 estimated as  0.02092
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Fits from method==&#39;Ar&#39; are not all positive. 
 ##   Setting values &lt;0 to 0 before rescaling.  
@@ -1281,7 +1287,7 @@ for educational purposes.</p>
 <div id="interactive-detrending" class="section level3 hasAnchor" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> Interactive detrending<a href="using-dplr.html#interactive-detrending" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are many instances where a user needs fine scale control while detrending perhaps fitting a negative exponential curve to one series, a spline to another, and the mean to a third. Like with crossdating, interactive detrending is a case where an app is useful. The <code>iDetrend</code> app is relatively simple interface to <code>detrend.series</code> that let’s users fit curves and plot them with several different options. When completed the user can save a file with the detrended data as well as generate log file that allows reproduction of the detrending from the command line. It’s available here</p>
-<p><a href="https://andybunn.shinyapps.io/iDetrend/" target="_blank">andybunn.shinyapps.io/iDetrend/</a></p>
+<p><a href="https://viz.datascience.arizona.edu/iDetrend/" target="_blank">viz.datascience.arizona.edu/iDetrend/</a></p>
 </div>
 <div id="other-detrending-methods" class="section level3 hasAnchor" number="3.4.3">
 <h3><span class="header-section-number">3.4.3</span> Other Detrending Methods<a href="using-dplr.html#other-detrending-methods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1291,44 +1297,44 @@ for educational purposes.</p>
 <div id="descriptive-statistics-for-detrended-data" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Descriptive Statistics for Detrended Data<a href="using-dplr.html#descriptive-statistics-for-detrended-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>It is also easy in <code>dplR</code> to compute commonly used descriptive statistics that describe the correlation between series (both within and between tree correlations) as well as the expressed population signal, signal-to-noise ratio, and subsample signal strength for a data set. These are done in <code>dplR</code> using the <code>rwi.stats</code> function so-named because these statistics are typically (but not always) carried out on detrended and standardized ring widths (rwi). If a data set has more than one core taken per tree this information can be used in the calculations to calculate within vs. between tree correlation. The function <code>read.ids</code> is used to identify which trees have multiple cores.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="using-dplr.html#cb51-1" aria-hidden="true" tabindex="-1"></a>ca533.ids <span class="ot">&lt;-</span> <span class="fu">read.ids</span>(ca533, <span class="at">stc =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
-<span id="cb51-2"><a href="using-dplr.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rwi.stats</span>(ca533.rwi, ca533.ids, <span class="at">prewhiten=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="using-dplr.html#cb47-1" tabindex="-1"></a>ca533.ids <span class="ot">&lt;-</span> <span class="fu">read.ids</span>(ca533, <span class="at">stc =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb47-2"><a href="using-dplr.html#cb47-2" tabindex="-1"></a><span class="fu">rwi.stats</span>(ca533.rwi, ca533.ids, <span class="at">prewhiten=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##   n.cores n.trees  n n.tot n.wt n.bt rbar.tot rbar.wt rbar.bt c.eff rbar.eff
-## 1      34      21 21   523   13  510    0.444   0.603   0.439 1.448    0.501
-##     eps   snr
-## 1 0.955 21.09</code></pre>
+## 1      34      21 21   523   13  510    0.445   0.606    0.44 1.448    0.502
+##     eps    snr
+## 1 0.955 21.128</code></pre>
 <p>There is (at least) one other way of looking at the average interseries correlation of a data set. The <code>interseries.cor</code> function in <code>dplR</code> gives a measure of average interseries correlation that is different from the rbar statistics from <code>rwi.stats</code>. In this function, correlations are calculated serially between each tree-ring series and a master chronology built from all the other series in the <code>rwl</code> object (leave-one-out principle). The average of those correlations is sometimes called the “overall interseries correlation” or even the “COFECHA correlation” in reference to commonly used crossdating software COFECHA. This number is typically higher than the various rbar values given by <code>rwi.stats</code>. We are showing just the first five series and the mean for all series here:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="using-dplr.html#cb53-1" aria-hidden="true" tabindex="-1"></a>ca533.rho <span class="ot">&lt;-</span> <span class="fu">interseries.cor</span>(ca533.rwi, <span class="at">prewhiten=</span><span class="cn">TRUE</span>,</span>
-<span id="cb53-2"><a href="using-dplr.html#cb53-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span>
-<span id="cb53-3"><a href="using-dplr.html#cb53-3" aria-hidden="true" tabindex="-1"></a>ca533.rho[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code></pre></div>
-<pre><code>##        res.cor p.val
-## CAM011  0.5358     0
-## CAM021  0.6760     0
-## CAM031  0.5258     0
-## CAM032  0.6265     0
-## CAM041  0.4907     0</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="using-dplr.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ca533.rho[, <span class="dv">1</span>])</span></code></pre></div>
-<pre><code>## [1] 0.6368</code></pre>
-<p>Again, if these concepts are unknown to you statistically look at some of the canonical works in dendrochronology like <span class="citation">Cook <em>et al.</em> (<a href="references.html#ref-Cook1990" role="doc-biblioref">1990</a>)</span>, <span class="citation">Fritts (<a href="references.html#ref-Fritts2001" role="doc-biblioref">2001</a>)</span>, and <span class="citation">Hughes <em>et al.</em> (<a href="references.html#ref-Hughes2011" role="doc-biblioref">2011</a>)</span>.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="using-dplr.html#cb49-1" tabindex="-1"></a>ca533.rho <span class="ot">&lt;-</span> <span class="fu">interseries.cor</span>(ca533.rwi, <span class="at">prewhiten=</span><span class="cn">TRUE</span>,</span>
+<span id="cb49-2"><a href="using-dplr.html#cb49-2" tabindex="-1"></a>                             <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb49-3"><a href="using-dplr.html#cb49-3" tabindex="-1"></a>ca533.rho[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code></pre></div>
+<pre><code>##          res.cor p.val
+## CAM011 0.5324769     0
+## CAM021 0.6826813     0
+## CAM031 0.5148129     0
+## CAM032 0.6311426     0
+## CAM041 0.5007524     0</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="using-dplr.html#cb51-1" tabindex="-1"></a><span class="fu">mean</span>(ca533.rho[, <span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## [1] 0.6381676</code></pre>
+<p>Again, if these concepts are unknown to you statistically look at some of the canonical works in dendrochronology like <span class="citation">Cook <em>et al.</em> (<a href="references.html#ref-Cook1990">1990</a>)</span>, <span class="citation">Fritts (<a href="references.html#ref-Fritts2001">2001</a>)</span>, and <span class="citation">Hughes <em>et al.</em> (<a href="references.html#ref-Hughes2011">2011</a>)</span>.</p>
 </div>
 <div id="building-a-mean-value-chronology" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Building a Mean-Value Chronology<a href="using-dplr.html#building-a-mean-value-chronology" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>After detrending, a user will typically build a chronology by averaging across the years of the rwi object. In <code>dplR</code> the function for doing this is <code>chron</code> which by default uses Tukey’s biweight robust mean (an average that is unaffected by outliers).</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="using-dplr.html#cb57-1" aria-hidden="true" tabindex="-1"></a>ca533.crn <span class="ot">&lt;-</span> <span class="fu">chron</span>(ca533.rwi)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="using-dplr.html#cb53-1" tabindex="-1"></a>ca533.crn <span class="ot">&lt;-</span> <span class="fu">chron</span>(ca533.rwi)</span></code></pre></div>
 <p>This object has the same number of rows as the rwi object that was used as the input and two columns. The first gives the chronology and the second the sample depth (the number of series available in that year).</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="using-dplr.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ca533.rwi)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="using-dplr.html#cb54-1" tabindex="-1"></a><span class="fu">dim</span>(ca533.rwi)</span></code></pre></div>
 <pre><code>## [1] 1358   34</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="using-dplr.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ca533.crn)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="using-dplr.html#cb56-1" tabindex="-1"></a><span class="fu">dim</span>(ca533.crn)</span></code></pre></div>
 <pre><code>## [1] 1358    2</code></pre>
 <p>An object produced by <code>chron</code> has a generic S3 method for plotting which calls the <code>crn.plot</code> function (which has many arguments for customization). Here we will just make a simple plot of the chronology with a smoothing spline (function <code>caps</code>) added.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="using-dplr.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca533.crn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="using-dplr.html#cb58-1" tabindex="-1"></a><span class="fu">plot</span>(ca533.crn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">20</span>)</span></code></pre></div>
 <p><img src="02-intro_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>The <code>chron</code> function is the most basic (and most common) way to buld a chronology but there are many other ways as we will see in the next few chapters.</p>
 </div>
 <div id="conclusion" class="section level2 hasAnchor" number="3.7">
 <h2><span class="header-section-number">3.7</span> Conclusion<a href="using-dplr.html#conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In general this page aims to give a very cursory overview of basic tasks that most dendrochronologists will want to be aware of. Know that we are just scratching the surface of what <code>dplR</code> is capable of. Browsing the list of functions in <code>dplR</code> will give you an idea of what else is available.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="using-dplr.html#cb63-1" aria-hidden="true" tabindex="-1"></a>?dplR</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="using-dplr.html#cb59-1" tabindex="-1"></a>?dplR</span></code></pre></div>
 
 </div>
 </div>
@@ -1399,7 +1405,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

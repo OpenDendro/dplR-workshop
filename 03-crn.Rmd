@@ -146,7 +146,8 @@ The above method uses a parametric approach to quantifying uncertainty. We can a
 wa082CrnCI <- chron.ci(wa082RwiSSS, biweight = TRUE, R = 500, conf = 0.99)
 head(wa082CrnCI)
 
-ggplot(wa082CrnCI,aes(x=yrs)) +
+dat <- data.frame(yrs=time(wa082CrnCI), wa082CrnCI)
+ggplot(data=dat, mapping = aes(x=yrs)) +
   geom_hline(yintercept = 1,linetype="dashed") +
   geom_ribbon(aes(ymin=lowerCI,ymax=upperCI),
               alpha=0.5,fill="blue") +
@@ -176,10 +177,10 @@ The function `chron.stabilized` builds a *variance stabilized* mean-value chrono
 
 ```{r crn stab}
 wa082StabCrnSSS <- chron.stabilized(wa082RwiSSS,winLength=101)
-str(wa082StabCrnSSS) # not class crn
+str(wa082StabCrnSSS) # note that this is NOT class crn
 
 dat <- data.frame(yrs = as.numeric(rownames(wa082StabCrnSSS)), 
-                  Chron = wa082StabCrnSSS$adj.crn) %>%
+                  Chron = wa082StabCrnSSS$vsc) %>%
   mutate(Smoothed = caps(Chron,nyrs=20)) %>%
   pivot_longer(cols = -yrs,names_to = "variable", values_to = "msmt")
 

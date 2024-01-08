@@ -326,9 +326,7 @@ crnCols <- pnw_palette(name="Starfish",n=dim(sfCrn_Mat)[2])
 # smooth chrons
 sfCrnSm <- data.frame(yrs = yrs, 
                       msmt = apply(sfCrn_Mat,2,caps,nyrs=50)) %>%
-  rename_with(.fn = seq, .cols = -1) %>%
-  pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt") %>%
-  mutate(Iteration = as.numeric(Iteration))
+  pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt")
 
 p1 <- ggplot() +
   geom_hline(yintercept = 1,linetype="dashed") +

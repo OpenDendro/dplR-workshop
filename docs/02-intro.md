@@ -18,7 +18,7 @@ library(dplR)
 ```
 
 ```
-## This is dplR version 1.7.5.
+## This is dplR version 1.7.6.
 ## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
 ```
@@ -111,11 +111,11 @@ rwl.report(ca533)
 ```
 ## Number of dated series: 34 
 ## Number of measurements: 23276 
-## Avg series length: 684.6 
+## Avg series length: 684.5882 
 ## Range:  1358 
 ## Span:  626 - 1983 
-## Mean (Std dev) series intercorrelation: 0.6294 (0.08593)
-## Mean (Std dev) AR1: 0.7093 (0.09812)
+## Mean (Std dev) series intercorrelation: 0.6294255 (0.0859289)
+## Mean (Std dev) AR1: 0.7092647 (0.09811876)
 ## -------------
 ## Years with absent rings listed by series 
 ##     Series CAM011 -- 1753 1782 
@@ -177,7 +177,7 @@ mean(ca533.stats$year)
 ```
 
 ```
-## [1] 684.6
+## [1] 684.5882
 ```
 
 ```r
@@ -185,7 +185,7 @@ sd(ca533.stats$year)
 ```
 
 ```
-## [1] 277
+## [1] 276.9972
 ```
 
 Or, we can look at the spread of the first-order autocorrelation via `summary(ca533.stats$ar1)` or make a plot to show the data. Here we will demonstrate a somewhat involved plot to get you an idea of how to layer plotting commands:
@@ -230,11 +230,11 @@ As any dendrochronologist will tell you, detrending is a dark art. In `dplR` we 
 
 Probably the most common method for detrending is what is often called the "conservative" approach of attempting to fit a negative exponential curve to a series. In the `dplR` implementation the `"ModNegExp"` method of `detrend` attempts to fit a classic nonlinear model of biological growth of the form $(f(t) = a \times \mathrm{e}^{bt} + k)$, where the argument of the function is time, using `nls`. See Fritts [-@Fritts2001] for details about the parameters. If a suitable nonlinear model cannot be fit (function is non-decreasing or some values are not positive) then a linear model is fit using `lm`. That linear model can have a positive slope unless `pos.slope` is `FALSE` in which case the series is standardized by its mean (method `"Mean"` in `detrend`).
 
-For instance, every series in the `ca533` object can be detrended at once via:  
+For instance, every series in the `ca533` object can be detrended at once with an age-dependent spline via:  
 
 
 ```r
-ca533.rwi <- detrend(rwl = ca533, method = "ModNegExp")
+ca533.rwi <- detrend(rwl = ca533, method = "AgeDepSpline")
 ```
 
 This saves the results in `ca533.rwi` which is a `data.frame` with the same dimensions as the `rwl` object `ca533` and each series standardized.
@@ -260,14 +260,16 @@ colMeans(ca533.rwi, na.rm=TRUE)
 ```
 
 ```
-## CAM011 CAM021 CAM031 CAM032 CAM041 CAM042 CAM051 CAM061 CAM062 CAM071 CAM072 
-## 0.9996 1.0000 1.0000 1.0000 1.0000 1.0012 1.0002 0.9999 1.0000 1.0000 1.0000 
-## CAM081 CAM082 CAM091 CAM092 CAM101 CAM102 CAM111 CAM112 CAM121 CAM122 CAM131 
-## 1.0000 1.0000 1.0000 0.9996 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9998 
-## CAM132 CAM141 CAM151 CAM152 CAM161 CAM162 CAM171 CAM172 CAM181 CAM191 CAM201 
-## 0.9985 0.9999 0.9995 0.9999 1.0004 0.9994 0.9997 0.9998 1.0000 0.9953 1.0000 
-## CAM211 
-## 0.9998
+##    CAM011    CAM021    CAM031    CAM032    CAM041    CAM042    CAM051    CAM061 
+## 1.0631050 1.0224109 2.2693152 1.3842987 1.0406039 1.0705729 0.9986579 1.0271454 
+##    CAM062    CAM071    CAM072    CAM081    CAM082    CAM091    CAM092    CAM101 
+## 0.9972379 1.0019581 1.3751516 1.3000696 0.9988440 1.1558844 1.1102479 1.4626404 
+##    CAM102    CAM111    CAM112    CAM121    CAM122    CAM131    CAM132    CAM141 
+## 1.0631347 1.1279841 1.0140838 1.3058103 1.0625794 1.1127666 0.9997782 1.0105626 
+##    CAM151    CAM152    CAM161    CAM162    CAM171    CAM172    CAM181    CAM191 
+## 1.1363804 0.9990169 0.9992451 1.1053696 1.0649315 1.0242845 1.5740168 1.0651213 
+##    CAM201    CAM211 
+## 1.0478775 1.1227146
 ```
 
 When `detrend` is run on a `rwl` object the function loops through 
@@ -311,18 +313,18 @@ CAM011.rwi <- detrend.series(y = ca533[, "CAM011"],verbose=TRUE)
 ##  Detrend by ModNegExp.
 ##  Trying to fit nls model...
 ##  nls coefs
-##  a:  0.66110
-##  b: -0.01184
-##  k:  0.31793
+##  a:  0.66109686
+##  b: -0.01184415
+##  k:  0.31793386
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by ModHugershoff.
 ##  Trying to fit nls model...
 ##  nls coefs
-##  a: 0.45550
-##  b: 0.15420
-##  g: 0.01532
-##  d: 0.32392
+##  a: 0.45550002
+##  b: 0.15419657
+##  g: 0.01532032
+##  d: 0.32391578
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by age-dependent spline.
@@ -336,7 +338,7 @@ CAM011.rwi <- detrend.series(y = ca533[, "CAM011"],verbose=TRUE)
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by mean.
-##  Mean =  0.4396
+##  Mean =  0.4395859
 ## 
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Detrend by prewhitening.
@@ -344,14 +346,14 @@ CAM011.rwi <- detrend.series(y = ca533[, "CAM011"],verbose=TRUE)
 ## ar(x = y[idx.goody])
 ## 
 ## Coefficients:
-##      1       2       3       4       5       6       7       8       9      10  
-##  0.388   0.139   0.000   0.084   0.132   0.061   0.038  -0.126   0.037  -0.100  
-##     11      12      13      14      15      16      17      18      19      20  
-## -0.010   0.015   0.088   0.010   0.064  -0.013   0.015  -0.004  -0.054   0.124  
-##     21      22      23  
-## -0.030  -0.054   0.137  
+##       1        2        3        4        5        6        7        8  
+##  0.3884   0.1393   0.0002   0.0838   0.1321   0.0613   0.0381  -0.1255  
+##       9       10       11       12       13       14       15       16  
+##  0.0366  -0.0996  -0.0102   0.0147   0.0879   0.0104   0.0639  -0.0132  
+##      17       18       19       20       21       22       23  
+##  0.0151  -0.0044  -0.0539   0.1240  -0.0302  -0.0545   0.1370  
 ## 
-## Order selected 23  sigma^2 estimated as  0.0209
+## Order selected 23  sigma^2 estimated as  0.02092
 ##  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Fits from method=='Ar' are not all positive. 
 ##   Setting values <0 to 0 before rescaling.  
@@ -379,7 +381,7 @@ Note that advanced users can use `return.info=TRUE` to have all the fitting para
 
 There are many instances where a user needs fine scale control while detrending perhaps fitting a negative exponential curve to one series, a spline to another, and the mean to a third. Like with crossdating, interactive detrending is a case where an app is useful. The `iDetrend` app is relatively simple interface to `detrend.series` that let's users fit curves and plot them with several different options. When completed the user can save a file with the detrended data as well as generate log file that allows reproduction of the detrending from the command line. It's available here 
 
-[andybunn.shinyapps.io/iDetrend/](https://andybunn.shinyapps.io/iDetrend/){target="_blank"}
+[viz.datascience.arizona.edu/iDetrend/](https://viz.datascience.arizona.edu/iDetrend/){target="_blank"}
 
 
 ### Other Detrending Methods
@@ -398,9 +400,9 @@ rwi.stats(ca533.rwi, ca533.ids, prewhiten=TRUE)
 
 ```
 ##   n.cores n.trees  n n.tot n.wt n.bt rbar.tot rbar.wt rbar.bt c.eff rbar.eff
-## 1      34      21 21   523   13  510    0.444   0.603   0.439 1.448    0.501
-##     eps   snr
-## 1 0.955 21.09
+## 1      34      21 21   523   13  510    0.445   0.606    0.44 1.448    0.502
+##     eps    snr
+## 1 0.955 21.128
 ```
 
 There is (at least) one other way of looking at the average interseries correlation of a data set. The `interseries.cor` function in `dplR` gives a measure of average interseries correlation that is different from the rbar statistics from `rwi.stats`. In this function, correlations are calculated serially between each tree-ring series and a master chronology built from all the other series in the `rwl` object (leave-one-out principle). The average of those correlations is sometimes called the "overall interseries correlation" or even the "COFECHA correlation" in reference to commonly used crossdating software COFECHA. This number is typically higher than the various rbar values given by  `rwi.stats`. We are showing just the first five series and the mean for all series here:
@@ -413,12 +415,12 @@ ca533.rho[1:5, ]
 ```
 
 ```
-##        res.cor p.val
-## CAM011  0.5358     0
-## CAM021  0.6760     0
-## CAM031  0.5258     0
-## CAM032  0.6265     0
-## CAM041  0.4907     0
+##          res.cor p.val
+## CAM011 0.5324769     0
+## CAM021 0.6826813     0
+## CAM031 0.5148129     0
+## CAM032 0.6311426     0
+## CAM041 0.5007524     0
 ```
 
 ```r
@@ -426,7 +428,7 @@ mean(ca533.rho[, 1])
 ```
 
 ```
-## [1] 0.6368
+## [1] 0.6381676
 ```
 
 Again, if these concepts are unknown to you statistically look at some of the canonical works in dendrochronology like @Cook1990, @Fritts2001, and @Hughes2011.

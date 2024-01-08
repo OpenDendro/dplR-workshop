@@ -9,7 +9,7 @@ Although extremely powerful, `R` has a steep learning curve that has led some to
 ### R
 
 Install `R` by visiting [www.r-project.org](https://www.r-project.org/). 
-We recommend that you use [RStudio](https://www.rstudio.com/) to interact with, and script in `R`. These documents were all made using R version 4.1.3 (2022-03-10).
+We recommend that you use [RStudio](https://www.rstudio.com/) to interact with, and script in `R`. These documents were all made using R version 4.3.2 (2023-10-31).
 
 ### Getting dplR
 
@@ -19,7 +19,7 @@ Install the add-on library `dplR`. You can download and install `dplR `using the
 install.packages("dplR")
 ```
 
-These documents use version 1.7.5 of `dplR`. You can check the version of your version of `dplR` via:
+These documents use version 1.7.6 of `dplR`. You can check the version of your version of `dplR` via:
 
 
 ```r
@@ -73,20 +73,16 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-```
-
-```
-## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
-## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1
-```
-
-```
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
 
 Note that a list of conflicts is printed to the screen including `dplyr::filter() masks stats::filter()`. Now if we rerun the code above we get an error.
@@ -130,12 +126,11 @@ citation()
 ```
 
 ```
-## 
 ## To cite R in publications use:
 ## 
-##   R Core Team (2022). R: A language and environment for statistical
-##   computing. R Foundation for Statistical Computing, Vienna, Austria.
-##   URL https://www.R-project.org/.
+##   R Core Team (2023). _R: A Language and Environment for Statistical
+##   Computing_. R Foundation for Statistical Computing, Vienna, Austria.
+##   <https://www.R-project.org/>.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
@@ -144,7 +139,7 @@ citation()
 ##     author = {{R Core Team}},
 ##     organization = {R Foundation for Statistical Computing},
 ##     address = {Vienna, Austria},
-##     year = {2022},
+##     year = {2023},
 ##     url = {https://www.R-project.org/},
 ##   }
 ## 
@@ -163,31 +158,21 @@ citation("dplR")
 ```
 
 ```
-## Warning in citation(auto = meta): no date field in DESCRIPTION file of package
-## 'dplR'
-```
-
-```
-## Warning in citation(auto = meta): could not determine year for 'dplR' from
-## package DESCRIPTION file
-```
-
-```
+## To cite package 'dplR' in publications use:
 ## 
-## Bunn AG (2008). "A dendrochronology program library in R (dplR)."
-## _Dendrochronologia_, *26*(2), 115-124. ISSN 1125-7865, doi:
-## 10.1016/j.dendro.2008.01.002 (URL:
-## https://doi.org/10.1016/j.dendro.2008.01.002).
+##   Bunn AG (2008). "A dendrochronology program library in R (dplR)."
+##   _Dendrochronologia_, *26*(2), 115-124. ISSN 1125-7865,
+##   doi:10.1016/j.dendro.2008.01.002
+##   <https://doi.org/10.1016/j.dendro.2008.01.002>.
 ## 
-## Bunn AG (2010). "Statistical and visual crossdating in R using the dplR
-## library." _Dendrochronologia_, *28*(4), 251-258. ISSN 1125-7865, doi:
-## 10.1016/j.dendro.2009.12.001 (URL:
-## https://doi.org/10.1016/j.dendro.2009.12.001).
+##   Bunn AG (2010). "Statistical and visual crossdating in R using the
+##   dplR library." _Dendrochronologia_, *28*(4), 251-258. ISSN 1125-7865,
+##   doi:10.1016/j.dendro.2009.12.001
+##   <https://doi.org/10.1016/j.dendro.2009.12.001>.
 ## 
-##   Andy Bunn, Mikko Korpela, Franco Biondi, Filipe Campelo, Pierre
-##   Mérian, Fares Qeadan and Christian Zang (NA). dplR: Dendrochronology
-##   Program Library in R. R package version 1.7.5.
-##   https://github.com/AndyBunn/dplR
+##   Bunn A, Korpela M, Biondi F, Campelo F, Mérian P, Qeadan F, Zang C
+##   (2023). _dplR: Dendrochronology Program Library in R_. R package
+##   version 1.7.6, <https://CRAN.R-project.org/package=dplR>.
 ## 
 ## To see these entries in BibTeX format, use 'print(<citation>,
 ## bibtex=TRUE)', 'toBibtex(.)', or set
