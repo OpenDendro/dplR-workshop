@@ -318,10 +318,35 @@ ggplot(highFreqDiff,aes(x=yrs,y=difference)) +
 
 ### Iterations Visualized
 
-We can see the progression of the output chronology relatively clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
+Let's look at the progression of the `ssf` process in a few way. 
+
+First, we can look at how the detrending curve of a single series evolves over iterations.
+
+```{r plot a series curve, fig.height=4, class.source = 'fold-hide'}
+
+iterationCols <- pnw_palette(name="Starfish",
+                       n=dim(sfRWRescaledCurves_Array)[3])
+aSeriesCurves <- sfRWRescaledCurves_Array[,2,]
+mask <- !is.na(aSeriesCurves[,2])
+dat <- data.frame(aSeriesCurves[mask,])
+colnames(dat) <- paste0("Iteration_", 1:ncol(dat))
+dat <- data.frame(age=1:nrow(dat),dat) %>%
+  pivot_longer(-age)
+ggplot(data = dat, 
+       mapping = aes(x=age,y=value,color=name)) +
+  geom_line(alpha=0.75,size=1) +
+  scale_color_manual(values = iterationCols) +
+  labs(caption = names(ca533)[2],
+       x="Years",y="mm") +
+  theme_cowplot() +
+  theme(legend.position="none")
+
+
+```
+
+The effect of the `ssf` function over the iterations can aslo been seen clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
 
 ```{r plot all sm, fig.height=4, class.source = 'fold-hide'}
-crnCols <- pnw_palette(name="Starfish",n=dim(sfCrn_Mat)[2])
 
 # smooth chrons
 sfCrnSm <- data.frame(yrs = yrs, 
@@ -333,7 +358,7 @@ p1 <- ggplot() +
   geom_line(data=sfCrnSm,
             mapping = aes(x=yrs,y=msmt,color=factor(Iteration)),
             alpha=0.75,size=1) +
-  scale_color_manual(values = crnCols) +
+  scale_color_manual(values = iterationCols) +
   labs(caption="Signal Free Chronology",
        x="Years",y="RWI") +
   theme_cowplot() +
@@ -346,7 +371,7 @@ p2 <- ggplot(MADdf, aes(x = Iteration,y = MAD,color=factor(Iteration))) +
   geom_hline(yintercept = 5e-04,color="grey30",linetype="dotted") + 
   geom_line(color="grey30") +
   geom_point(size=2,alpha=0.9) +
-  scale_color_manual(values = crnCols) +
+  scale_color_manual(values = iterationCols) +
   scale_x_continuous(breaks=seq(2,max(MADdf$Iteration),by=2),
                      limits = c(1,max(MADdf$Iteration)+1),
                      expand = c(0,0)) +
@@ -408,7 +433,7 @@ if(!file.exists("sfAnim.gif")){
     # layer 3
     geom_line(data=sfCrnSm,mapping = aes(x=yrs,y=msmt,color=Iteration2),
               alpha=0.75,size=1) +
-    scale_color_manual(values = crnCols) +
+    scale_color_manual(values = iterationCols) +
     labs(x="Years", y="RWI",
          caption="Signal Free Chronology",
          subtitle = "Iteration: {as.integer(frame_time)}") +
@@ -420,7 +445,7 @@ if(!file.exists("sfAnim.gif")){
     #static
     geom_hline(yintercept = 5e-04,color="grey30",linetype="dotted") +
     geom_point(aes(color = factor(IterationStatic)),size=4,alpha=0.9) +
-    scale_color_manual(values = crnCols) +
+    scale_color_manual(values = iterationCols) +
     # dynamic
     # Direction of segment reversed below, less distracting
     geom_line(color="grey30") +
@@ -441,7 +466,7 @@ if(!file.exists("sfAnim.gif")){
   p3 <- ggplot(highFreqDiff,aes(x=yrs,y=difference)) +
     geom_hline(yintercept = 0,linetype="dashed") +
     geom_line(aes(color=factor(Iteration))) +
-    scale_color_manual(values = crnCols) +
+    scale_color_manual(values = iterationCols) +
     labs(y="RWI Difference",x="Years",
          caption="") +
     lims(y=c(-0.05,0.1)) +
