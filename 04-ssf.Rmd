@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Simple Signal-Free 
 
 ## Introduction
@@ -83,19 +88,6 @@ plot(ssfCrn,add.spline=TRUE,nyrs=50,
 
 In the above, the signal-free chronology is shown with a 50-year smoothing spline added for visualization of low-frequency variability. The algorithm converged after 10 iterations.
 
-## Changing the Detrending Method
-
-The help file for `ssf` gives more information on possible arguments. See `?ssf` for details. By default the function uses an age-depended spline (`dplR` function `ads`) for detrending. But we can also use a cubic smoothing spline (`caps`). We will arbitrarily set the stiffness to the median segment length of the input data, which is `r medianSegLength`. Whether this is a wise choice or not is debatable.
-
-```{r do ssf with caps}
-ssfCrn2 <- ssf(rwl = datTrunc,method="Spline",nyrs=medianSegLength)
-
-plot(ssfCrn2,add.spline=TRUE,nyrs=50,
-     crn.line.col=divColors[3],spline.line.col=divColors[1],
-     crn.lwd=1.5,spline.lwd=2)
-```
-
-Note that the algorithm takes more iterations to converge but produces a qualitatively similar chronology.
 
 ## Walk Through
 To demonstrate how the signal free process works we can redo the chronology, this time returning information on the process at each iteration. Note the change in the structure (`str`) of the output object.
@@ -344,7 +336,7 @@ ggplot(data = dat,
 
 ```
 
-The effect of the `ssf` function over the iterations can aslo been seen clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
+The effect of the `ssf` function over the iterations can also been seen clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
 
 ```{r plot all sm, fig.height=4, class.source = 'fold-hide'}
 
@@ -512,6 +504,61 @@ knitr::include_graphics("sfAnim.gif")
 ```
 
 One thing to note with these data is that the upturns and downturns at the ends of the chronology are persistent even though they shrink vastly in the later iterations.
+
+## Changing the Detrending Method
+
+By default the `ssf `function uses an age-depended spline (`dplR` function `ads`) for detrending. But we can also use a cubic smoothing spline (`caps`). The help file for `ssf` gives more information on possible arguments. See `?ssf` for details. Ideally one would hope that the `ssf` method would be robust to the detrending algorithm chosen.
+
+Let's make a signal free chronology using the traditional cubic smoothing spline and compare it to the signal free chronology made with the age dependent spline.
+
+```{r do ssf with caps}
+ssfCrn2 <- ssf(rwl = datTrunc,method="Spline",nyrs = 0.67)
+
+plot(ssfCrn2,add.spline=TRUE,nyrs=50,
+     crn.line.col=divColors[3],spline.line.col=divColors[1],
+     crn.lwd=1.5,spline.lwd=2)
+```
+
+Note that the algorithm takes fewer iterations to converge While changing the detrending produces a qualitatively similar chronology, there are still differences in the final chronologies.
+
+```{r compare ssf with diff methods, fig.height=6, class.source = 'fold-hide'}
+ssfCrn <- ssf(rwl = datTrunc,verbose = FALSE)
+
+dat <- data.frame(yrs=time(ssfCrn), adsCrn = ssfCrn$sfc, 
+                  capsCrn = ssfCrn2$sfc) %>% 
+  rename(`Age Dependent Spline` = 2,`Traditional Spline` = 3) %>%
+  pivot_longer(-yrs,names_to = "method",values_to = "msmt")
+
+datDiff <- data.frame(yrs = yrs,
+                      diffCrn = ssfCrn$sfc - ssfCrn2$sfc)
+
+p1 <- ggplot(data=dat,
+             mapping = aes(x=yrs,y=msmt,color=method)) +
+  geom_hline(yintercept = 1,linetype="dashed") +
+  geom_line() +
+    scale_color_manual(values = divColors[2:3]) +
+  labs(y="RWI",x="Years",
+       title="Signal Free with different detrending methods") +
+  facet_wrap(~method, ncol = 1) +
+  theme_cowplot() +
+  theme(strip.background = element_blank(),
+        legend.position = "none",
+        legend.title = element_blank())
+
+p2 <- ggplot(data=datDiff,
+             mapping = aes(x=yrs,y=diffCrn)) +
+  geom_hline(yintercept = 0,linetype="dashed") +
+  geom_line(color="grey30") +
+  labs(y="RWI Difference",x="Years") +
+  theme_cowplot() +
+  theme(legend.position = "none",
+        legend.title = element_blank())
+
+
+ggdraw(xlim = c(0, 1), ylim = c(0, 2)) +
+  draw_plot(plot = p1,y=0.5,height=1.5) +
+  draw_plot(plot = p2,y=0,height=0.5)
+```
 
 ## Final Thoughts
 This document shows how the algorithm progresses through the iterations in order to calculate the simple signal-free chronology. We should caution here that while there are excellent theoretical reasons to use the signal-free approach, the method is not a panacea for all applications. Detrending, after all, is a dark art and it is always up to the user to carefully evaluate the data and build chronologies with expectation that the final product is heavily dependent on the site and on the methods used.

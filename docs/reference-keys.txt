@@ -38,7 +38,6 @@ introduction-2
 packages
 data
 making-the-simple-signal-free-chronology
-changing-the-detrending-method
 walk-through
 step-1-iteration-0
 steps-2-and-3-iteration-1
@@ -46,6 +45,7 @@ steps-4-and-5-iteration-1
 step-6-and-7-iteration-1
 step-8-begin-iterations
 iterations-visualized
+changing-the-detrending-method
 final-thoughts
 xdate
 introduction-3

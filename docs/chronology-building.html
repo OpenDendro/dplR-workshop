@@ -965,16 +965,16 @@ div.csl-indent {
 <li class="chapter" data-level="5.2" data-path="simple-signal-free.html"><a href="simple-signal-free.html#packages"><i class="fa fa-check"></i><b>5.2</b> Packages</a></li>
 <li class="chapter" data-level="5.3" data-path="simple-signal-free.html"><a href="simple-signal-free.html#data"><i class="fa fa-check"></i><b>5.3</b> Data</a></li>
 <li class="chapter" data-level="5.4" data-path="simple-signal-free.html"><a href="simple-signal-free.html#making-the-simple-signal-free-chronology"><i class="fa fa-check"></i><b>5.4</b> Making the Simple Signal-Free Chronology</a></li>
-<li class="chapter" data-level="5.5" data-path="simple-signal-free.html"><a href="simple-signal-free.html#changing-the-detrending-method"><i class="fa fa-check"></i><b>5.5</b> Changing the Detrending Method</a></li>
-<li class="chapter" data-level="5.6" data-path="simple-signal-free.html"><a href="simple-signal-free.html#walk-through"><i class="fa fa-check"></i><b>5.6</b> Walk Through</a>
+<li class="chapter" data-level="5.5" data-path="simple-signal-free.html"><a href="simple-signal-free.html#walk-through"><i class="fa fa-check"></i><b>5.5</b> Walk Through</a>
 <ul>
-<li class="chapter" data-level="5.6.1" data-path="simple-signal-free.html"><a href="simple-signal-free.html#step-1-iteration-0"><i class="fa fa-check"></i><b>5.6.1</b> Step 1 (Iteration 0)</a></li>
-<li class="chapter" data-level="5.6.2" data-path="simple-signal-free.html"><a href="simple-signal-free.html#steps-2-and-3-iteration-1"><i class="fa fa-check"></i><b>5.6.2</b> Steps 2 and 3 (Iteration 1)</a></li>
-<li class="chapter" data-level="5.6.3" data-path="simple-signal-free.html"><a href="simple-signal-free.html#steps-4-and-5-iteration-1"><i class="fa fa-check"></i><b>5.6.3</b> Steps 4 and 5 (Iteration 1)</a></li>
-<li class="chapter" data-level="5.6.4" data-path="simple-signal-free.html"><a href="simple-signal-free.html#step-6-and-7-iteration-1"><i class="fa fa-check"></i><b>5.6.4</b> Step 6 and 7 (Iteration 1)</a></li>
-<li class="chapter" data-level="5.6.5" data-path="simple-signal-free.html"><a href="simple-signal-free.html#step-8-begin-iterations"><i class="fa fa-check"></i><b>5.6.5</b> Step 8 (Begin Iterations)</a></li>
-<li class="chapter" data-level="5.6.6" data-path="simple-signal-free.html"><a href="simple-signal-free.html#iterations-visualized"><i class="fa fa-check"></i><b>5.6.6</b> Iterations Visualized</a></li>
+<li class="chapter" data-level="5.5.1" data-path="simple-signal-free.html"><a href="simple-signal-free.html#step-1-iteration-0"><i class="fa fa-check"></i><b>5.5.1</b> Step 1 (Iteration 0)</a></li>
+<li class="chapter" data-level="5.5.2" data-path="simple-signal-free.html"><a href="simple-signal-free.html#steps-2-and-3-iteration-1"><i class="fa fa-check"></i><b>5.5.2</b> Steps 2 and 3 (Iteration 1)</a></li>
+<li class="chapter" data-level="5.5.3" data-path="simple-signal-free.html"><a href="simple-signal-free.html#steps-4-and-5-iteration-1"><i class="fa fa-check"></i><b>5.5.3</b> Steps 4 and 5 (Iteration 1)</a></li>
+<li class="chapter" data-level="5.5.4" data-path="simple-signal-free.html"><a href="simple-signal-free.html#step-6-and-7-iteration-1"><i class="fa fa-check"></i><b>5.5.4</b> Step 6 and 7 (Iteration 1)</a></li>
+<li class="chapter" data-level="5.5.5" data-path="simple-signal-free.html"><a href="simple-signal-free.html#step-8-begin-iterations"><i class="fa fa-check"></i><b>5.5.5</b> Step 8 (Begin Iterations)</a></li>
+<li class="chapter" data-level="5.5.6" data-path="simple-signal-free.html"><a href="simple-signal-free.html#iterations-visualized"><i class="fa fa-check"></i><b>5.5.6</b> Iterations Visualized</a></li>
 </ul></li>
+<li class="chapter" data-level="5.6" data-path="simple-signal-free.html"><a href="simple-signal-free.html#changing-the-detrending-method"><i class="fa fa-check"></i><b>5.6</b> Changing the Detrending Method</a></li>
 <li class="chapter" data-level="5.7" data-path="simple-signal-free.html"><a href="simple-signal-free.html#final-thoughts"><i class="fa fa-check"></i><b>5.7</b> Final Thoughts</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="xdate.html"><a href="xdate.html"><i class="fa fa-check"></i><b>6</b> xDate</a>
@@ -1179,12 +1179,12 @@ subsample signal strength (SSS). Just for fun, I’ll show how we can do this us
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="chronology-building.html#cb79-1" tabindex="-1"></a>wa082CrnCI <span class="ot">&lt;-</span> <span class="fu">chron.ci</span>(wa082RwiSSS, <span class="at">biweight =</span> <span class="cn">TRUE</span>, <span class="at">R =</span> <span class="dv">500</span>, <span class="at">conf =</span> <span class="fl">0.99</span>)</span>
 <span id="cb79-2"><a href="chronology-building.html#cb79-2" tabindex="-1"></a><span class="fu">head</span>(wa082CrnCI)</span></code></pre></div>
 <pre><code>##            std   lowerCI  upperCI samp.depth
-## 1764 0.9973869 0.8557839 1.157573          9
-## 1765 1.1763109 0.9934430 1.366174          9
-## 1766 1.0711478 0.9357185 1.209827          9
-## 1767 1.0073500 0.7019605 1.329145          9
-## 1768 1.1973787 0.9147849 1.543227          9
-## 1769 1.2374817 1.0254516 1.466826          9</code></pre>
+## 1764 0.9973869 0.8489167 1.175950          9
+## 1765 1.1763109 0.9833266 1.371612          9
+## 1766 1.0711478 0.9374000 1.207321          9
+## 1767 1.0073500 0.7165471 1.305670          9
+## 1768 1.1973787 0.9356116 1.511237          9
+## 1769 1.2374817 0.9979545 1.484980          9</code></pre>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="chronology-building.html#cb81-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yrs=</span><span class="fu">time</span>(wa082CrnCI), wa082CrnCI)</span>
 <span id="cb81-2"><a href="chronology-building.html#cb81-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dat, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>yrs)) <span class="sc">+</span></span>
 <span id="cb81-3"><a href="chronology-building.html#cb81-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>

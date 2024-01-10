@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Simple Signal-Free 
 
 ## Introduction
@@ -137,57 +142,6 @@ plot(ssfCrn,add.spline=TRUE,nyrs=50,
 
 In the above, the signal-free chronology is shown with a 50-year smoothing spline added for visualization of low-frequency variability. The algorithm converged after 10 iterations.
 
-## Changing the Detrending Method
-
-The help file for `ssf` gives more information on possible arguments. See `?ssf` for details. By default the function uses an age-depended spline (`dplR` function `ads`) for detrending. But we can also use a cubic smoothing spline (`caps`). We will arbitrarily set the stiffness to the median segment length of the input data, which is 627. Whether this is a wise choice or not is debatable.
-
-
-```r
-ssfCrn2 <- ssf(rwl = datTrunc,method="Spline",nyrs=medianSegLength)
-```
-
-```
-## Data read. First iteration done.
-## Iteration: 2 Median Abs Diff: 0.00212 (23.57048% of threshold)
-## Iteration: 3 Median Abs Diff: 0.00185 (26.97214% of threshold)
-## Iteration: 4 Median Abs Diff: 0.0017 (29.3594% of threshold)
-## Iteration: 5 Median Abs Diff: 0.00153 (32.62844% of threshold)
-## Iteration: 6 Median Abs Diff: 0.00144 (34.64722% of threshold)
-## Iteration: 7 Median Abs Diff: 0.00138 (36.31909% of threshold)
-## Iteration: 8 Median Abs Diff: 0.00125 (39.92379% of threshold)
-## Iteration: 9 Median Abs Diff: 0.00121 (41.24506% of threshold)
-## Iteration: 10 Median Abs Diff: 0.00114 (43.97276% of threshold)
-## Iteration: 11 Median Abs Diff: 0.00106 (47.16853% of threshold)
-## Iteration: 12 Median Abs Diff: 0.00103 (48.49743% of threshold)
-## Iteration: 13 Median Abs Diff: 0.00098 (50.95603% of threshold)
-## Iteration: 14 Median Abs Diff: 0.00095 (52.74914% of threshold)
-## Iteration: 15 Median Abs Diff: 0.00089 (55.93075% of threshold)
-## Iteration: 16 Median Abs Diff: 0.00086 (58.06452% of threshold)
-## Iteration: 17 Median Abs Diff: 0.00081 (61.74206% of threshold)
-## Iteration: 18 Median Abs Diff: 0.00074 (67.718% of threshold)
-## Iteration: 19 Median Abs Diff: 0.00067 (74.47746% of threshold)
-## Iteration: 20 Median Abs Diff: 0.00064 (77.98195% of threshold)
-## Iteration: 21 Median Abs Diff: 6e-04 (82.93416% of threshold)
-## Iteration: 22 Median Abs Diff: 0.00057 (88.15344% of threshold)
-## Iteration: 23 Median Abs Diff: 0.00053 (94.85591% of threshold)
-## Iteration: 24 Median Abs Diff: 0.00048 (104.0267% of threshold)
-## Simple Signal Free Chronology Complete
-## ssf was called with these arguments
-## Detrending method: Spline
-## nyrs: 627
-## maxIterations: 25
-## madThreshold: 5e-04
-```
-
-```r
-plot(ssfCrn2,add.spline=TRUE,nyrs=50,
-     crn.line.col=divColors[3],spline.line.col=divColors[1],
-     crn.lwd=1.5,spline.lwd=2)
-```
-
-<img src="04-ssf_files/figure-html/do ssf with caps-1.png" width="672" />
-
-Note that the algorithm takes more iterations to converge but produces a qualitatively similar chronology.
 
 ## Walk Through
 To demonstrate how the signal free process works we can redo the chronology, this time returning information on the process at each iteration. Note the change in the structure (`str`) of the output object.
@@ -512,7 +466,7 @@ ggplot(data = dat,
 
 <img src="04-ssf_files/figure-html/plot a series curve-1.png" width="672" />
 
-The effect of the `ssf` function over the iterations can aslo been seen clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
+The effect of the `ssf` function over the iterations can also been seen clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
 
 
 ```{.r .fold-hide}
@@ -684,6 +638,89 @@ knitr::include_graphics("sfAnim.gif")
 ![](sfAnim.gif)<!-- -->
 
 One thing to note with these data is that the upturns and downturns at the ends of the chronology are persistent even though they shrink vastly in the later iterations.
+
+## Changing the Detrending Method
+
+By default the `ssf `function uses an age-depended spline (`dplR` function `ads`) for detrending. But we can also use a cubic smoothing spline (`caps`). The help file for `ssf` gives more information on possible arguments. See `?ssf` for details. Ideally one would hope that the `ssf` method would be robust to the detrending algorithm chosen.
+
+Let's make a signal free chronology using the traditional cubic smoothing spline and compare it to the signal free chronology made with the age dependent spline.
+
+
+```r
+ssfCrn2 <- ssf(rwl = datTrunc,method="Spline",nyrs = 0.67)
+```
+
+```
+## Data read. First iteration done.
+## Iteration: 2 Median Abs Diff: 0.00159 (31.4568% of threshold)
+## Iteration: 3 Median Abs Diff: 0.00101 (49.31486% of threshold)
+## Iteration: 4 Median Abs Diff: 0.00083 (59.94583% of threshold)
+## Iteration: 5 Median Abs Diff: 0.00073 (68.1825% of threshold)
+## Iteration: 6 Median Abs Diff: 0.00068 (73.20575% of threshold)
+## Iteration: 7 Median Abs Diff: 0.00065 (77.42011% of threshold)
+## Iteration: 8 Median Abs Diff: 0.00061 (81.58836% of threshold)
+## Iteration: 9 Median Abs Diff: 0.00059 (85.40047% of threshold)
+## Iteration: 10 Median Abs Diff: 0.00053 (93.65182% of threshold)
+## Iteration: 11 Median Abs Diff: 0.00049 (102.9353% of threshold)
+## Simple Signal Free Chronology Complete
+## ssf was called with these arguments
+## Detrending method: Spline
+## nyrs: 0.67
+## maxIterations: 25
+## madThreshold: 5e-04
+```
+
+```r
+plot(ssfCrn2,add.spline=TRUE,nyrs=50,
+     crn.line.col=divColors[3],spline.line.col=divColors[1],
+     crn.lwd=1.5,spline.lwd=2)
+```
+
+<img src="04-ssf_files/figure-html/do ssf with caps-1.png" width="672" />
+
+Note that the algorithm takes fewer iterations to converge While changing the detrending produces a qualitatively similar chronology, there are still differences in the final chronologies.
+
+
+```{.r .fold-hide}
+ssfCrn <- ssf(rwl = datTrunc,verbose = FALSE)
+
+dat <- data.frame(yrs=time(ssfCrn), adsCrn = ssfCrn$sfc, 
+                  capsCrn = ssfCrn2$sfc) %>% 
+  rename(`Age Dependent Spline` = 2,`Traditional Spline` = 3) %>%
+  pivot_longer(-yrs,names_to = "method",values_to = "msmt")
+
+datDiff <- data.frame(yrs = yrs,
+                      diffCrn = ssfCrn$sfc - ssfCrn2$sfc)
+
+p1 <- ggplot(data=dat,
+             mapping = aes(x=yrs,y=msmt,color=method)) +
+  geom_hline(yintercept = 1,linetype="dashed") +
+  geom_line() +
+    scale_color_manual(values = divColors[2:3]) +
+  labs(y="RWI",x="Years",
+       title="Signal Free with different detrending methods") +
+  facet_wrap(~method, ncol = 1) +
+  theme_cowplot() +
+  theme(strip.background = element_blank(),
+        legend.position = "none",
+        legend.title = element_blank())
+
+p2 <- ggplot(data=datDiff,
+             mapping = aes(x=yrs,y=diffCrn)) +
+  geom_hline(yintercept = 0,linetype="dashed") +
+  geom_line(color="grey30") +
+  labs(y="RWI Difference",x="Years") +
+  theme_cowplot() +
+  theme(legend.position = "none",
+        legend.title = element_blank())
+
+
+ggdraw(xlim = c(0, 1), ylim = c(0, 2)) +
+  draw_plot(plot = p1,y=0.5,height=1.5) +
+  draw_plot(plot = p2,y=0,height=0.5)
+```
+
+<img src="04-ssf_files/figure-html/compare ssf with diff methods-1.png" width="672" />
 
 ## Final Thoughts
 This document shows how the algorithm progresses through the iterations in order to calculate the simple signal-free chronology. We should caution here that while there are excellent theoretical reasons to use the signal-free approach, the method is not a panacea for all applications. Detrending, after all, is a dark art and it is always up to the user to carefully evaluate the data and build chronologies with expectation that the final product is heavily dependent on the site and on the methods used.

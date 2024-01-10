@@ -1,7 +1,7 @@
 # Acknowledgements
-I started making `dplR` in 2007 or so. But it would look nothing like it does today without the contributions of many collaborators over the years. I would especially like to thank Mikko Korpela. I have never met Mikko in person but he spent countless hours (but into the thousands I think) over several years taking my ugly R and returning much prettier and efficient code.
+I started making `dplR` in 2006 or so. But it would look nothing like it does today without the contributions of many collaborators over the years. I would especially like to thank Mikko Korpela. I have never met Mikko in person but he spent countless hours (but into the thousands I think) over several years taking my ugly R and returning much prettier and efficient code.
 
-In 2022 we made significant upgrades to `dplR` thanks to a grant from the National Science Foundation (Award 2054516) which allowed us to do several things but the most important was that we locked Ed Cook in a conference room until he translated some of the finer aspects of his ARSTAN program.
+In 2022 we made significant upgrades to `dplR` thanks to a grant from the National Science Foundation (Award 2054516) which allowed us to do several things but the most important was that we locked Ed Cook in a conference room until he translated some of the finer aspects of his ARSTAN program and approach to signal-free standardization.
 
 There are a great many other collaborators who have helped over the years contributing code and making bug fixes. There would be no `dplR` without these folks. Buy them a nice beverage when you meet them. And if you get to meet Mikko, buy him whatever he might ask for. 
 
