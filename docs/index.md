@@ -2,7 +2,7 @@
 title: "Learning to Love dplR"
 subtitle: "Or Using R for Tree-Ring Analysis"
 author: "Andy Bunn"
-date: "10-January-2024"
+date: "11-January-2024"
 description: "Helful materials for dplR"
 github-repo: OpenDendro/dplR-workshop
 documentclass: book

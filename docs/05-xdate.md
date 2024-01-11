@@ -34,7 +34,7 @@ library(dplR)
 ```
 
 ```
-## This is dplR version 1.7.6.
+## This is dplR version 1.7.7.
 ## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
 ```

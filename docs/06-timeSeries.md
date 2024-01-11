@@ -20,7 +20,7 @@ library(dplR)
 ```
 
 ```
-## This is dplR version 1.7.6.
+## This is dplR version 1.7.7.
 ## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.
 ```
@@ -381,7 +381,7 @@ summary(dat.arima)
 ## 
 ## Training set error measures:
 ##                        ME      RMSE       MAE       MPE     MAPE      MASE
-## Training set 7.679477e-05 0.4321663 0.3426744 -457.9301 481.3235 0.7941686
+## Training set 7.679478e-05 0.4321663 0.3426744 -457.9301 481.3235 0.7941686
 ##                       ACF1
 ## Training set -0.0004114487
 ```

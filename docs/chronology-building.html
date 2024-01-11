@@ -1048,12 +1048,12 @@ div.csl-indent {
 <div id="data-sets" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Data Sets<a href="chronology-building.html#data-sets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Throughout this document we will use the onboard data set <code>wa082</code> which gives the raw ring widths for Pacific silver fir <em>Abies amabilis</em> at Hurricane Ridge in Washington, USA. There are 23 series covering 286 years.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chronology-building.html#cb60-1" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
-<pre><code>## This is dplR version 1.7.6.
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="chronology-building.html#cb61-1" tabindex="-1"></a><span class="fu">library</span>(dplR)</span></code></pre></div>
+<pre><code>## This is dplR version 1.7.7.
 ## dplR is part of openDendro https://opendendro.org.
 ## New users can visit https://opendendro.github.io/dplR-workshop/ to get started.</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chronology-building.html#cb62-1" tabindex="-1"></a><span class="fu">data</span>(wa082)</span>
-<span id="cb62-2"><a href="chronology-building.html#cb62-2" tabindex="-1"></a><span class="fu">plot</span>(wa082, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="chronology-building.html#cb63-1" tabindex="-1"></a><span class="fu">data</span>(wa082)</span>
+<span id="cb63-2"><a href="chronology-building.html#cb63-2" tabindex="-1"></a><span class="fu">plot</span>(wa082, <span class="at">plot.type=</span><span class="st">&quot;spag&quot;</span>)</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/load%20wa082-1.png" width="672" /></p>
 <p>By the way, if this is all new to you – go back and look at earlier chapters and proceed immediately to a good primer on dendrochronology like Fritts <span class="citation">(<a href="references.html#ref-Fritts2001">2001</a>)</span>.</p>
 </div>
@@ -1062,27 +1062,27 @@ div.csl-indent {
 <p>Let us make a few chronologies from the <code>wa082</code> data after detrending each series with an age-dependent spline (using <code>ads</code>). Detrending is an enormously complicated
 area unto itself and more deserving of a chapter than chronology building is. We over some of the issues around detrending in the prior chapter. There is a reason,
 after all, that dendrochronologists have been arguing about detrending for decades.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="chronology-building.html#cb63-1" tabindex="-1"></a>wa082RWI <span class="ot">&lt;-</span> <span class="fu">detrend</span>(wa082, <span class="at">method=</span><span class="st">&quot;AgeDepSpline&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chronology-building.html#cb64-1" tabindex="-1"></a>wa082RWI <span class="ot">&lt;-</span> <span class="fu">detrend</span>(wa082, <span class="at">method=</span><span class="st">&quot;AgeDepSpline&quot;</span>)</span></code></pre></div>
 <p>The simplest way to make a chronology in <code>dplR</code> is chronology is with the <code>chron</code>
 function which also has a <code>plot</code> method. This defaults to building a mean-value
 chronology by averaging the rows of the <code>rwi</code> data using Tukey’s biweight robust
 mean (function <code>tbrm</code>). Here it is with a a 30-year smoothing spline for visualization.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chronology-building.html#cb64-1" tabindex="-1"></a>wa082Crn <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082RWI)</span>
-<span id="cb64-2"><a href="chronology-building.html#cb64-2" tabindex="-1"></a><span class="fu">str</span>(wa082Crn)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="chronology-building.html#cb65-1" tabindex="-1"></a>wa082Crn <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082RWI)</span>
+<span id="cb65-2"><a href="chronology-building.html#cb65-2" tabindex="-1"></a><span class="fu">str</span>(wa082Crn)</span></code></pre></div>
 <pre><code>## Classes &#39;crn&#39; and &#39;data.frame&#39;:  286 obs. of  2 variables:
 ##  $ std       : num  1.147 0.913 0.914 0.624 0.855 ...
 ##  $ samp.depth: num  1 1 1 1 2 2 2 2 3 3 ...</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="chronology-building.html#cb66-1" tabindex="-1"></a><span class="fu">plot</span>(wa082Crn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="chronology-building.html#cb67-1" tabindex="-1"></a><span class="fu">plot</span>(wa082Crn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">30</span>)</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/crn1-1.png" width="672" /></p>
 <p>Note the structure (<code>str</code>) of the output object states that it is <code>class</code> <code>crn</code>. This means that there are some generic functions that <code>dplR</code> has ready to work with this kind of object (e.g., <code>time</code> to extract the years, and <code>plot</code> which then calls <code>crn.plot</code>).</p>
 <p>The <code>chron</code> function will also compute a residual chronology by prewhitening the series before averaging. If the <code>prewhiten</code> flag is set to <code>TRUE</code>, each series is whitened using <code>ar</code> prior to averaging. The residual chronology is thus white noise. Note that the <code>crn</code> object below has two columns with chronologies as well as the sample depth in a third column.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="chronology-building.html#cb67-1" tabindex="-1"></a>wa082CrnResid <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082RWI, <span class="at">prewhiten =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb67-2"><a href="chronology-building.html#cb67-2" tabindex="-1"></a><span class="fu">str</span>(wa082CrnResid)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chronology-building.html#cb68-1" tabindex="-1"></a>wa082CrnResid <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082RWI, <span class="at">prewhiten =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb68-2"><a href="chronology-building.html#cb68-2" tabindex="-1"></a><span class="fu">str</span>(wa082CrnResid)</span></code></pre></div>
 <pre><code>## Classes &#39;crn&#39; and &#39;data.frame&#39;:  286 obs. of  3 variables:
 ##  $ std       : num  1.147 0.913 0.914 0.624 0.855 ...
 ##  $ res       : num  NA NA NA NA NA ...
 ##  $ samp.depth: num  1 1 1 1 2 2 2 2 3 3 ...</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="chronology-building.html#cb69-1" tabindex="-1"></a><span class="fu">plot</span>(wa082CrnResid)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chronology-building.html#cb70-1" tabindex="-1"></a><span class="fu">plot</span>(wa082CrnResid)</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/crnRes-1.png" width="672" /></p>
 </div>
 <div id="using-a-sample-depth-cutoff" class="section level2 hasAnchor" number="4.4">
@@ -1092,7 +1092,7 @@ chronology when the sample depth gets to a certain threshold. The output from
 the <code>chron</code> function contains a column called <code>samp.depth</code> which shows the
 number of series that are average for a particular year. We can use the
 <code>subset</code> function to modify the chronology. A standard method is to truncate the sample depth to a minimum of five series.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chronology-building.html#cb70-1" tabindex="-1"></a><span class="fu">head</span>(wa082Crn)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="chronology-building.html#cb71-1" tabindex="-1"></a><span class="fu">head</span>(wa082Crn)</span></code></pre></div>
 <pre><code>##            std samp.depth
 ## 1698 1.1471906          1
 ## 1699 0.9132812          1
@@ -1100,19 +1100,19 @@ number of series that are average for a particular year. We can use the
 ## 1701 0.6244388          1
 ## 1702 0.8550913          2
 ## 1703 0.6795024          2</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chronology-building.html#cb72-1" tabindex="-1"></a>wa082CrnTrunc <span class="ot">&lt;-</span> <span class="fu">subset</span>(wa082Crn, samp.depth <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
-<span id="cb72-2"><a href="chronology-building.html#cb72-2" tabindex="-1"></a><span class="fu">plot</span>(wa082CrnTrunc,<span class="at">add.spline=</span>T,<span class="at">nyrs=</span><span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="chronology-building.html#cb73-1" tabindex="-1"></a>wa082CrnTrunc <span class="ot">&lt;-</span> <span class="fu">subset</span>(wa082Crn, samp.depth <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
+<span id="cb73-2"><a href="chronology-building.html#cb73-2" tabindex="-1"></a><span class="fu">plot</span>(wa082CrnTrunc,<span class="at">add.spline=</span>T,<span class="at">nyrs=</span><span class="dv">30</span>)</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/trunc5-1.png" width="672" /></p>
 <p>It would likely be more robust to recalculate the ring-width indices object by truncating the <code>rwl</code> file and then making a chronology which could be done by nesting commands via:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="chronology-building.html#cb73-1" tabindex="-1"></a>wa082CrnTrunc <span class="ot">&lt;-</span> <span class="fu">chron</span>(<span class="fu">detrend</span>(wa082[wa082Crn<span class="sc">$</span>samp.depth <span class="sc">&gt;</span> <span class="dv">4</span>,], </span>
-<span id="cb73-2"><a href="chronology-building.html#cb73-2" tabindex="-1"></a>                               <span class="at">method=</span><span class="st">&quot;AgeDepSpline&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="chronology-building.html#cb74-1" tabindex="-1"></a>wa082CrnTrunc <span class="ot">&lt;-</span> <span class="fu">chron</span>(<span class="fu">detrend</span>(wa082[wa082Crn<span class="sc">$</span>samp.depth <span class="sc">&gt;</span> <span class="dv">4</span>,], </span>
+<span id="cb74-2"><a href="chronology-building.html#cb74-2" tabindex="-1"></a>                               <span class="at">method=</span><span class="st">&quot;AgeDepSpline&quot;</span>))</span></code></pre></div>
 <p>The result in this case is likely to be virtually identical to truncating after calculating the chronology but still seems like a good practice.</p>
 </div>
 <div id="using-sss-as-a-cutoff" class="section level2 hasAnchor" number="4.5">
 <h2><span class="header-section-number">4.5</span> Using SSS as a Cutoff<a href="chronology-building.html#using-sss-as-a-cutoff" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A more interesting and likely more robust approach is to truncate via the
 subsample signal strength (SSS). Just for fun, I’ll show how we can do this using <code>tidy</code> syntax and <code>ggplot</code>.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="chronology-building.html#cb74-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="chronology-building.html#cb75-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.4
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -1123,75 +1123,75 @@ subsample signal strength (SSS). Just for fun, I’ll show how we can do this us
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="chronology-building.html#cb76-1" tabindex="-1"></a>wa082Ids <span class="ot">&lt;-</span> <span class="fu">autoread.ids</span>(wa082)</span>
-<span id="cb76-2"><a href="chronology-building.html#cb76-2" tabindex="-1"></a>sssThresh <span class="ot">&lt;-</span> <span class="fl">0.85</span></span>
-<span id="cb76-3"><a href="chronology-building.html#cb76-3" tabindex="-1"></a>wa082SSS <span class="ot">&lt;-</span> <span class="fu">sss</span>(wa082RWI, wa082Ids)</span>
-<span id="cb76-4"><a href="chronology-building.html#cb76-4" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">time</span>(wa082)</span>
-<span id="cb76-5"><a href="chronology-building.html#cb76-5" tabindex="-1"></a>yrCutoff <span class="ot">&lt;-</span> <span class="fu">max</span>(yrs[wa082SSS <span class="sc">&lt;</span> sssThresh])</span>
-<span id="cb76-6"><a href="chronology-building.html#cb76-6" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb76-7"><a href="chronology-building.html#cb76-7" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>,<span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>,<span class="at">xmax=</span>yrCutoff),</span>
-<span id="cb76-8"><a href="chronology-building.html#cb76-8" tabindex="-1"></a>            <span class="at">fill=</span><span class="st">&quot;darkred&quot;</span>,<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb76-9"><a href="chronology-building.html#cb76-9" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;text&quot;</span>,<span class="at">y=</span><span class="fl">1.5</span>,<span class="at">x=</span><span class="dv">1725</span>,<span class="at">label=</span><span class="st">&quot;SSS &lt; 0.85&quot;</span>)<span class="sc">+</span></span>
-<span id="cb76-10"><a href="chronology-building.html#cb76-10" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb76-11"><a href="chronology-building.html#cb76-11" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>yrs,<span class="at">y=</span>wa082Crn<span class="sc">$</span>std)) <span class="sc">+</span></span>
-<span id="cb76-12"><a href="chronology-building.html#cb76-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="chronology-building.html#cb77-1" tabindex="-1"></a>wa082Ids <span class="ot">&lt;-</span> <span class="fu">autoread.ids</span>(wa082)</span>
+<span id="cb77-2"><a href="chronology-building.html#cb77-2" tabindex="-1"></a>sssThresh <span class="ot">&lt;-</span> <span class="fl">0.85</span></span>
+<span id="cb77-3"><a href="chronology-building.html#cb77-3" tabindex="-1"></a>wa082SSS <span class="ot">&lt;-</span> <span class="fu">sss</span>(wa082RWI, wa082Ids)</span>
+<span id="cb77-4"><a href="chronology-building.html#cb77-4" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">time</span>(wa082)</span>
+<span id="cb77-5"><a href="chronology-building.html#cb77-5" tabindex="-1"></a>yrCutoff <span class="ot">&lt;-</span> <span class="fu">max</span>(yrs[wa082SSS <span class="sc">&lt;</span> sssThresh])</span>
+<span id="cb77-6"><a href="chronology-building.html#cb77-6" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb77-7"><a href="chronology-building.html#cb77-7" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>,<span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>,<span class="at">xmax=</span>yrCutoff),</span>
+<span id="cb77-8"><a href="chronology-building.html#cb77-8" tabindex="-1"></a>            <span class="at">fill=</span><span class="st">&quot;darkred&quot;</span>,<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb77-9"><a href="chronology-building.html#cb77-9" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;text&quot;</span>,<span class="at">y=</span><span class="fl">1.5</span>,<span class="at">x=</span><span class="dv">1725</span>,<span class="at">label=</span><span class="st">&quot;SSS &lt; 0.85&quot;</span>)<span class="sc">+</span></span>
+<span id="cb77-10"><a href="chronology-building.html#cb77-10" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb77-11"><a href="chronology-building.html#cb77-11" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>yrs,<span class="at">y=</span>wa082Crn<span class="sc">$</span>std)) <span class="sc">+</span></span>
+<span id="cb77-12"><a href="chronology-building.html#cb77-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/truncsss-1.png" width="672" /></p>
 <p>Now we can cutoff the <code>rwl</code> data and redo the chronology.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="chronology-building.html#cb77-1" tabindex="-1"></a>wa082RwlSSS <span class="ot">&lt;-</span> wa082[wa082SSS <span class="sc">&gt;</span> sssThresh,]</span>
-<span id="cb77-2"><a href="chronology-building.html#cb77-2" tabindex="-1"></a>wa082RwiSSS <span class="ot">&lt;-</span> <span class="fu">detrend</span>(wa082RwlSSS, <span class="at">method=</span><span class="st">&quot;AgeDepSpl&quot;</span>)</span>
-<span id="cb77-3"><a href="chronology-building.html#cb77-3" tabindex="-1"></a></span>
-<span id="cb77-4"><a href="chronology-building.html#cb77-4" tabindex="-1"></a>wa082CrnSSS <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082RwiSSS)</span>
-<span id="cb77-5"><a href="chronology-building.html#cb77-5" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb77-6"><a href="chronology-building.html#cb77-6" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb77-7"><a href="chronology-building.html#cb77-7" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">time</span>(wa082CrnSSS),<span class="at">y=</span>wa082CrnSSS<span class="sc">$</span>std)) <span class="sc">+</span></span>
-<span id="cb77-8"><a href="chronology-building.html#cb77-8" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">time</span>(wa082CrnSSS),</span>
-<span id="cb77-9"><a href="chronology-building.html#cb77-9" tabindex="-1"></a>                <span class="at">y=</span><span class="fu">caps</span>(wa082CrnSSS<span class="sc">$</span>std,<span class="at">nyrs =</span> <span class="dv">30</span>)),</span>
-<span id="cb77-10"><a href="chronology-building.html#cb77-10" tabindex="-1"></a>            <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
-<span id="cb77-11"><a href="chronology-building.html#cb77-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="chronology-building.html#cb78-1" tabindex="-1"></a>wa082RwlSSS <span class="ot">&lt;-</span> wa082[wa082SSS <span class="sc">&gt;</span> sssThresh,]</span>
+<span id="cb78-2"><a href="chronology-building.html#cb78-2" tabindex="-1"></a>wa082RwiSSS <span class="ot">&lt;-</span> <span class="fu">detrend</span>(wa082RwlSSS, <span class="at">method=</span><span class="st">&quot;AgeDepSpl&quot;</span>)</span>
+<span id="cb78-3"><a href="chronology-building.html#cb78-3" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="chronology-building.html#cb78-4" tabindex="-1"></a>wa082CrnSSS <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082RwiSSS)</span>
+<span id="cb78-5"><a href="chronology-building.html#cb78-5" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb78-6"><a href="chronology-building.html#cb78-6" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb78-7"><a href="chronology-building.html#cb78-7" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">time</span>(wa082CrnSSS),<span class="at">y=</span>wa082CrnSSS<span class="sc">$</span>std)) <span class="sc">+</span></span>
+<span id="cb78-8"><a href="chronology-building.html#cb78-8" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">time</span>(wa082CrnSSS),</span>
+<span id="cb78-9"><a href="chronology-building.html#cb78-9" tabindex="-1"></a>                <span class="at">y=</span><span class="fu">caps</span>(wa082CrnSSS<span class="sc">$</span>std,<span class="at">nyrs =</span> <span class="dv">30</span>)),</span>
+<span id="cb78-10"><a href="chronology-building.html#cb78-10" tabindex="-1"></a>            <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
+<span id="cb78-11"><a href="chronology-building.html#cb78-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/truncsss2-1.png" width="672" /></p>
 </div>
 <div id="chronology-uncertainty" class="section level2 hasAnchor" number="4.6">
 <h2><span class="header-section-number">4.6</span> Chronology Uncertainty<a href="chronology-building.html#chronology-uncertainty" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Typically we calculate a chronology by taking the average of each year from the ring-width indices. And that is typically the biweight robust mean. The function <code>chron</code> like many of the functions in <code>dplR</code> are relatively simple chunks of code that are used for convenience. We can make our own chronology and get the mean plus two standard errors of the yearly growth quite simply. It’s important for new users of <code>dplR</code> not to get stuck with just the available functions and to roll your own code.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="chronology-building.html#cb78-1" tabindex="-1"></a>wa082AvgCrn <span class="ot">&lt;-</span> <span class="fu">apply</span>(wa082RwiSSS,<span class="dv">1</span>,mean,<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
-<span id="cb78-2"><a href="chronology-building.html#cb78-2" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb78-3"><a href="chronology-building.html#cb78-3" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(x)</span>
-<span id="cb78-4"><a href="chronology-building.html#cb78-4" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x2)</span>
-<span id="cb78-5"><a href="chronology-building.html#cb78-5" tabindex="-1"></a>  <span class="fu">sd</span>(x2)<span class="sc">/</span><span class="fu">sqrt</span>(n)</span>
-<span id="cb78-6"><a href="chronology-building.html#cb78-6" tabindex="-1"></a>}</span>
-<span id="cb78-7"><a href="chronology-building.html#cb78-7" tabindex="-1"></a>wa082AvgCrnSE <span class="ot">&lt;-</span> <span class="fu">apply</span>(wa082RwiSSS,<span class="dv">1</span>,se)</span>
-<span id="cb78-8"><a href="chronology-building.html#cb78-8" tabindex="-1"></a></span>
-<span id="cb78-9"><a href="chronology-building.html#cb78-9" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yrs =</span><span class="fu">as.numeric</span>(<span class="fu">names</span>(wa082AvgCrn)), </span>
-<span id="cb78-10"><a href="chronology-building.html#cb78-10" tabindex="-1"></a>                  <span class="at">std =</span> wa082AvgCrn,</span>
-<span id="cb78-11"><a href="chronology-building.html#cb78-11" tabindex="-1"></a>                  <span class="at">lwr =</span> wa082AvgCrn <span class="sc">-</span> wa082AvgCrnSE<span class="sc">*</span><span class="dv">2</span>,</span>
-<span id="cb78-12"><a href="chronology-building.html#cb78-12" tabindex="-1"></a>                  <span class="at">upr =</span> wa082AvgCrn <span class="sc">+</span> wa082AvgCrnSE<span class="sc">*</span><span class="dv">2</span>)</span>
-<span id="cb78-13"><a href="chronology-building.html#cb78-13" tabindex="-1"></a><span class="fu">ggplot</span>(dat,<span class="fu">aes</span>(<span class="at">x=</span>yrs)) <span class="sc">+</span></span>
-<span id="cb78-14"><a href="chronology-building.html#cb78-14" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb78-15"><a href="chronology-building.html#cb78-15" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>lwr,<span class="at">ymax=</span>upr),</span>
-<span id="cb78-16"><a href="chronology-building.html#cb78-16" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.5</span>,<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb78-17"><a href="chronology-building.html#cb78-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>std),<span class="at">col=</span><span class="st">&quot;grey30&quot;</span>) <span class="sc">+</span></span>
-<span id="cb78-18"><a href="chronology-building.html#cb78-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="chronology-building.html#cb79-1" tabindex="-1"></a>wa082AvgCrn <span class="ot">&lt;-</span> <span class="fu">apply</span>(wa082RwiSSS,<span class="dv">1</span>,mean,<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb79-2"><a href="chronology-building.html#cb79-2" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb79-3"><a href="chronology-building.html#cb79-3" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(x)</span>
+<span id="cb79-4"><a href="chronology-building.html#cb79-4" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x2)</span>
+<span id="cb79-5"><a href="chronology-building.html#cb79-5" tabindex="-1"></a>  <span class="fu">sd</span>(x2)<span class="sc">/</span><span class="fu">sqrt</span>(n)</span>
+<span id="cb79-6"><a href="chronology-building.html#cb79-6" tabindex="-1"></a>}</span>
+<span id="cb79-7"><a href="chronology-building.html#cb79-7" tabindex="-1"></a>wa082AvgCrnSE <span class="ot">&lt;-</span> <span class="fu">apply</span>(wa082RwiSSS,<span class="dv">1</span>,se)</span>
+<span id="cb79-8"><a href="chronology-building.html#cb79-8" tabindex="-1"></a></span>
+<span id="cb79-9"><a href="chronology-building.html#cb79-9" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yrs =</span><span class="fu">as.numeric</span>(<span class="fu">names</span>(wa082AvgCrn)), </span>
+<span id="cb79-10"><a href="chronology-building.html#cb79-10" tabindex="-1"></a>                  <span class="at">std =</span> wa082AvgCrn,</span>
+<span id="cb79-11"><a href="chronology-building.html#cb79-11" tabindex="-1"></a>                  <span class="at">lwr =</span> wa082AvgCrn <span class="sc">-</span> wa082AvgCrnSE<span class="sc">*</span><span class="dv">2</span>,</span>
+<span id="cb79-12"><a href="chronology-building.html#cb79-12" tabindex="-1"></a>                  <span class="at">upr =</span> wa082AvgCrn <span class="sc">+</span> wa082AvgCrnSE<span class="sc">*</span><span class="dv">2</span>)</span>
+<span id="cb79-13"><a href="chronology-building.html#cb79-13" tabindex="-1"></a><span class="fu">ggplot</span>(dat,<span class="fu">aes</span>(<span class="at">x=</span>yrs)) <span class="sc">+</span></span>
+<span id="cb79-14"><a href="chronology-building.html#cb79-14" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-15"><a href="chronology-building.html#cb79-15" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>lwr,<span class="at">ymax=</span>upr),</span>
+<span id="cb79-16"><a href="chronology-building.html#cb79-16" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.5</span>,<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-17"><a href="chronology-building.html#cb79-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>std),<span class="at">col=</span><span class="st">&quot;grey30&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-18"><a href="chronology-building.html#cb79-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/crn%20se-1.png" width="672" /></p>
 <p>It is interesting to note how the uncertainty increases towards the end of the chronology. This is somewhat unusual.</p>
 <div id="bootstrapping-confidence-intervals" class="section level3 hasAnchor" number="4.6.1">
 <h3><span class="header-section-number">4.6.1</span> Bootstrapping confidence intervals<a href="chronology-building.html#bootstrapping-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The above method uses a parametric approach to quantifying uncertainty. We can also use the <code>boot</code> library which is an incredibly powerful suite of functions for using resampling techniques to calculate almost any imaginable statistic. Although <code>boot</code> and is used ubiquitously throughout R, its syntax is byzantine. Because of that we have created a wrapper for the <code>boot.ci</code> function will generate a mean-value chronology with bootstrapped confidence intervals. Here is a chronology using the <code>wa082RwiSSS</code> again but with 99% confidence intervals around the robust mean generated with 500 boostrap replicates.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="chronology-building.html#cb79-1" tabindex="-1"></a>wa082CrnCI <span class="ot">&lt;-</span> <span class="fu">chron.ci</span>(wa082RwiSSS, <span class="at">biweight =</span> <span class="cn">TRUE</span>, <span class="at">R =</span> <span class="dv">500</span>, <span class="at">conf =</span> <span class="fl">0.99</span>)</span>
-<span id="cb79-2"><a href="chronology-building.html#cb79-2" tabindex="-1"></a><span class="fu">head</span>(wa082CrnCI)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="chronology-building.html#cb80-1" tabindex="-1"></a>wa082CrnCI <span class="ot">&lt;-</span> <span class="fu">chron.ci</span>(wa082RwiSSS, <span class="at">biweight =</span> <span class="cn">TRUE</span>, <span class="at">R =</span> <span class="dv">500</span>, <span class="at">conf =</span> <span class="fl">0.99</span>)</span>
+<span id="cb80-2"><a href="chronology-building.html#cb80-2" tabindex="-1"></a><span class="fu">head</span>(wa082CrnCI)</span></code></pre></div>
 <pre><code>##            std   lowerCI  upperCI samp.depth
-## 1764 0.9973869 0.8489167 1.175950          9
-## 1765 1.1763109 0.9833266 1.371612          9
-## 1766 1.0711478 0.9374000 1.207321          9
-## 1767 1.0073500 0.7165471 1.305670          9
-## 1768 1.1973787 0.9356116 1.511237          9
-## 1769 1.2374817 0.9979545 1.484980          9</code></pre>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="chronology-building.html#cb81-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yrs=</span><span class="fu">time</span>(wa082CrnCI), wa082CrnCI)</span>
-<span id="cb81-2"><a href="chronology-building.html#cb81-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dat, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>yrs)) <span class="sc">+</span></span>
-<span id="cb81-3"><a href="chronology-building.html#cb81-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb81-4"><a href="chronology-building.html#cb81-4" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>lowerCI,<span class="at">ymax=</span>upperCI),</span>
-<span id="cb81-5"><a href="chronology-building.html#cb81-5" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.5</span>,<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb81-6"><a href="chronology-building.html#cb81-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>std),<span class="at">col=</span><span class="st">&quot;grey30&quot;</span>) <span class="sc">+</span></span>
-<span id="cb81-7"><a href="chronology-building.html#cb81-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
+## 1764 0.9973869 0.8473410 1.163069          9
+## 1765 1.1763109 0.9904700 1.392416          9
+## 1766 1.0711478 0.9545623 1.185423          9
+## 1767 1.0073500 0.7309005 1.277966          9
+## 1768 1.1973787 0.9310559 1.538237          9
+## 1769 1.2374817 1.0160673 1.460716          9</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="chronology-building.html#cb82-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yrs=</span><span class="fu">time</span>(wa082CrnCI), wa082CrnCI)</span>
+<span id="cb82-2"><a href="chronology-building.html#cb82-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dat, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>yrs)) <span class="sc">+</span></span>
+<span id="cb82-3"><a href="chronology-building.html#cb82-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb82-4"><a href="chronology-building.html#cb82-4" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>lowerCI,<span class="at">ymax=</span>upperCI),</span>
+<span id="cb82-5"><a href="chronology-building.html#cb82-5" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.5</span>,<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb82-6"><a href="chronology-building.html#cb82-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>std),<span class="at">col=</span><span class="st">&quot;grey30&quot;</span>) <span class="sc">+</span></span>
+<span id="cb82-7"><a href="chronology-building.html#cb82-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 </div>
@@ -1200,7 +1200,7 @@ subsample signal strength (SSS). Just for fun, I’ll show how we can do this us
 <p>The function <code>chron.ars</code> produces the so-called ARSTAN chronology which retains the autoregressive structure of the input data. Users unfamiliar with the concept should dive into Cook <span class="citation">(<a href="references.html#ref-cook1985">1985</a>)</span>. This produces three mean-value chronologies: standard, residual, and ARSTAN.</p>
 <p>The standard chronology is the (biweight) mean value across rows and identical to <code>chron</code>. The residual chronology is the prewhitened chronology as described by Cook <span class="citation">(<a href="references.html#ref-cook1985">1985</a>)</span> and uses uses multivariate autoregressive modeling to determine the order of the AR process. It’s important to note that residual chronology produced here is different than the simple residual chronology produced by <code>chron</code> which returns the residuals of an AR process using a naive call to <code>ar</code>. But in practice the results will be similar. For more on the residual chronology in this function, see pp. 153-154 in Cook <span class="citation">(<a href="references.html#ref-cook1985">1985</a>)</span>.</p>
 <p>The ARSTAN chronology builds on the residual chronology but returns a re-whitened chronology where the pooled AR coefficients from the multivariate autoregressive modeling are reintroduced.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="chronology-building.html#cb82-1" tabindex="-1"></a>wa082ArsCrnSSS <span class="ot">&lt;-</span> <span class="fu">chron.ars</span>(wa082RwiSSS)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="chronology-building.html#cb83-1" tabindex="-1"></a>wa082ArsCrnSSS <span class="ot">&lt;-</span> <span class="fu">chron.ars</span>(wa082RwiSSS)</span></code></pre></div>
 <pre><code>## Pooled AR Summary
 ## ACF
 ##     ar(0)     ar(1)     ar(2)     ar(3)     ar(4)     ar(5)     ar(6)     ar(7) 
@@ -1235,51 +1235,51 @@ subsample signal strength (SSS). Just for fun, I’ll show how we can do this us
 ##   1775   1748   1737   1733   1734   1735   1736   1738   1739   1740   1742 
 ## Selected Order
 ## [1] 3</code></pre>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="chronology-building.html#cb84-1" tabindex="-1"></a><span class="fu">str</span>(wa082ArsCrnSSS)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="chronology-building.html#cb85-1" tabindex="-1"></a><span class="fu">str</span>(wa082ArsCrnSSS)</span></code></pre></div>
 <pre><code>## Classes &#39;crn&#39; and &#39;data.frame&#39;:  220 obs. of  4 variables:
 ##  $ std       : num  0.997 1.176 1.071 1.007 1.197 ...
 ##  $ res       : num  NaN NaN NaN NA NA ...
 ##  $ ars       : num  NaN NaN NaN 1.04 1.23 ...
 ##  $ samp.depth: num  9 9 9 9 9 9 10 10 11 12 ...</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="chronology-building.html#cb86-1" tabindex="-1"></a>wa082ArsCrnSSS <span class="ot">&lt;-</span> wa082ArsCrnSSS[,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb86-2"><a href="chronology-building.html#cb86-2" tabindex="-1"></a><span class="fu">plot</span>(wa082ArsCrnSSS,<span class="at">add.spline=</span><span class="cn">TRUE</span>,<span class="at">nyrs=</span><span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="chronology-building.html#cb87-1" tabindex="-1"></a>wa082ArsCrnSSS <span class="ot">&lt;-</span> wa082ArsCrnSSS[,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb87-2"><a href="chronology-building.html#cb87-2" tabindex="-1"></a><span class="fu">plot</span>(wa082ArsCrnSSS,<span class="at">add.spline=</span><span class="cn">TRUE</span>,<span class="at">nyrs=</span><span class="dv">20</span>)</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/crn%20ars-1.png" width="672" /></p>
 </div>
 <div id="stabalizing-the-variance" class="section level2 hasAnchor" number="4.8">
 <h2><span class="header-section-number">4.8</span> Stabalizing the Variance<a href="chronology-building.html#stabalizing-the-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The function <code>chron.stabilized</code> builds a <em>variance stabilized</em> mean-value chronology following Frank et al. <span class="citation">(<a href="references.html#ref-frank2006">2006</a>)</span>. The code for this function was written by David Frank and adapted for <code>dplR</code> by Stefan Klesse. The stabilized chronology accounts for both temporal changes in the interseries correlation and sample depth to produce a mean value chronology with stabilized variance.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="chronology-building.html#cb87-1" tabindex="-1"></a>wa082StabCrnSSS <span class="ot">&lt;-</span> <span class="fu">chron.stabilized</span>(wa082RwiSSS,<span class="at">winLength=</span><span class="dv">101</span>)</span>
-<span id="cb87-2"><a href="chronology-building.html#cb87-2" tabindex="-1"></a><span class="fu">str</span>(wa082StabCrnSSS) <span class="co"># note that this is NOT class crn</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="chronology-building.html#cb88-1" tabindex="-1"></a>wa082StabCrnSSS <span class="ot">&lt;-</span> <span class="fu">chron.stabilized</span>(wa082RwiSSS,<span class="at">winLength=</span><span class="dv">101</span>)</span>
+<span id="cb88-2"><a href="chronology-building.html#cb88-2" tabindex="-1"></a><span class="fu">str</span>(wa082StabCrnSSS) <span class="co"># note that this is NOT class crn</span></span></code></pre></div>
 <pre><code>## Classes &#39;crn&#39; and &#39;data.frame&#39;:  220 obs. of  2 variables:
 ##  $ vsc       : num  1.02 1.14 1.07 1.02 1.16 ...
 ##  $ samp.depth: num  9 9 9 9 9 9 10 10 11 12 ...</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="chronology-building.html#cb89-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yrs =</span> <span class="fu">as.numeric</span>(<span class="fu">rownames</span>(wa082StabCrnSSS)), </span>
-<span id="cb89-2"><a href="chronology-building.html#cb89-2" tabindex="-1"></a>                  <span class="at">Chron =</span> wa082StabCrnSSS<span class="sc">$</span>vsc) <span class="sc">%&gt;%</span></span>
-<span id="cb89-3"><a href="chronology-building.html#cb89-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Smoothed =</span> <span class="fu">caps</span>(Chron,<span class="at">nyrs=</span><span class="dv">20</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb89-4"><a href="chronology-building.html#cb89-4" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>yrs,<span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;msmt&quot;</span>)</span>
-<span id="cb89-5"><a href="chronology-building.html#cb89-5" tabindex="-1"></a></span>
-<span id="cb89-6"><a href="chronology-building.html#cb89-6" tabindex="-1"></a><span class="fu">ggplot</span>(dat,<span class="fu">aes</span>(<span class="at">x=</span>yrs,<span class="at">y=</span>msmt,<span class="at">color=</span>variable)) <span class="sc">+</span></span>
-<span id="cb89-7"><a href="chronology-building.html#cb89-7" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb89-8"><a href="chronology-building.html#cb89-8" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb89-9"><a href="chronology-building.html#cb89-9" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>,<span class="st">&quot;darkred&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb89-10"><a href="chronology-building.html#cb89-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">title=</span><span class="st">&quot;Variable Stabilized Chronology&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb89-11"><a href="chronology-building.html#cb89-11" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb89-12"><a href="chronology-building.html#cb89-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="chronology-building.html#cb90-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yrs =</span> <span class="fu">as.numeric</span>(<span class="fu">rownames</span>(wa082StabCrnSSS)), </span>
+<span id="cb90-2"><a href="chronology-building.html#cb90-2" tabindex="-1"></a>                  <span class="at">Chron =</span> wa082StabCrnSSS<span class="sc">$</span>vsc) <span class="sc">%&gt;%</span></span>
+<span id="cb90-3"><a href="chronology-building.html#cb90-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Smoothed =</span> <span class="fu">caps</span>(Chron,<span class="at">nyrs=</span><span class="dv">20</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb90-4"><a href="chronology-building.html#cb90-4" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>yrs,<span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;msmt&quot;</span>)</span>
+<span id="cb90-5"><a href="chronology-building.html#cb90-5" tabindex="-1"></a></span>
+<span id="cb90-6"><a href="chronology-building.html#cb90-6" tabindex="-1"></a><span class="fu">ggplot</span>(dat,<span class="fu">aes</span>(<span class="at">x=</span>yrs,<span class="at">y=</span>msmt,<span class="at">color=</span>variable)) <span class="sc">+</span></span>
+<span id="cb90-7"><a href="chronology-building.html#cb90-7" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>,<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb90-8"><a href="chronology-building.html#cb90-8" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb90-9"><a href="chronology-building.html#cb90-9" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>,<span class="st">&quot;darkred&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb90-10"><a href="chronology-building.html#cb90-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Year&quot;</span>,<span class="at">y=</span><span class="st">&quot;RWI&quot;</span>,<span class="at">title=</span><span class="st">&quot;Variable Stabilized Chronology&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb90-11"><a href="chronology-building.html#cb90-11" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb90-12"><a href="chronology-building.html#cb90-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) </span></code></pre></div>
 <p><img src="03-crn_files/figure-html/crn%20stab-1.png" width="672" /></p>
 </div>
 <div id="stripping-out-series-by-eps" class="section level2 hasAnchor" number="4.9">
 <h2><span class="header-section-number">4.9</span> Stripping out series by EPS<a href="chronology-building.html#stripping-out-series-by-eps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We want to introduce one other approach that doesn’t deal explicitly with chronology building but can be used to build a better chronology. The <code>strip.rwl</code> function uses EPS-based chronology stripping where each series is assessed to see if its inclusion in the chronology improves the EPS <span class="citation">(<a href="references.html#ref-fowler2003">Fowler &amp; Boswijk, 2003</a>)</span>. If it does not the series is dropped from the <code>rwl</code> object. As we will see in this example one series are excluded which causes a modest improvement in EPS. This function was contributed by Christain Zang.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="chronology-building.html#cb90-1" tabindex="-1"></a>wa082StripRwl <span class="ot">&lt;-</span> <span class="fu">strip.rwl</span>(wa082, <span class="at">ids =</span> wa082Ids)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="chronology-building.html#cb91-1" tabindex="-1"></a>wa082StripRwl <span class="ot">&lt;-</span> <span class="fu">strip.rwl</span>(wa082, <span class="at">ids =</span> wa082Ids)</span></code></pre></div>
 <pre><code>## REMOVE -- Iteration 1: leaving series 712071 out.
 ## EPS improved from 0.907 to 0.908.
 ## 
 ## REMOVE -- Iteration 2: no improvement of EPS. Aborting...
 ## REINSERT -- Iteration 1: no improvement of EPS. Aborting...</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="chronology-building.html#cb92-1" tabindex="-1"></a>wa082StripRwi <span class="ot">&lt;-</span> <span class="fu">detrend</span>(wa082StripRwl, <span class="at">method=</span><span class="st">&quot;Spline&quot;</span>)</span>
-<span id="cb92-2"><a href="chronology-building.html#cb92-2" tabindex="-1"></a>wa082StripCrn <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082StripRwi)</span>
-<span id="cb92-3"><a href="chronology-building.html#cb92-3" tabindex="-1"></a>wa082StripCrn <span class="ot">&lt;-</span> <span class="fu">subset</span>(wa082StripCrn, samp.depth <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
-<span id="cb92-4"><a href="chronology-building.html#cb92-4" tabindex="-1"></a><span class="fu">plot</span>(wa082StripCrn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="chronology-building.html#cb93-1" tabindex="-1"></a>wa082StripRwi <span class="ot">&lt;-</span> <span class="fu">detrend</span>(wa082StripRwl, <span class="at">method=</span><span class="st">&quot;Spline&quot;</span>)</span>
+<span id="cb93-2"><a href="chronology-building.html#cb93-2" tabindex="-1"></a>wa082StripCrn <span class="ot">&lt;-</span> <span class="fu">chron</span>(wa082StripRwi)</span>
+<span id="cb93-3"><a href="chronology-building.html#cb93-3" tabindex="-1"></a>wa082StripCrn <span class="ot">&lt;-</span> <span class="fu">subset</span>(wa082StripCrn, samp.depth <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
+<span id="cb93-4"><a href="chronology-building.html#cb93-4" tabindex="-1"></a><span class="fu">plot</span>(wa082StripCrn, <span class="at">add.spline=</span><span class="cn">TRUE</span>, <span class="at">nyrs=</span><span class="dv">30</span>)</span></code></pre></div>
 <p><img src="03-crn_files/figure-html/crn%20eps-1.png" width="672" /></p>
 </div>
 <div id="conclusion-1" class="section level2 hasAnchor" number="4.10">

@@ -2,6 +2,8 @@
 output:
   pdf_document: default
   html_document: default
+editor_options: 
+  chunk_output_type: console
 ---
 # Simple Signal-Free 
 
@@ -241,20 +243,12 @@ In these steps the algorithm first looks for any places in the rescaled ring wid
 sfRWRescaledCurves <- data.frame(yrs = yrs, sfRWRescaledCurves_Array[,,1]) %>% 
   pivot_longer(!yrs,names_to = "series", values_to = "msmt") 
 ggplot(data=sfRWRescaledCurves,mapping = aes(x=yrs,y=msmt,color=series)) +
-  geom_line(alpha=0.75,size=1) +
+  geom_line(alpha=0.75,linewidth=1) +
   scale_color_manual(values = seriesColors) +
   labs(caption="Detrending Curves at Iteration 1",
        y="mm",x="Years") +
   theme_cowplot() +
   theme(legend.position = "none")
-```
-
-```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.
 ```
 
 ```
@@ -298,12 +292,12 @@ sfCrn <- data.frame(yrs = yrs,
   pivot_longer(!yrs,names_to = "series", values_to = "msmt") 
 ggplot(data=sfCrn,mapping = aes(x=yrs,y=msmt,
                                 color=series,
-                                size=series,
+                                linewidth=series,
                                 alpha=series)) +
   geom_hline(yintercept = 1,linetype="dashed") +
   geom_line() +
   scale_color_manual(values = divColors[c(3,3)]) +
-  scale_size_manual(values = c(1,0.5)) +
+  scale_linewidth_manual(values = c(1,0.5)) +
   scale_alpha_manual(values = c(1,0.5)) +
   labs(caption="Signal Free Chronology at Iteration 1",
        y="RWI",x="Years") +
@@ -360,9 +354,89 @@ ggdraw(p1) +
 
 <img src="04-ssf_files/figure-html/sf chron iters-1.png" width="672" />
 
-These chronologies are quite similar but differ at higher RWI values.
+These chronologies are quite similar but appear to differ at higher RWI values. Let's use a linear model to compare these chronologies.
 
-The median absolute error between these two chronologies is calculated on the high frequency component which is calculated using a cubic smoothing spline with stiffness set to the median segment length.
+First we can regress the second iteration chronology against the first iteration and look at the coefficients and the root mean squared error of that regression. Ideally the intercept of the model would be zero, the slope would be one, and the root mean squared errors (RMSE) would be near zero.
+
+
+```r
+sfCrnCompare <- data.frame(sfCrn_Mat[,1:2]) %>%
+  rename("IterOne" = 1, "IterTwo" = 2)
+
+
+lmOverall <- lm(IterTwo ~ IterOne, data = sfCrnCompare)
+coefficients(lmOverall)
+```
+
+```
+## (Intercept)     IterOne 
+## -0.03871452  1.03770978
+```
+
+```r
+# RMSE
+sqrt(mean(residuals(lmOverall)^2))
+```
+
+```
+## [1] 0.02303844
+```
+
+```r
+ggplot(sfCrnCompare,mapping=aes(x=IterOne,y=IterTwo)) +
+  geom_point(alpha=0.5,color=divColors[3]) +
+  geom_abline(slope=1,intercept = 0, linetype="dashed") +
+  labs(y="Iteration 2", x= "Iteration 1") +
+  coord_equal(ratio=1,
+              xlim = range(sfCrnCompare), 
+              ylim = range(sfCrnCompare)) + 
+  theme_cowplot()
+```
+
+<img src="04-ssf_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+
+From this we see that the intercept of this model is *barely* below zero (-0.04), the slope is *barely* above one (1.04) and the RMSE is low (0.02).
+
+However, that picture changes somewhat when we look at the larger RWI values of those two chronologies. Let's look just at the values above 1.75
+
+
+```r
+sfCrnCompareLarge <- sfCrnCompare %>% filter(IterOne > 1.75)
+
+lmLarge <- lm(IterTwo ~ IterOne, data = sfCrnCompareLarge)
+coefficients(lmLarge)
+```
+
+```
+## (Intercept)     IterOne 
+##  -0.1203571   1.1087113
+```
+
+```r
+# RMSE
+sqrt(mean(residuals(lmLarge)^2))
+```
+
+```
+## [1] 0.02067499
+```
+
+```r
+ggplot(sfCrnCompareLarge,mapping=aes(x=IterOne,y=IterTwo)) +
+  geom_point(alpha=0.5,color=divColors[3]) +
+  geom_abline(slope=1,intercept = 0, linetype="dashed") +
+  labs(y="Iteration 2", x= "Iteration 1") +
+    coord_equal(ratio=1,
+              xlim = range(sfCrnCompareLarge), 
+              ylim = range(sfCrnCompareLarge)) + 
+  theme_cowplot()
+```
+
+<img src="04-ssf_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
+Indeed, in the plot we see an obvious offset above the 1:1 line and note that the models are different. We see that the intercept of this model is further below zero (-0.04), the slope is further above one (1.04) and the RMSE is higher (0.02).
+
+Another way to examine the changes between these chronologies (and the way that the `ssf` algorithm calculates its stopping rules) is to look at the median absolute error between these two chronologies is calculated on the high frequency component which is calculated using a cubic smoothing spline with stiffness set to the median segment length.
 
 
 ```{.r .fold-hide}
@@ -394,7 +468,8 @@ p2 <- ggplot(highFreqDiff,aes(x=yrs,y=difference)) +
   geom_hline(yintercept = 0,linetype="dashed") +
   geom_line(color=divColors[3]) +
   labs(y="RWI Difference",x="Years",
-       caption=paste0("Iteration 1v2 MAD ", round(MAD_Vec[1],4))) +
+       caption=paste0("Iteration 1v2 MAD ", 
+                      round(MAD_Vec[1],4))) +
   lims(y=c(-0.05,0.1)) +
   theme_cowplot() +
   theme(legend.position = "none",
@@ -440,25 +515,26 @@ ggplot(highFreqDiff,aes(x=yrs,y=difference)) +
 
 ### Iterations Visualized
 
-Let's look at the progression of the `ssf` process in a few way. 
+One of the conceptual challenges in iterative approaches is understand what variables are changing over time. Let's look at the progression of the `ssf` process in a few way. 
 
-First, we can look at how the detrending curve of a single series evolves over iterations.
+First, we can look at how the detrending curve of a single series evolves over iterations. In the plot below we can see how the shape of the detrending curve changes over the iterations.
 
 
 ```{.r .fold-hide}
 iterationCols <- pnw_palette(name="Starfish",
                        n=dim(sfRWRescaledCurves_Array)[3])
-aSeriesCurves <- sfRWRescaledCurves_Array[,2,]
-mask <- !is.na(aSeriesCurves[,2])
+series2plot <- 2 # 5, 12, 16 are weird
+aSeriesCurves <- sfRWRescaledCurves_Array[,series2plot,]
+mask <- !is.na(aSeriesCurves[,1])
 dat <- data.frame(aSeriesCurves[mask,])
 colnames(dat) <- paste0("Iteration_", 1:ncol(dat))
 dat <- data.frame(age=1:nrow(dat),dat) %>%
   pivot_longer(-age)
 ggplot(data = dat, 
        mapping = aes(x=age,y=value,color=name)) +
-  geom_line(alpha=0.75,size=1) +
+  geom_line(alpha=0.75,linewidth=1) +
   scale_color_manual(values = iterationCols) +
-  labs(caption = names(ca533)[2],
+  labs(caption = names(ca533)[series2plot],
        x="Years",y="mm") +
   theme_cowplot() +
   theme(legend.position="none")
@@ -466,20 +542,22 @@ ggplot(data = dat,
 
 <img src="04-ssf_files/figure-html/plot a series curve-1.png" width="672" />
 
-The effect of the `ssf` function over the iterations can also been seen clearly by plotting the 50-year smoothing spline of the final chronology for each iteration.
+This is a typical evolution for a series in these data from the dark green curve at iteration one to the pink color at iteration ten.
+
+The effect of the `ssf` function over the iterations can also been seen by plotting the 30-year smoothing spline of the final chronology for each iteration. We show only the 30-year smoothing spline here to highlight the evolution of the final chronology.
 
 
 ```{.r .fold-hide}
 # smooth chrons
 sfCrnSm <- data.frame(yrs = yrs, 
-                      msmt = apply(sfCrn_Mat,2,caps,nyrs=50)) %>%
+                      msmt = apply(sfCrn_Mat,2,caps,nyrs=30)) %>%
   pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt")
 
 p1 <- ggplot() +
   geom_hline(yintercept = 1,linetype="dashed") +
   geom_line(data=sfCrnSm,
             mapping = aes(x=yrs,y=msmt,color=factor(Iteration)),
-            alpha=0.75,size=1) +
+            alpha=0.75,linewidth=0.75) +
   scale_color_manual(values = iterationCols) +
   labs(caption="Signal Free Chronology",
        x="Years",y="RWI") +
@@ -519,16 +597,17 @@ library(gganimate)
 library(magick)
 if(!file.exists("sfAnim.gif")){
   # raw data
+  renameFunc <- function(x) {as.character(seq(x)) }
   sfCrn <- data.frame(yrs = yrs,
                       msmt = sfCrn_Mat) %>%
-    rename_with(.fn = seq, .cols = -1) %>%
+    rename_with(.fn = renameFunc, .cols = -1) %>%
     pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt") %>%
     mutate(Iteration = as.numeric(Iteration)) %>%
     mutate(Iteration2 = str_pad(as.character(Iteration),width=2,pad="0"))
   # smooth data
   sfCrnSm <- data.frame(yrs = yrs,
-                        msmtsm = apply(sfCrn_Mat,2,caps,nyrs=50)) %>%
-    rename_with(.fn = seq, .cols = -1) %>%
+                        msmtsm = apply(sfCrn_Mat,2,caps,nyrs=30)) %>%
+    rename_with(.fn = renameFunc, .cols = -1) %>%
     pivot_longer(!yrs,names_to = "Iteration", values_to = "msmt") %>%
     mutate(Iteration = as.numeric(Iteration)) %>%
     mutate(Iteration2 = str_pad(as.character(Iteration),width=2,pad="0"))
@@ -542,7 +621,7 @@ if(!file.exists("sfAnim.gif")){
   # diff data have to add a column of zeros for iter 1
   highFreqDiff <- data.frame(yrs=yrs,
                              difference =  cbind(0,hfCrnResids_Mat)) %>%
-    rename_with(.fn = seq, .cols = -1) %>%
+    rename_with(.fn = renameFunc, .cols = -1) %>%
     pivot_longer(!yrs,names_to = "Iteration", values_to = "difference") %>%
     mutate(Iteration = as.numeric(Iteration)) %>%
     mutate(Iteration2 = str_pad(as.character(Iteration),width=2,pad="0"))
@@ -556,7 +635,7 @@ if(!file.exists("sfAnim.gif")){
               alpha=0.25) +
     # layer 3
     geom_line(data=sfCrnSm,mapping = aes(x=yrs,y=msmt,color=Iteration2),
-              alpha=0.75,size=1) +
+              alpha=0.75,linewidth=1) +
     scale_color_manual(values = iterationCols) +
     labs(x="Years", y="RWI",
          caption="Signal Free Chronology",
@@ -637,7 +716,7 @@ knitr::include_graphics("sfAnim.gif")
 
 ![](sfAnim.gif)<!-- -->
 
-One thing to note with these data is that the upturns and downturns at the ends of the chronology are persistent even though they shrink vastly in the later iterations.
+One thing to note with these data is that the upturns and downturns at either end of the chronology are persistent even though they shrink vastly in the later iterations.
 
 ## Changing the Detrending Method
 
