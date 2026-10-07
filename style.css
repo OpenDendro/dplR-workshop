@@ -1,0 +1,277 @@
+/* ============================================================
+   style.css — Learning to Love dplR
+   Quarto / flatly theme companion (from timeSeriesBook)
+   ============================================================ */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Code+Pro:wght@400;600&family=Libre+Baskerville:ital@1&display=swap');
+
+/* ── CSS custom properties (palette) ── */
+:root {
+  --ts-amber:      #c8922a;
+  --ts-amber-lt:   #e0b050;
+  --ts-blue:       #3a86c8;
+  --ts-blue-lt:    #7ab0d8;
+  --ts-navy:       #1a3a5c;   /* ink-blue — matches cover title block */
+  --ts-blue-ink:   #2a6aaa;   /* mid-blue — cover eyebrow / tags */
+  --ts-slate:      #1a2535;   /* deep text — matches cover h1 */
+  --ts-text:       #2c3e50;       /* flatly body text */
+  --ts-muted:      #6c7a8a;
+  --ts-rule:       #dde3e8;
+  --ts-code-bg:    #f5f7f9;
+  --ts-aside-bg:   #fdf8f0;       /* warm cream for aside chapters */
+  --ts-aside-rule: #c8922a40;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+/* Chapter titles */
+h1.title, .quarto-section-identifier h1,
+.chapter > h1:first-of-type {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ts-text);
+  border-bottom: 2px solid var(--ts-amber);
+  padding-bottom: 0.35em;
+  margin-bottom: 1.1em;
+}
+
+/* Section headings */
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--ts-text);
+  border-bottom: 1px solid var(--ts-rule);
+  padding-bottom: 0.2em;
+  margin-top: 2rem;
+}
+
+h3 {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ts-muted);
+  margin-top: 1.6rem;
+}
+
+/* Body text */
+body {
+  font-size: 1.02rem;
+  line-height: 1.72;
+  color: var(--ts-text);
+}
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+
+/* Inline code */
+code:not(pre > code) {
+  background: var(--ts-code-bg);
+  border: 1px solid #dde3e8;
+  border-radius: 3px;
+  padding: 0.1em 0.38em;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.88em;
+  color: #c0392b;
+}
+
+/* Fenced code blocks */
+pre.sourceCode, div.sourceCode {
+  background: var(--ts-code-bg);
+  border: 1px solid #dde3e8;
+  border-left: 3px solid var(--ts-amber);
+  border-radius: 4px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.87em;
+  line-height: 1.55;
+}
+
+/* Code fold button */
+.code-fold-btn {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.8em;
+  color: var(--ts-muted);
+  border: 1px solid var(--ts-rule);
+  border-radius: 3px;
+  padding: 1px 8px;
+  background: var(--ts-code-bg);
+  cursor: pointer;
+}
+.code-fold-btn:hover {
+  color: var(--ts-amber);
+  border-color: var(--ts-amber);
+}
+
+/* ============================================================
+   "BIG IDEA" CALLOUT STYLE
+   ============================================================ */
+
+/* Standard Quarto callout overrides */
+.callout {
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+.callout-tip    { border-left-color: var(--ts-amber) !important; }
+.callout-note   { border-left-color: var(--ts-blue)  !important; }
+.callout-warning { border-left-color: #e67e22       !important; }
+
+/* ============================================================
+   ASIDE CHAPTERS
+   Chapters with class .aside-chapter get a distinct treatment
+   ============================================================ */
+
+.aside-chapter h1,
+section.aside-chapter > h1:first-of-type {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--ts-muted);
+  border-bottom: 1.5px dashed var(--ts-amber);
+}
+
+/* Sidebar aside label badge */
+.aside-chapter-badge {
+  display: inline-block;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ts-amber);
+  border: 1px solid var(--ts-amber-lt);
+  background: var(--ts-aside-bg);
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-bottom: 0.6em;
+}
+
+/* ============================================================
+   SIDEBAR / NAVIGATION
+   ============================================================ */
+
+/* Active chapter highlight */
+.sidebar-item-container .active > .sidebar-item-text {
+  color: var(--ts-amber) !important;
+  font-weight: 600;
+}
+
+/* Part headers in sidebar */
+.sidebar-item-section > .sidebar-item-container > a {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ts-amber) !important;
+  font-weight: 600 !important;
+  border-top: 1px solid var(--ts-amber-lt);
+  margin-top: 1.1em;
+  padding-top: 0.6em;
+  display: block;
+}
+
+/* Hide page breadcrumbs */
+.quarto-page-breadcrumbs,
+nav[aria-label="breadcrumb"],
+.breadcrumb {
+  display: none !important;
+}
+
+/* Aside chapter links in sidebar get a ↳ prefix */
+.sidebar-item a[href*="Aside"]::before {
+  content: "↳ ";
+  font-style: normal;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  margin: 1.2em 0;
+}
+
+thead tr {
+  background: var(--ts-slate);
+  color: #f0ede6;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+thead th {
+  padding: 8px 12px;
+  border: none;
+}
+
+tbody tr:nth-child(even) { background: #f5f7f9; }
+tbody tr:hover           { background: #eef2f6; }
+
+tbody td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--ts-rule);
+}
+
+/* ============================================================
+   FIGURES & CAPTIONS
+   ============================================================ */
+
+figure {
+  margin: 1.5em 0;
+}
+
+figcaption, .figure-caption {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.82rem;
+  color: var(--ts-muted);
+  letter-spacing: 0.03em;
+  text-align: center;
+  margin-top: 0.4em;
+}
+
+/* ============================================================
+   MATH
+   ============================================================ */
+
+/* Give display math a little breathing room */
+.math.display {
+  overflow-x: auto;
+  padding: 0.4em 0;
+}
+
+/* ============================================================
+   TOC (right-hand in-page)
+   ============================================================ */
+
+#TOC {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.82rem;
+}
+
+#TOC a {
+  color: var(--ts-muted);
+  text-decoration: none;
+}
+
+#TOC a:hover,
+#TOC a.active {
+  color: var(--ts-amber);
+}
+
+/* ============================================================
+   RESPONSIVE TWEAKS
+   ============================================================ */
+
+@media (max-width: 768px) {
+  h1.title, .chapter > h1:first-of-type { font-size: 1.8rem; }
+  h2 { font-size: 1.2rem; }
+}

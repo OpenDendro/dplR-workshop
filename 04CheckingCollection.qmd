@@ -1,0 +1,75 @@
+# Checking a Collection
+
+:::{.callout-note title="Partly written"}
+The section below was moved here from A First Pass and has not been revised.
+
+Still planned: `rwl.check`, segment and spaghetti plots, `fill.internal.NA`, `subset`, `window`. A sentence on the Gini coefficient that `rwl.stats` reports.
+:::
+
+## Big Idea
+
+## Packages
+
+We use `dplR` and the on-board Campito Mountain ring widths, `ca533`.
+
+```{r}
+#| label: check-setup
+library(dplR)
+data(ca533)
+```
+
+## Descriptive Statistics
+
+The simplest report on a `rwl` object can be print to the screen via:
+```{r}
+rwl.report(ca533)
+```
+
+That's pretty basic information. We can look at some common (and not-so common) descriptive statistics of a `rwl` object:
+
+```{r}
+ca533.stats <- summary(ca533) # same as calling rwl.stats(ca533)
+head(ca533.stats,n=5) # look at the first five series
+```
+
+These are common summary statistics like mean, median, etc. but also statistics that are more specific to dendrochronology like the first-order autocorrelation (`ar1`), gini (`gini`). Note that output object `ca533.stats` is itself a `data.frame` and its data can be used to plot, summarize, etc.
+
+For instance, we can get the mean and standard deviation of segment length via:
+
+```{r}
+#| label: check-mean-seg
+mean(ca533.stats$year)
+sd(ca533.stats$year)
+```
+
+Or, we can look at the spread of the first-order autocorrelation via `summary(ca533.stats$ar1)` or make a plot to show the data. Here we will demonstrate a somewhat involved plot to get you an idea of how to layer plotting commands:
+
+```{r}
+#| fig-height: 5
+#| fig-width: 5
+boxplot(ca533.stats$ar1,ylab=expression(phi[1]),col = "lightblue")
+stripchart(ca533.stats$ar1, vertical = TRUE,  
+    method = "jitter", jitter = 0.02,add = TRUE, pch = 20, col = 'darkblue',cex=1.25)
+ar1Quant <- quantile(ca533.stats$ar1,probs = c(0.25,0.5,0.75))
+abline(h=ar1Quant,lty="dashed",col="grey")
+mtext(text = names(ar1Quant),side = 4,at = ar1Quant,las=2)
+```
+
+Quick editorial note. I've switched from base R plotting to using `ggplot` in most all of my work. I need to go through and provide new plotting examples for everything, but time is short. Real quick though, here is a `ggplot`
+
+```{r}
+#| fig-width: 2
+#| fig-height: 4
+library(ggplot2)
+ar1 <- data.frame(x="CA 533",y=ca533.stats$ar1)
+ggplot(ar1,aes(x,y)) + geom_boxplot(width=.2) +
+  geom_jitter(width=0.1) + 
+  labs(y=expression(phi[1]),x=element_blank()) +
+  theme_minimal()
+```
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

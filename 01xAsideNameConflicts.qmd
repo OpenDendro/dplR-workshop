@@ -1,0 +1,61 @@
+# Aside: Name Conflicts {- .aside-chapter}
+
+There are over ten thousand of R packages (aka libraries) available on CRAN. With that magnitude of user-developed content, it is inevitable that function names get reused. When two packages are loaded and have functions with the same name it creates a conflict. For instance, the function `filter` is part of the `stats` package that loads as part of `R`'s initial start up. It applies linear filtering to a time series. E.g., I'll generate a time series (y) with a periodic component and we can plot it with a centered moving average (`yFilt5`).
+
+
+```{r}
+#| label: conflict-filt1
+n <- 100
+y <- 2 * sin(2 * pi / 10 * 1:n) + rnorm(100)
+yFilt5 <- filter(x = y, filter = rep(1/5, 5),sides =2)
+plot(y,type="l",col="grey30")
+lines(yFilt5,col="darkred",lwd=2)
+```
+
+However if we were to load the extremely popular `dplyr` package from the  `tidyverse` we'd get different behavior from `filter`. Loading the `tidyverse` get several packages into this work space.
+
+```{r}
+#| label: conflict-load-tv
+#| message: true
+library(tidyverse)
+```
+
+Note that a list of conflicts is printed to the screen including `dplyr::filter() masks stats::filter()`. Now if we rerun the code above we get an error.
+
+```{r}
+#| label: conflict-bad
+#| error: true
+yFilt5 <- filter(x = y, filter = rep(1/5, 5),sides =2)
+```
+
+This is happening because both `stats` and `dplyr` have functions named `filter` and the `filter` from `stats` is being preempted by `filter` from `dplyr`.
+
+However, the error message is quite vague as to the cause of the error. But what is happening here is that `filter` is calling `filter` from `dplyr` and not from `stats`.[^1]  We can still use the original function but we need to specify which `filter` we want to use.
+
+```{r}
+#| label: conflict-filt2
+yFilt10 <- stats::filter(x = y, filter = rep(1/10, 10),sides =2)
+plot(y,type="l",col="grey30")
+lines(yFilt10,col="darkred",lwd=2)
+```
+
+So when you load packages watch for any warnings about conflicts! This book is laid out in chapters which are self contained to reduce this behavior.
+
+## Another Example: `signal` and `dplR`
+
+The same thing happens in the chapter on smoothing and filtering, where we load the `signal` package after `dplR`.
+
+```{r}
+#| label: conflict-load-signal
+#| message: true
+library(dplR)
+library(signal)
+```
+
+Take a moment to look back at the messages given off from loading `signal`. There are times when two packages will have the same function names. For instance both the `signal` package and `dplR` have a function called `hanning` (which applies the hanning filter to a time series). When two libraries are loaded that have two functions with the same name, R has to decide which to use when the function is called from the command line. Thus if we type `hanning` at the prompt we will get the ``hanning` function from the `signal` library. Because `signal` was loaded after `dplR` the `hanning` function from `signal` gets primacy. The same goes for the signal functions `filter` and `poly` which have counterparts the library `stats` which is loaded when `R` is first started. 
+
+This dual name phenomenon can occasionally (but only occasionally) be a hindrance if you forget that it has happened. For instance, the function `hanning` in `signal` doesn't do the same thing as the function `hanning` does in `dplR`. If you were expecting the behavior of one and got the other you might break your scripts, confuse yourself, and spend time tracking down the error. So, pay attention to masking when you load a package. 
+
+We can still access dplR's version of `hanning` via `dplR::hanning` if you want it. The same goes for `stats::filter`, `stats::poly`, and so on.
+
+[^1]: The `filter` function from `dplyr` acts much like subset from base `R`.

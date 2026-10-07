@@ -1,0 +1,19 @@
+# Reading and Writing Data
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: `read.rwl`, `read.tucson` and its read record, `read.sheet`, `read.fh`, gaps as `NA`, `read.ids`, `combine.rwl`, the writers, and `read.crn` for chronology files.
+
+Source: new.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

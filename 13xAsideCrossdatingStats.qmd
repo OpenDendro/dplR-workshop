@@ -1,0 +1,9 @@
+# Aside: What the Crossdating Statistics Are Doing {- .aside-chapter}
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: segment length, the spline, prewhitening, Spearman correlation, and the COFECHA history.
+
+Source: new.
+:::

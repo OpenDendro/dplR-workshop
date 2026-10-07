@@ -1,0 +1,19 @@
+# Regional Curves and Age
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: `rcs`, `ads`, `cms`, pith offsets.
+
+Source: new.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

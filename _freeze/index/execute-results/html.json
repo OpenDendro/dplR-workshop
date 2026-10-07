@@ -1,0 +1,15 @@
+{
+  "hash": "54100bfd6e5b69c2630e07e73a3e1ea0",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Learning to Love dplR {.unnumbered}\n\n*Or Using R for Tree-Ring Analysis*\n\nAndy Bunn\n\nThis book is being rewritten. Chapters marked as stubs are planned and not yet written.\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

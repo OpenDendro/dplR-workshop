@@ -1,0 +1,19 @@
+# The Same Workflow in dplPy
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: the core workflow in Python with dplPy, and a dplR to dplPy function map.
+
+Source: new.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

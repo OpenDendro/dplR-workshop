@@ -1,0 +1,243 @@
+# Smoothing and Filtering
+
+In this chapter we cover smoothing and filtering a tree-ring chronology. We start in the time domain with moving averages, the Hanning filter, splines, and loess, and then filter by frequency with Butterworth filters from the `signal` package. The next chapter looks at autocorrelation and the frequency domain.
+
+## Introduction
+
+The Dendrochronology Program Library in `R` (`dplR`) is a package for dendrochronologists to handle data processing and analysis. This chapter gives an introduction to smoothing and filtering in `dplR` and looks at some functions in other packages.
+
+However, this document does not purport to be any sort of authority on time series analysis at all! There are many wonderful  R-centric books on time series analysis that can tell you about the theory and practice of working with time-series data. 
+
+This is kind of a greatest hits of time-series tools that are commonly used in dendro, and not a reference text of any kind.
+
+### Load libraries
+
+We will be using `dplR` in here as well as a few other packages that are useful for working with time-series data. If you haven't installed these packages yet you will want to using the `install.packages()` function.
+
+```{r}
+library(dplR)
+```
+
+
+## Data Sets
+
+Throughout this document we will use the on-board data set `co021` which gives the raw ring widths for Douglas fir *Pseudotsuga menziesii* at Mesa Verde in Colorado, USA. There are 35 series spanning 788 years.
+
+```{r}
+data(co021)
+co021.sum <- summary(co021)
+head(co021.sum)
+plot(co021, plot.type="spag")
+```
+
+These data are gorgeous with long segments (`r floor(mean(co021.sum$year))`), high interseries correlation (`r round(mean(co021.sum$ar1),2)`), and high first-order autocorrelation (`r round(mean(interseries.cor(co021)[, 1]),2)`).
+
+Let us make a mean-value chronology of the `co021` data after detrending
+each series with a frequency response of 50\% at a wavelength of 2/3 of
+each series's length. 
+
+
+```{r}
+#| warning: false
+co021.rwi <- detrend(co021, method="Spline")
+co021.crn <- chron(co021.rwi)
+```
+
+We can plot the chronology with a smoothing spline with a 20-year period:
+
+```{r}
+plot(co021.crn, add.spline=TRUE, nyrs=20)
+```
+
+## Smoothing
+
+Very often one wants to smooth data to analyze or work only with particular aspects of the data. This kind of analysis is a big deal in time-series analysis. Smoothing is a way of isolating different frequencies of data but still thinking in the time domain. One such mark that we already alluded to above is the use of smoothing splines to detrend and filter tree-ring data. The urge to smooth a time series when we plot it is almost irresistible. It's a sickness that dendro folks have. There are many different ways of smoothing and we will look at couple here.  
+
+The `co021.crn` object has two columns, the first giving the chronology
+and the second the sample depth during that year. Let's grab the years and the standard chronology and store them in their own objects.
+
+```{r}
+yrs <- time(co021.crn)
+dat <- co021.crn$std
+```
+
+### Moving (running) average
+
+Centered moving averages (aka running averages) tend to be the first smoothing method that most people learn. Let's revisit them. These have the advantage of being dirt simple. Below we will see that they emphasize low frequency in the examples below (at 32, 64, and 128 years) but retain some jaggedness too.
+
+We will use the base `filter` function which is a straightforward convolution filter. As with any function always you can see the help file for details (`?filter`). 
+
+```{r}
+ma32 <- filter(x=dat, filter=rep(x=1/32,times=32), sides=2)
+ma64 <- filter(x=dat, filter=rep(x=1/64,times=64), sides=2)
+ma128 <- filter(x=dat, filter=rep(x=1/128,times=128), sides=2)
+
+# Change plotting parameters
+par(mar=rep(2.5,4),mgp=c(1.2,0.25,0),tcl=0.5, xaxs="i",yaxs="i")
+
+my.cols <- c("#1B9E77", "#D95F02", "#7570B3")
+plot(yrs,dat,type="l",xlab="Year",ylab="RWI",col="grey")
+abline(h=1)
+lines(yrs,ma128, col = my.cols[1], lwd = 2)
+lines(yrs,ma64, col = my.cols[2], lwd = 2)
+lines(yrs,ma32, col = my.cols[3], lwd = 2)
+axis(3);axis(4)
+```
+
+### Hanning
+
+The Hanning filter is similar to the moving average in the sense that the curve emphasizes low frequency variability and loses the jaggedness over the moving average. It's also a  simple filter (look at the code by typing `hanning` at the `R` prompt) but it also is a start into thinking in the frequency domain. It's part of a family of functions called window functions that are zero-valued outside of some interval chosen by the user. It's used quite a bit by time-series wonks and it is implemented in `dplR` with the function `hanning`. I'll skip the theory here but it's a great precursor to the work we will do with spectral analysis below.
+
+```{r}
+han32 <- hanning(dat,n=32)
+han64 <- hanning(dat,n=64)
+han128 <- hanning(dat,n=128)
+
+par(mar=rep(2.5,4),mgp=c(1.2,0.25,0),tcl=0.5, xaxs="i",yaxs="i")
+plot(yrs,dat,type="l",xlab="Year",ylab="RWI",col="grey")
+abline(h=1)
+lines(yrs,han128, col = my.cols[1], lwd = 2)
+lines(yrs,han64, col = my.cols[2], lwd = 2)
+lines(yrs,han32, col = my.cols[3], lwd = 2)
+axis(3);axis(4)
+```
+
+Like the moving average the smooth is shorter than the input data. This is too bad because it is nice to preserve the ends of the data but there is much wringing of hands and gnashing of teeth about the "right" way of running a smoothing algorithm where the data are sparse. This end-member problem is the subject of a lot of work in the time-series literature.
+
+```{r}
+head(data.frame(dat,ma32, han32), n = 20)
+tail(data.frame(dat,ma32, han32), n = 20)
+```
+
+### Splines
+
+In the world of tree rings, you'll see frequent mention of cubic smoothing splines and typically a citation for something by Ed Cook who is the greatest quantitative dendrochronologist of all time. His work has left an enduring mark on nearly every aspect of quantitative dendrochronology. For splines, Cook and Peters [-@Cook1981] is the canonical citation but we would point you to Cook and Kairiukstis [@Cook1990] for an overview. An R implementation of this spline is implemented in `dplR` with the `ffcsaps` function which was written in R and also in the `caps` function which is a wrapper for Cook's Fortran code. They produce (nearly) identical results. Because `caps` is quite a bit faster than `ffcsaps`, `dplR` uses it by default. 
+
+The important argument for users is the `nyrs` argument which fits a spline of that many "years" to the data. All the functions in dplR assume annual resolution but they don't really care if you are using data with a different frequency.
+
+```{r}
+spl128 <- caps(dat,nyrs=128)
+spl64 <- caps(dat,nyrs=64)
+spl32 <- caps(dat,nyrs=32)
+
+par(mar=rep(2.5,4),mgp=c(1.2,0.25,0),tcl=0.5, xaxs="i",yaxs="i")
+my.cols <- c("#1B9E77", "#D95F02", "#7570B3")
+plot(yrs,dat,type="n",xlab="Year",ylab="RWI",axes=FALSE)
+grid(col="black",lwd=0.5)
+abline(h=1)
+lines(yrs,dat,col="grey",lwd=1)
+lines(yrs,spl128,col=my.cols[1],lwd=2)
+lines(yrs,spl64,col=my.cols[2],lwd=2)
+lines(yrs,spl32,col=my.cols[3],lwd=2)
+axis(1);axis(2);axis(3);axis(4)
+legend("topright", c("dat", "128yrs", "64yrs", "32yrs"), 
+       lwd = 2, col = c("grey",my.cols),bg = "white")
+box()
+```
+
+### Loess
+
+We will highlight a filter used commonly in time-series analysis but largely ignored in dendro. We've become increasingly fond of the loess smoother which uses a local, linear polynomial fit to smooth data. The parameter to adjust is the span `f`. Because `f` is the proportion of points used in the smoothing, the smaller the number the less smooth the curve will be. E.g., our series is 788 years long. If we want something that approaches a 25-year smooth we can take 25 over 788 and use 0.0317 of the points in the fit. 
+
+```{r}
+n <- length(yrs)
+f128 <- 128/n
+f128.lo <- lowess(x = yrs, y = dat, f = f128)
+f64 <- 64/n
+f64.lo <- lowess(x = yrs, y = dat, f = f64)
+f32 <- 32/n
+f32.lo <- lowess(x = yrs, y = dat, f = f32)
+
+par(mar=rep(2.5,4),mgp=c(1.2,0.25,0),tcl=0.5,xaxs="i",yaxs="i")
+plot(yrs,dat,type="n",xlab="Year",ylab="RWI",axes=FALSE)
+grid(col="black",lwd=0.5)
+abline(h=1)
+lines(yrs,dat,col="grey",lwd=1)
+lines(yrs,f128.lo$y,col=my.cols[1],lwd=2)
+lines(yrs,f64.lo$y,col=my.cols[2],lwd=2)
+lines(yrs,f32.lo$y,col=my.cols[3],lwd=2)
+axis(1);axis(2);axis(3);axis(4)
+legend("topright", c("dat", "f128", "f64", "f32"), 
+       lwd = 2, col = c("grey",my.cols),bg = "white")
+box()
+```
+
+These smoothing lines above are essentially eye candy. We can use filtering for more sophisticated analysis.
+
+## High-pass, Low-pass, and Bandpass Filtering
+
+Another common technique used in tree-ring analysis is to filter data like we did above with moving averages, splines, and so on but doing so in the frequency domain explicitly rather than in the time domain. For instance, we might want to remove the high frequencies from a data set and leave the low frequencies (low-pass filtering) or vice versa (high-pass filtering). Or extract specific frequencies and discard others (band-pass and stop-pass filtering).
+
+Let's look at the `signal` library.^[Loading `signal` masks some functions, including `hanning` from `dplR`. See the [aside on name conflicts](01xAsideNameConflicts.qmd).]
+
+```{r}
+library(signal)
+```
+
+We can start low-pass filtering in `R` with the Butterworth filter. We will fit two 4th order filters with frequencies of 0.2 and 0.05.
+
+```{r}
+# here are two frequencies that we will use for demonstrating filtering
+f1 <- 0.2 # period of 5
+f2 <- 0.05 # period of 20
+
+# Initialize the butterworth filter.
+# Multiply freq by 2
+f1Low <- butter(n=4, W=f1*2, type="low")
+f2Low <- butter(n=4, W=f2*2, type="low")
+
+# We will use filtfilt do run the filter. 
+# But before that there is a wrinkle. We have to 
+# mirror and extend the data near the edge to 
+# avoid end effects. The matlab/octave versions do something 
+# like this behind the scenes I think. Regardless, it
+# is a simple form of padding.
+
+n <- length(dat)
+# create a pas that is adds a 1/4 of the length to the front and
+# back of the data. This can be tuned according to the freqs in question
+# and there is nothing special about 1/4
+pad <- floor(n/4)
+# pad the data
+datPad <- c(dat[pad:1],dat,dat[n:(n-pad)]) 
+
+# run the filter  
+datF1Low <- filtfilt(f1Low, datPad)
+datF2Low <- filtfilt(f2Low, datPad)
+# unpad the filtered data
+datF1Low <- datF1Low[(pad+1):(n+pad)]
+datF2Low <- datF2Low[(pad+1):(n+pad)]
+
+par(mar=rep(2.5,4),mgp=c(1.2,0.25,0),tcl=0.5,xaxs="i",yaxs="i")
+plot(yrs,dat,type="n",xlab="Year",ylab="",axes=FALSE)
+grid(col="black",lwd=0.5)
+abline(h=1)
+lines(yrs,dat,col="grey80",lwd=1)
+lines(yrs,datF1Low,col=my.cols[1],lwd=1.5)
+lines(yrs,datF2Low,col=my.cols[2],lwd=2)
+axis(1);axis(2);axis(3);axis(4)
+legend("topright", c("f < 0.2", "f < 0.05"), 
+       lwd = 2, col = c(my.cols[1:2]),bg = "white")
+box()
+```
+
+We could repeat this with high-pass filters by changing `type="high"` when we first make the filter. We could also filter to include only specified frequencies by providing the lower and upper bands. E.g., `butter(n=4, W=c(f2,f1)*2, type="pass")`.
+
+```{r}
+f1f2Pass <- butter(n=4, W=c(f2,f1)*2, type="pass")
+datPass <- filtfilt(f1f2Pass, datPad)
+datPass <- datPass[(pad+1):(n+pad)]
+
+par(mar=rep(2.5,4),mgp=c(1.2,0.25,0),tcl=0.5,xaxs="i",yaxs="i")
+plot(yrs,datPass,type="n",xlab="Year",ylab="",axes=FALSE)
+grid(col="black",lwd=0.5)
+abline(h=0)
+lines(yrs,datPass,col=my.cols[3],lwd=1.5)
+axis(1);axis(2);axis(3);axis(4)
+legend("topright", "0.05 < f < 0.2", 
+       lwd = 2, col = c(my.cols[3]),bg = "white")
+box()
+
+```
+
+In the next chapter we look at the power spectra of these filtered series to check that the filters did what we thought they should.

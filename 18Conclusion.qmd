@@ -1,0 +1,19 @@
+# Conclusion
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: where to go next: climate response, the xDateR and iDetrend apps.
+
+Source: new.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

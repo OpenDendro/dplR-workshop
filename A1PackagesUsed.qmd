@@ -1,0 +1,8 @@
+---
+suppress-bibliography: false
+---
+
+# Packages Used and References
+
+::: {#refs}
+:::

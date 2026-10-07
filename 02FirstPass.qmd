@@ -1,0 +1,114 @@
+# A First Pass
+
+This chapter is a quick first pass through `dplR`, following the steps an analyst might take with a new tree-ring data set. We read in ring widths and plot them, detrend them, and build and plot a simple mean-value chronology. Each step gets a fuller treatment in its own chapter later in the book.
+
+## What is Covered
+
+The Dendrochronology Program Library in R (`dplR`) is a package for  dendrochronologists to handle data processing and analysis. This document gives just a brief introduction of some of the most commonly used functions in `dplR`. There is more detailed information available in the help files and in the literature [@Bunn2008]. 
+
+In this document, we will walk through the most basic activities of working  with tree-ring data in roughly the order that a user might follow. E.g., reading data, plotting, detrending, and chronology building.
+
+### Load dplR
+
+We will be using `dplR` in here. Load it:
+
+```{r}
+library(dplR)
+```
+
+
+## Working with Ring-Width Data
+
+### Reading Data
+
+There are many ways that tree-ring data are digitally stored. These range in sophistication from the simple (and commonly used) [Tucson/decadal](http://www1.ncdc.noaa.gov/pub/data/paleo/treering/treeinfo.txt) format file of ring widths to the more complex (but richer) [TRiDaS format](http://www.tridas.org/). The type of data used most often by dendrochronologists is a series of ring widths from tree cores. We generally refer to these as  `rwl` objects for "ring width length" but there is no reason these cannot be other types of tree-ring data (e.g., density).
+
+The workhorse function for getting tree-ring data into R is dplR's `read.rwl` function. This function reads files in `"tucson"`, `"compact"`, `"tridas"`, and `"heidelberg"` formats. The on-board `rwl` data sets in `dplR` (i.e., `co021`, `ca533`, `gp.rwl`) were all imported into R using this function.
+
+Throughout this document we will use the on-board data set  `ca533` which gives the raw ring widths for bristlecone pine *Pinus longaeva* at Campito Mountain in California, USA. There are 34 series spanning 1358 years. 
+
+These objects are structured very simply as a `data.frame` with the series in columns and the years as rows. The series IDs are the column names and the years are the row names (both stored as characters). For instance, using the Campito Mountain ring widths we can load the data and learn some basic things about it:
+
+```{r}
+data(ca533) # the result of ca533 <- read.rwl('ca533.rwl')
+nrow(ca533) # 1358 years
+ncol(ca533) # 34 series
+```
+
+We can look a little deeper at this object (`ca533`) and get the series names as well as look at the time values associates with the data:
+
+```{r}
+colnames(ca533) # the series IDs
+head(time(ca533),n = 10) # the first 10 years
+```
+
+### Describing and Plotting Ring-Width Data
+
+Once a `rwl` data set has been read into R, there are a variety of ways to describe and visualize those data. Take note that this object is stored both as a generic `data.frame` in R but it also is part of a special class called `rwl` which will let R know how to do some special things with it like summarize and plot the data: 
+
+```{r}
+class(ca533) 
+```
+
+Thus, we can plot a `rwl` object by showing either the segments arranged over time as straight lines or as a "spaghetti plot". The `rwl` objects have generic S3 methods for `plot` and `summary` meaning that `R` knows how to do something special when `plot` or `summary` are invoked on an object with class `rwl`. E.g.,:
+
+```{r}
+plot(ca533, plot.type="spag")
+```
+
+
+The [Checking a Collection](04CheckingCollection.qmd) chapter covers descriptive statistics for ring widths, like segment length and first-order autocorrelation.
+
+## Detrending
+
+Analysts often (but not always) detrend a `rwl` data set to create an object containing ring-width index (`rwi`) values. The `dplR` package contains most standard detrending methods including detrending via splines, fitting negative exponential curves, and so on. There are also `dplR` functions for less commonly used detrending methods like regional curve and signal-free standardization.
+
+A `rwi` object has the same basic properties as the `rwl` object from which it is made. I.e., it has the same number of rows and columns, the same names, and so on. The difference is that each series has been standardized by dividing the ring widths against a growth model (e.g., a stiff spline, a negative  exponential, etc.). This gives each series a mean of one (thus referred to as "indexed") and allows a chronology to be built (next section). As `read.rwl` is the primary function for getting data into R,  `detrend` is the primary function for standardizing `rwl` objects (but see `cms`, `rcs`, `bai.in`, and  `bai.out` as well).
+
+For instance, every series in the `ca533` object can be detrended at once with an age-dependent spline via:  
+
+```{r}
+#| warning: false
+ca533.rwi <- detrend(rwl = ca533, method = "AgeDepSpline")
+```
+
+This saves the results in `ca533.rwi` which is a `data.frame` with the same dimensions as the `rwl` object `ca533` and each series standardized.
+```{r}
+nrow(ca533.rwi) # 1358 years
+ncol(ca533.rwi) # 34 series
+colMeans(ca533.rwi, na.rm=TRUE)
+```
+
+The [Detrending](05Detrending.qmd) chapter covers the common methods, detrending one series at a time, and interactive detrending. Statistics for detrended data like rbar and EPS are in the [Chronology Statistics](06ChronologyStats.qmd) chapter.
+
+## Building a Mean-Value Chronology
+
+After detrending, a user will typically build a chronology by averaging across the years of the rwi object. In `dplR` the function for doing this is `chron` which by default uses Tukey's biweight robust mean (an average that is unaffected by outliers).
+
+```{r}
+ca533.crn <- chron(ca533.rwi)
+```
+
+This object has the same number of rows as the rwi object that was used as the input and two columns. The first gives the chronology and the second the sample depth (the number of series available in that year).
+
+```{r}
+dim(ca533.rwi)
+dim(ca533.crn)
+```
+
+An object produced by `chron` has a generic S3 method for plotting which calls the `crn.plot` function (which has many arguments for customization). Here we will just make a simple plot of the chronology with a smoothing spline (function `caps`) added.
+
+```{r}
+plot(ca533.crn, add.spline=TRUE, nyrs=20)
+```
+
+The `chron` function is the most basic (and most common) way to buld a chronology but there are many other ways as we will see in the next few chapters.
+
+## Conclusion
+
+In general this page aims to give a very cursory overview of basic tasks that most dendrochronologists will want to be aware of. Know that we are just scratching the surface of what `dplR` is capable of. Browsing the list of functions in `dplR` will give you an idea of what else is available.
+
+```{r}
+#| eval: false
+?dplR
+```

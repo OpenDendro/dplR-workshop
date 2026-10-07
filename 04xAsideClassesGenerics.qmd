@@ -1,0 +1,9 @@
+# Aside: Classes and Generics {- .aside-chapter}
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: the `rwl`, `rwi`, `bai` and `crn` classes, and what the wrong-kind warnings mean.
+
+Source: new.
+:::

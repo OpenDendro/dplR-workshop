@@ -1,0 +1,19 @@
+# Basal Area Increment
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: `bai.in`, `bai.out`, the `bai` class, and a short note on `bakker`.
+
+Source: new.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

@@ -1,0 +1,9 @@
+# Aside: The Tucson Format {- .aside-chapter}
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: stop markers, precision, headers, and why files go wrong.
+
+Source: new.
+:::

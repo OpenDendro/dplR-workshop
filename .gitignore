@@ -1,8 +1,20 @@
-.Rproj.user
+# RStudio
+.Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
+# Quarto
+/.quarto/
+**/*.quarto_ipynb
+# knitr cache
+*_cache/
+# stray support folders left in root by single-file "Render" (not "Render Book")
+/*_files/
+# misc
 .DS_Store
-_bookdown_files
-dplR Workshop.Rmd
-dplR Workshop.rds
+Rplots.pdf
+# docs/ is built and deployed by GitHub Actions (publish.yml), not committed
+docs/
+# _freeze/ is kept for freeze: auto (do not ignore)
+# working files (kept off GitHub)
+BACKLOG.md

@@ -1,0 +1,83 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Learning to Love dplR"
+  subtitle: "Or Using R for Tree-Ring Analysis"
+  author: "Andy Bunn"
+  date: today
+  description: "Tree-ring analysis in R with dplR"
+  navbar:
+    background: dark
+    search: true
+  chapters:
+    - file: index.qmd
+      text: "Cover"
+    - 00Preface.qmd
+    - part: "Getting Going"
+      chapters:
+        - 01Welcome.qmd
+        - 01xAsideNameConflicts.qmd
+        - 02FirstPass.qmd
+    - part: "Ring Widths"
+      chapters:
+        - 03ReadingWriting.qmd
+        - 03xAsideTucsonFormat.qmd
+        - 04CheckingCollection.qmd
+        - 04xAsideClassesGenerics.qmd
+    - part: "Standardization and Chronologies"
+      chapters:
+        - 05Detrending.qmd
+        - 06ChronologyStats.qmd
+        - 07Chronologies.qmd
+        - 08RegionalCurves.qmd
+        - 09SignalFree.qmd
+        - 10BasalArea.qmd
+    - part: "Crossdating"
+      chapters:
+        - 11Crossdating.qmd
+        - 11xAsideSignAgreement.qmd
+        - 12FixingErrors.qmd
+        - 13Floaters.qmd
+        - 13xAsideCrossdatingStats.qmd
+    - part: "Time Series"
+      chapters:
+        - 14SmoothingFiltering.qmd
+        - 15MemoryCycles.qmd
+        - 16Events.qmd
+    - part: "Wrapping Up"
+      chapters:
+        - 17DplPy.qmd
+        - 18Conclusion.qmd
+  appendices:
+    - A1PackagesUsed.qmd
+    - A2DataSources.qmd
+    - A3Acknowledgements.qmd
+  repo-url: https://github.com/OpenDendro/dplR-workshop
+  repo-actions: [edit, issue]
+
+language:
+  section-title-appendices: "Back Matter and Appendices"
+
+bibliography:
+  - dplR.bib
+  - packages.bib
+csl: global-change-biology.csl
+link-citations: true
+reference-location: document
+suppress-bibliography: true
+
+format:
+  html:
+    theme: flatly
+    css: style.css
+    code-fold: show
+    toc: true
+    toc-depth: 4
+    number-sections: false
+
+execute:
+  warning: false
+  message: false
+  freeze: auto

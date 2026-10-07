@@ -1,0 +1,19 @@
+# Finding and Fixing an Error
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: `corr.series.seg`, `ccf.series.rwl`, `series.rwl.plot`, skeleton plots (`skel.plot`, `xskel.plot`), `insert.ring`, `delete.ring`, and checking again.
+
+Source: rewrite of the second half of the current crossdating chapter.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

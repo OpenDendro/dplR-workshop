@@ -1,0 +1,224 @@
+# Memory and Cycles
+
+In this chapter we look at the temporal structure of a chronology. We start with autocorrelation and AR and ARMA models, and then move to the frequency domain with spectral analysis using `redfit` and with wavelets. As in the last chapter, this is a greatest hits of time-series tools that are commonly used in dendro, and not a reference text of any kind.
+
+## Data
+
+We will use the same chronology as in the last chapter, built from the on-board `co021` ring widths.
+
+```{r}
+#| label: mem-setup
+library(dplR)
+data(co021)
+co021.rwi <- detrend(co021, method="Spline")
+co021.crn <- chron(co021.rwi)
+yrs <- time(co021.crn)
+dat <- co021.crn$std
+n <- length(yrs)
+```
+
+## Characterizing Temporal Structure
+
+### ACF and PACF
+Let's start with a quick exploratory data analysis into the time-series process. We will start our analysis on the chronology by looking at its autocorrelation structure using R's `acf` and `pacf` functions.
+
+```{r}
+par(mfcol=c(1, 2))
+acf(dat)
+pacf(dat)
+```
+
+The ACF function indicates significant autocorrelation out to a lag of about 10 years (which is not uncommon in tree-ring data) while the PACF plot suggests that the persistence after lag 4 is due to the propagation of the  autocorrelation at earlier lags. And one could very well argue that the best model here is an `AR(2)` model given the low value of the PACF at lags 3 and 4. After all, you can get three opinions by asking one statistician to look a time series. But we digress.
+
+We now have the first bit of solid information about the time-series properties of these data, it looks like they fit an `AR(4)` model. 
+
+### AR and ARMA
+
+But, `R` being `R`, there are many other ways to check this. The easiest way is to use the `ar` function which fits an autoregressive models up to a specified order and selects the final model by AIC.
+
+
+```{r}
+dat.ar <- ar(dat,order.max = 10)
+dat.ar
+```
+
+Indeed, `ar` selects an `AR(4)` model based on AIC. But as our tea-leaf gazing above indicates, an `AR(2)` model is very close when we look at the AIC values.
+
+```{r}
+plot(0:10,dat.ar$aic,type="b",xlab="AR Order",ylab="AIC",
+     main="Difference in AIC between each model and the best-fitting model")
+
+```
+
+A strong argument can be made that a model with fewer parameters (e.g., an `AR(2)` might serve to characterize the data better than a model with more parameters.
+
+We could also fit these models as `ARIMA` models individually using the `arima` function. That function will fit a model with components (p, d, q) as the AR order, the degree of difference, and the MA order. Thus, we could fit `AR(1)` to `AR(4)` models:
+
+```{r}
+ar1 <- arima(dat,order=c(1,0,0))
+ar2 <- arima(dat,order=c(2,0,0))
+ar3 <- arima(dat,order=c(3,0,0))
+ar4 <- arima(dat,order=c(4,0,0))
+# example output
+ar1
+```
+
+And then compare the Bayesian Information Criterion (BIC) values:
+```{r}
+BIC(ar1,ar2,ar3,ar4)
+```
+
+Here we find evidence for an `AR(2)` model over the AR(4) mode that the `ar` function chose. Clearly there is some wiggle room here.
+
+So as we've seen, in addition to AR models we can fit their more complicated cousins, ARIMA models, as well. We can do the same sort of automatic selection of the model order by automatically fitting an ARIMA model using the `auto.arima` function in the package `forecast`. As with `ar`, this will choose a model that minimizes an information criterion after searching over user given constraints. We will use the default search parameters and use BIC to select the model.
+
+```{r}
+library(forecast)
+dat.arima <- auto.arima(dat, ic="bic")
+summary(dat.arima)
+```
+
+Even more confusion! Instead of an `AR(p)` model, `auto.arima` went for an 
+`ARMA(1,1)` model (aka `ARIMA(1,0,1)`). The parsimony principle certainly likes a nice simple `ARMA(1,1)` model. Note that we could look at the residuals, model coefficients, etc. quite easily. And indeed the residuals are quite clean as we would expect.
+
+```{r}
+acf(residuals(dat.arima))
+```
+
+
+This is clearly an incredibly shallow look at a deep topic. Hopefully these will get you started with different tools to characterize temporal structure in data. There are many more resources available and techniques we haven't covered (e.g., GARCH modelling). 
+
+## Frequency Domain
+
+Any time series can be broken down into a (possibly infinite) set of sine and cosine functions. So, a messy looking series like `co021.crn` is the sum of oscillating functions. The act of breaking these down is exactly what a Fourier transform does. Fourier transforms are everywhere -- think JPEGs and MP3s. But we can use them to see what frequencies are important or dominant in a time series. 
+
+Someday we will work up the courage to write a tutorial on fast Fourier transforms for dendro using `R`. It's hard to know where to start with tackling the subject though as many of the tools that people want for dendro start with `fft(dat)` but don't end there. With tree-ring data we often use spectral analysis as a way of detecting periodic signals that are corrupted by noise. 
+
+### Power via Spectral Analysis and Wavelets
+
+Given the above rationale, we will limit ourselves here to some of the tools that are used in dendro without building these up from the fast Fourier transform itself. In `dplR`, we've implemented two of the most common ways that dendrochronologists go about this and there are a host of other approaches in `R` that we won't get to here.
+
+The `redfit` function in `dplR` is a port of Schulz's REDFIT (version 3.8e) program and estimates the red-noise spectrum of a time series [@Schulz2002] with optional testing of that spectrum against a red-noise background using Monte Carlo simulations. 
+
+```{r}
+redf.dat <- redfit(dat, nsim = 1000)
+
+par(tcl = 0.5, mar = rep(2.2, 4), mgp = c(1.1, 0.1, 0),xaxs="i")
+
+plot(redf.dat[["freq"]], redf.dat[["gxxc"]],
+     ylim = range(redf.dat[["ci99"]], redf.dat[["gxxc"]]),
+     type = "n", ylab = "Spectrum", xlab = "Frequency (cycles per year)",
+     axes = FALSE)
+grid()
+lines(redf.dat[["freq"]], redf.dat[["gxxc"]], col = "black",lwd=1.5)
+lines(redf.dat[["freq"]], smooth.spline(redf.dat[["ci99"]],spar = 0.8)$y, col = "#D95F02")
+lines(redf.dat[["freq"]], smooth.spline(redf.dat[["ci95"]],spar = 0.8)$y, col = "#7570B3")
+lines(redf.dat[["freq"]], smooth.spline(redf.dat[["ci90"]],spar = 0.8)$y, col = "#E7298A")
+freqs <- pretty(redf.dat[["freq"]])
+pers <- round(1 / freqs, 2)
+axis(1, at = freqs, labels = TRUE)
+axis(3, at = freqs, labels = pers)
+mtext(text = "Period (year)", side = 3, line = 1.1)
+axis(2); axis(4)
+legend("topright", c("dat", "CI99", "CI95", "CI90"), lwd = 2,
+       col = c("black", "#D95F02", "#7570B3", "#E7298A"),
+       bg = "white")
+box()
+```
+
+Using the Mesa Verde chronology we see that there are frequencies in that time series that are significantly different from a red-noise assumption in the interannual (<3 years) and at low frequencies (multidecadal).
+
+Another popular way to visualize a tree-ring chronology in the frequency domain is through a continuous wavelet transform. In `dplR`, there is are functions for calculating the transform via `wavelet` and plotting the result via `wavelet.plot`.
+
+
+```{r}
+out.wave <- morlet(y1 = dat, x1 = yrs, p2 = 8, dj = 0.1,
+                   siglvl = 0.99)
+wavelet.plot(out.wave, useRaster=NA, reverse.y = TRUE)
+```
+
+The wavelet plot shows a similar story as the plot from `redfit` with significant variation at interannual to multidecadal scales.
+
+### Extracting signals
+
+Another common task we'll mention here is extracting specific frequency components from a time series to look at different aspects of say, high vs low frequency growth. One approach to doing this is to use wavelets again but here we will decompose a time series into its constituent voices using a discrete wavelet transform with the `mra` function in the package `waveslim`.
+
+```{r}
+library(waveslim)
+nPwrs2 <- trunc(log(n)/log(2)) - 1
+dat.mra <- mra(dat, wf = "la8", J = nPwrs2, method = "modwt",
+               boundary = "periodic")
+yrsLabels <- paste(2^(1:nPwrs2),"yrs",sep="")
+
+par(mar=c(3,2,2,2),mgp=c(1.25,0.25,0),tcl=0.5,xaxs="i",yaxs="i")
+plot(yrs,rep(1,n),type="n", axes=FALSE, ylab="",xlab="",
+     ylim=c(-3,38))
+title(main="Multiresolution decomposition",line=0.75)
+axis(side=1)
+mtext("Years",side=1,line = 1.25)
+Offset <- 0
+dat.mra2 <- scale(as.data.frame(dat.mra))
+for(i in nPwrs2:1){
+  x <- dat.mra2[,i] + Offset
+  lines(yrs,x)
+  abline(h=Offset,lty="dashed")
+  mtext(names(dat.mra)[[i]],side=2,at=Offset,line = 0)
+  mtext(yrsLabels[i],side=4,at=Offset,line = 0)
+  Offset <- Offset+5
+}
+box()
+```
+
+Here the Mesa Verde chronology is shown via an additive decomposition for each power of 2 from $2^1$ to $2^8$. Note that each voice is scaled to itself by dividing by its standard deviation in order to present them on the same y-axis. If the `scale` function were to be removed (and we leave that as an exercise to the reader) the variations between voices would be greatly reduced. Note the similarity in the continuous and discrete wavelet plots for the variation in the 64-year band around the year 1600 and the lower frequency variation at 128 years around the year 1400.
+
+### Spectra of filtered series
+
+In the last chapter we low-pass filtered the chronology at a frequency of 0.2 and band-pass filtered it between 0.05 and 0.2 using Butterworth filters. To satisfy ourselves that the filters did what we thought they should, let's look at the power spectra of the filtered data. The `pass.filt` function in `dplR` wraps the same Butterworth filter, including the padding, so we can rebuild both series in two lines.
+
+```{r}
+#| label: mem-pass-filt
+datF1Low <- pass.filt(dat, W = 0.2, type = "low")
+datPass <- pass.filt(dat, W = c(0.05, 0.2), type = "pass")
+```
+
+Here is the spectrum of the low-pass series:
+
+```{r}
+#| label: mem-redfit-low
+redf.dat <- redfit(datF1Low, mctest=FALSE)
+par(tcl = 0.5, mar = rep(2.2, 4), mgp = c(1.1, 0.1, 0),xaxs="i")
+plot(redf.dat[["freq"]], redf.dat[["gxxc"]],
+     xlim=c(0,0.25),
+     type = "n", ylab = "Spectrum", xlab = "Frequency (cycles per year)",
+     axes = FALSE)
+grid()
+lines(redf.dat[["freq"]], redf.dat[["gxxc"]], col = "black",lwd=1.5)
+freqs <- pretty(redf.dat[["freq"]])
+pers <- round(1 / freqs, 2)
+axis(1, at = freqs, labels = TRUE)
+axis(3, at = freqs, labels = pers)
+mtext(text = "Period (year)", side = 3, line = 1.1)
+axis(2); axis(4)
+box()
+```
+
+And here is the power spectrum of the band-pass data:
+
+```{r}
+#| label: mem-redfit-pass
+redf.dat <- redfit(datPass, mctest=FALSE)
+par(tcl = 0.5, mar = rep(2.2, 4), mgp = c(1.1, 0.1, 0),xaxs="i")
+plot(redf.dat[["freq"]], redf.dat[["gxxc"]],
+     xlim=c(0,0.25),
+     type = "n", ylab = "Spectrum", xlab = "Frequency (cycles per year)",
+     axes = FALSE)
+grid()
+lines(redf.dat[["freq"]], redf.dat[["gxxc"]], col = "black",lwd=1.5)
+freqs <- pretty(redf.dat[["freq"]])
+pers <- round(1 / freqs, 2)
+axis(1, at = freqs, labels = TRUE)
+axis(3, at = freqs, labels = pers)
+mtext(text = "Period (year)", side = 3, line = 1.1)
+axis(2); axis(4)
+box()
+```

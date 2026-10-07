@@ -1,0 +1,14 @@
+# Learning to Love dplR {.unnumbered}
+
+*Or Using R for Tree-Ring Analysis*
+
+Andy Bunn
+
+This book is being rewritten. Chapters marked as stubs are planned and not yet written.
+
+```{r}
+#| include: false
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'dplR', 'treeclim'), 'packages.bib')
+```

@@ -1,0 +1,9 @@
+# Aside: Gleichläufigkeit and Synchronous Growth Changes {- .aside-chapter}
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: `glk` and `sgc`, the sign-agreement statistics of the European crossdating tradition, and how they relate to the correlation-based statistics.
+
+Source: new.
+:::

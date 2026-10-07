@@ -1,0 +1,27 @@
+Package: dplRWorkshop
+Title: Learning to Love dplR
+Version: 0.1.0
+Authors@R:
+    person("Andy", "Bunn", role = c("aut", "cre"),
+           email = "bunna@wwu.edu",
+           comment = c(ORCID = "0000-0001-9027-2162"))
+Description: Dependency manifest for building the book in CI. Not a real
+    package; this lists the R packages the chapters load so GitHub Actions
+    can install them before rendering.
+Encoding: UTF-8
+Imports:
+    cowplot,
+    dplR,
+    forecast,
+    gganimate,
+    ggExtra,
+    httr,
+    knitr,
+    magick,
+    PNWColors,
+    rmarkdown,
+    signal,
+    tidyverse,
+    waveslim
+Remotes:
+    jakelawlor/PNWColors

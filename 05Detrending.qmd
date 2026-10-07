@@ -1,0 +1,74 @@
+# Detrending
+
+:::{.callout-note title="Partly written"}
+The sections below were moved here from A First Pass and have not been revised.
+
+Still planned:
+
+- How to choose a method.
+- The `rwi` summary and image plot.
+- Ratios versus differences and the power transform, as its own section: spread against level before and after `powt`, and both the `cook` and `universal` methods.
+:::
+
+## Big Idea
+
+## Packages
+
+We use `dplR` and the on-board Campito Mountain ring widths, `ca533`.
+
+```{r}
+#| label: det-setup
+library(dplR)
+data(ca533)
+```
+
+## Common Detrending Methods
+
+As any dendrochronologist will tell you, detrending is a dark art. In `dplR` we have implemented some of the standard tools for detrending but all have drawbacks. In all of the methods, the detrending is the estimation and removal of the low frequency variability that is due to biological or stand  effects. The standardization is done by dividing each series by the growth  trend to produce units in the dimensionless ring-width index (RWI). Much of the text that follows is modified from the help page of `detrend`.
+
+Probably the most common method for detrending is what is often called the "conservative" approach of attempting to fit a negative exponential curve to a series. In the `dplR` implementation the `"ModNegExp"` method of `detrend` attempts to fit a classic nonlinear model of biological growth of the form $(f(t) = a \times \mathrm{e}^{bt} + k)$, where the argument of the function is time, using `nls`. See Fritts [-@Fritts2001] for details about the parameters. If a suitable nonlinear model cannot be fit (function is non-decreasing or some values are not positive) then a linear model is fit using `lm`. That linear model can have a positive slope unless `pos.slope` is `FALSE` in which case the series is standardized by its mean (method `"Mean"` in `detrend`).
+
+For instance, every series in the `ca533` object can be detrended at once with an age-dependent spline via:  
+
+```{r}
+#| warning: false
+ca533.rwi <- detrend(rwl = ca533, method = "AgeDepSpline")
+```
+
+This saves the results in `ca533.rwi` which is a `data.frame` with the same dimensions as the `rwl` object `ca533` and each series standardized.
+```{r}
+nrow(ca533.rwi) # 1358 years
+ncol(ca533.rwi) # 34 series
+colMeans(ca533.rwi, na.rm=TRUE)
+```
+
+When `detrend` is run on a `rwl` object the function loops through 
+each series. It does this by calling a different function 
+(`detrend.series`) for each column in the `rwl` object. 
+But, a user can also call `detrend.series` and it is useful to do so here 
+for educational purposes.
+
+Let us detrend a single series and apply more than one detrending method when we call the detrend function. We will call `detrend.series` using the verbose mode so that we can see the parameters applied for each method. The `detrend.series` function produces a plot by default.
+
+```{r}
+#| warning: false
+CAM011.rwi <- detrend.series(y = ca533[, "CAM011"],verbose=TRUE)
+```
+
+Note that advanced users can use `return.info=TRUE` to have all the fitting parameters returned in a `list`. Having access to these is occasionally desirable. 
+
+## Interactive Detrending
+
+There are many instances where a user needs fine scale control while detrending perhaps fitting a negative exponential curve to one series, a spline to another, and the mean to a third. Like with crossdating, interactive detrending is a case where an app is useful. The `iDetrend` app is relatively simple interface to `detrend.series` that let's users fit curves and plot them with several different options. When completed the user can save a file with the detrended data as well as generate log file that allows reproduction of the detrending from the command line. It's available here 
+
+[viz.datascience.arizona.edu/iDetrend/](https://viz.datascience.arizona.edu/iDetrend/){target="_blank"}
+
+## Other Detrending Methods
+
+There are other detrending methods that are less commonly used but might have theoretical advantages. These include regional curve standardization (function `rcs`), C-Method Standardization (function `cms`), and converting measurements of ring widths to basal area increment (functions  `bai.in` and `bai.out`). See their help pages for further information.
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

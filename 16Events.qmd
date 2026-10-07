@@ -1,0 +1,19 @@
+# Events: Pointer Years and Superposed Epoch Analysis
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: pointer years with `pointer`, and superposed epoch analysis with `sea`: how a chronology responds in the years around a set of events.
+
+Source: new.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

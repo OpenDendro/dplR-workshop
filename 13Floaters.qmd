@@ -1,0 +1,19 @@
+# Dating a Floater
+
+:::{.callout-note title="Stub"}
+Not written yet.
+
+Planned: `xdate.floater`.
+
+Source: new.
+:::
+
+## Big Idea
+
+## Packages
+
+## Wrapping Up
+
+## Exercises
+
+## Further Reading

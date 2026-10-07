@@ -1,0 +1,134 @@
+# Data Sources {#sec-data-sources}
+
+:::{.callout-note title="Partly written"}
+Every statement about the data below was checked against the data on 2026-10-06, and the numbers in the text and tables are computed when the book builds. Three things are not checked yet:
+
+- Why Mesa Verde has so many absent rings. The text states the counts and gives no cause.
+- The tree and core structure of `co021`. The file has no header. The grouping comes from the series names and is supported by the correlations shown below, which is evidence and not proof.
+- The ITRDB ranks are fixed numbers from the crossdating summary in my ITRDB clone (dplR 1.8.1, 6,764 ring-width files). They need refreshing if that summary is rebuilt.
+
+Still planned: citations for the Gus Pearson and Zofingen data, a deliberately broken file for the Tucson aside, and a download of the `data/` folder from the book's site.
+:::
+
+Why does the book keep coming back to the same two sets of trees? Because a method only shows you what it does when you know the data underneath it. If every chapter brought a new collection, you would spend your attention on the trees and have none left for the method. So I picked two collections that behave very differently, and I use them almost everywhere. A few others show up where those two can't do the job.
+
+All of them ship with `dplR`, so `data(co021)` is all you need to follow along. The two main collections are also in the book's `data/` folder as the original files from the International Tree-Ring Data Bank (ITRDB), because reading a file is its own chapter.
+
+```{r}
+#| label: a2-packages
+library(dplR)
+data(co021)
+data(wa082)
+```
+
+## Two Collections Do Most of the Work
+
+### Mesa Verde Douglas-fir: `co021`
+
+This is the collection where everything works. It is Douglas-fir from Mesa Verde in southwestern Colorado, from Edmund Schulman [@Schulman1963co021]. There are `r ncol(co021)` series covering `r min(time(co021))` to `r max(time(co021))`.
+
+The trees agree with each other to a degree that is almost unfair. How unfair? When I ran `xdate.report` over every ring-width file in the ITRDB, 6,764 of them, `co021` had the 14th highest interseries correlation. That makes it the right place to learn what a method does when the signal is strong.
+
+It is also the right place to plant an error. Left alone, not one 50-year segment in the collection gets flagged by `corr.rwl.seg`. Take a single ring out of a single series and that series lights up while the other thirty-four stay clean. That is what you want when you are learning to crossdate.
+
+It has one more thing going for it, which is absent rings. A ring width of zero in these files means the ring was not there to measure. In 1585, `r sum(co021["1585", ] == 0, na.rm = TRUE)` of the `r sum(!is.na(co021["1585", ]))` series have a zero, and 1585 is not the only year like that. There are `r sum(co021 == 0, na.rm = TRUE)` zeros in the collection.
+
+One caution. The file doesn't say which cores come from which tree. The series names suggest eleven trees with up to four cores each, and `autoread.ids` reads them that way while warning that it is unsure. The correlations back it up. Cores that share a tree code agree with each other more than cores that don't.
+
+```{r}
+#| label: a2-co021-trees
+co021Rwi <- detrend(co021, method = "Spline")
+r <- cor(co021Rwi, use = "pairwise.complete.obs")
+treeCode <- substr(names(co021), 3, 4)
+sameTree <- outer(treeCode, treeCode, "==")
+upper <- upper.tri(r)
+data.frame(
+  pairs = c("same tree code", "different tree code"),
+  n = c(sum(sameTree & upper), sum(!sameTree & upper)),
+  meanCor = round(c(
+    mean(r[sameTree & upper], na.rm = TRUE),
+    mean(r[!sameTree & upper], na.rm = TRUE)
+  ), 2)
+)
+```
+
+### Hurricane Ridge Pacific silver fir: `wa082`
+
+This is the collection where you have to make decisions. It is Pacific silver fir from Hurricane Ridge in the Olympic Mountains of Washington, contributed by Fritz Schweingruber [@Schweingruber1983wa082]. There are `r ncol(wa082)` series covering `r min(time(wa082))` to `r max(time(wa082))`, two cores from every tree but one. It is also in my corner of the world, which doesn't hurt.
+
+In that same run over the ITRDB, `wa082` landed at the 44th percentile for interseries correlation. It is an ordinary collection, and I mean that as praise. Your own data will probably look more like Hurricane Ridge than like Mesa Verde.
+
+Here are the two side by side, each detrended with a spline.
+
+```{r}
+#| label: a2-compare
+compareStats <- function(rwl) {
+  ids <- autoread.ids(rwl)
+  rwi <- detrend(rwl, method = "Spline")
+  rwi.stats(rwi, ids)[, c("n.cores", "n.trees", "rbar.wt", "rbar.bt", "eps")]
+}
+out <- rbind(compareStats(co021), compareStats(wa082))
+rownames(out) <- c("co021", "wa082")
+knitr::kable(out, digits = 2)
+```
+
+Look at `rbar.bt`, the average correlation between trees, and at `eps`. The chapter on chronology statistics explains both.
+
+The two collections also disagree about where a chronology should start, and they disagree in opposite directions. A common rule is to keep the years with at least five series. Another is to keep the years where the subsample signal strength (SSS) is at least 0.85.
+
+```{r}
+#| label: a2-cutoffs
+firstYears <- function(rwl) {
+  yrs <- time(rwl)
+  depth <- rowSums(!is.na(rwl))
+  s <- sss(detrend(rwl, method = "Spline"), autoread.ids(rwl))
+  c(firstYear = min(yrs),
+    fiveSeries = min(yrs[depth >= 5]),
+    sss85 = min(yrs[s >= 0.85]))
+}
+knitr::kable(rbind(co021 = firstYears(co021), wa082 = firstYears(wa082)))
+```
+
+At Mesa Verde the signal is strong enough that SSS is satisfied before five series are there. At Hurricane Ridge five series are not enough, and SSS makes you wait decades longer. Which rule is right? That question is the business of the chapter on building a chronology, and you need both collections to see that it has no single answer.
+
+The original Hurricane Ridge file also has a flaw worth meeting early. One series has no measurement for 1900, and the file marks that year with `-999`. What should a reader do with that? The chapters on reading and checking data take it up. The short answer is that a year with no measurement is not a ring of zero width.
+
+## The Supporting Cast
+
+- `gp.rwl` is ponderosa pine from the Gus Pearson Natural Area in northern Arizona, from Franco Biondi's lab. It comes with pith offsets and tree diameters (`gp.po`, `gp.dbh`, `gp.d2pith`), which regional curves and basal area increment both need.
+- `zof.rwl` is European beech from Zofingen in Switzerland. It also comes with pith offsets and diameters (`zof.anc`).
+- `ca533` is bristlecone pine from Campito Mountain in California [@Graybill1983ca533]. The series are very long. The signal-free chapter uses it. I have spent most of my career working with bristlecone pine, so these data are like an old friend. Ask me about the horse named Campito sometime.
+- `cana157` is a finished chronology, white spruce from Twisted Tree Heartrot Hill in the Yukon [@Jacoby1992cana157]. The chapter on events uses it.
+
+## The Files
+
+The two main collections are in `data/` exactly as the ITRDB serves them.
+
+```{r}
+#| label: a2-read
+#| message: true
+co021Raw <- read.rwl("data/co021.rwl")
+wa082Raw <- read.rwl("data/wa082.rwl")
+```
+
+The Mesa Verde file reads cleanly and matches the on-board `co021`. The Hurricane Ridge file comes with a message about that missing 1900. The on-board `wa082` holds a zero there, which is what the older reader, `read.tucson.legacy`, returns for this file. You don't have to take my word for it.
+
+```{r}
+#| label: a2-wa082-1900
+data.frame(
+  year = 1898:1902,
+  file = wa082Raw[as.character(1898:1902), "712011"],
+  onBoard = wa082[as.character(1898:1902), "712011"]
+)
+```
+
+The on-board data set says so itself. It carries a record of how it was read, and that record lists the gap and what the file held there.
+
+```{r}
+#| label: a2-wa082-record
+attr(wa082, "dplR.provenance")$gaps
+```
+
+The chapter on reading data has more on that record.
+
+The originals are at <https://www.ncei.noaa.gov/pub/data/paleo/treering/measurements/northamerica/usa/>, as `co021.rwl` and `wa082.rwl`.
